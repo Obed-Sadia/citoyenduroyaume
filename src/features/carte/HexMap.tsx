@@ -188,6 +188,14 @@ export function HexMap({ stats, activeThisWeek = null }: HexMapProps) {
         })}
       </motion.svg>
 
+      {selected && (
+        <div
+          className="fixed inset-0 z-10"
+          onClick={() => setSelected(null)}
+          aria-hidden="true"
+        />
+      )}
+
       <AnimatePresence>
         {selected && selectedDomain && (
           <DomainTooltip
@@ -197,7 +205,6 @@ export function HexMap({ stats, activeThisWeek = null }: HexMapProps) {
             journalCount={stats[selected]?.journalCount ?? 0}
             secretCount={stats[selected]?.secretCount ?? 0}
             style={tooltipStyle}
-            onClose={() => setSelected(null)}
             onNavigate={() => {
               setSelected(null)
               router.push(`/domaines/${selected}`)
