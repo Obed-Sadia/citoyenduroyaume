@@ -69,12 +69,15 @@ Phase 1 — Design system + Navigation
 - [x] `src/features/carte/DomainTooltip.tsx` — popup stats Domaine + bouton Explorer
 - [x] `src/features/carte/HexMap.tsx` — SVG interactif (tap court→tooltip, tap long→navigate, hover, stagger, pulse)
 
-### Journal — Liste
-- [x] `src/features/journal/mock-notes.ts` — interface Note + MOCK_NOTES (4 entrées)
+### Journal — Liste & Éditeur
+- [x] `src/features/journal/mock-notes.ts` — interface Note (+ content) + MOCK_NOTES (4 entrées)
 - [x] `src/features/journal/DomainBadge.tsx` — badge ambre avec abréviation du domaine
 - [x] `src/features/journal/JournalCard.tsx` — carte cliquable (titre Cormorant, extrait, badge, date relative)
-- [x] `src/features/journal/JournalList.tsx` — liste avec stagger Framer Motion + compteur + empty state
+- [x] `src/features/journal/JournalList.tsx` — liste store + stagger Framer Motion + bouton + fonctionnel
+- [x] `src/features/journal/JournalEditor.tsx` — éditeur Tiptap plein écran (debounce 1s, compteur mots)
+- [x] `src/lib/stores/notes.store.ts` — Zustand (addNote, updateNote, getNoteById)
 - [x] `src/app/(main)/journal/page.tsx` — branché sur JournalList
+- [x] `src/app/(main)/journal/[id]/page.tsx` — route dynamique → JournalEditor
 
 ### Profil & Stats Contemplatives
 - [x] `src/lib/stores/profil.store.ts` — Zustand persist (thème, police, taille, traduction, locale)
@@ -93,10 +96,9 @@ _(vide)_
 
 ## 📋 Prochaine session
 
-1. `src/features/journal/JournalEditor.tsx` — éditeur Tiptap plein écran + route `/journal/[id]`
-2. `src/features/secrets/` — Capture de secrets, classification Domaines (Gemini)
-3. `src/lib/db/` — Dexie.js IndexedDB (notes, secrets, verses) + sync Supabase
-4. Supabase auth + `fetchDomainStats()` réel dans `CartePage`
+1. `src/features/secrets/` — Capture de secrets, classification Domaines (Gemini)
+2. `src/lib/db/` — Dexie.js IndexedDB (notes, secrets, verses) + sync Supabase
+3. Supabase auth + `fetchDomainStats()` réel dans `CartePage`
 
 ---
 
