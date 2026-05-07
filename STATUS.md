@@ -69,6 +69,13 @@ Phase 1 — Design system + Navigation
 - [x] `src/features/carte/DomainTooltip.tsx` — popup stats Domaine + bouton Explorer
 - [x] `src/features/carte/HexMap.tsx` — SVG interactif (tap court→tooltip, tap long→navigate, hover, stagger, pulse)
 
+### Journal — Liste
+- [x] `src/features/journal/mock-notes.ts` — interface Note + MOCK_NOTES (4 entrées)
+- [x] `src/features/journal/DomainBadge.tsx` — badge ambre avec abréviation du domaine
+- [x] `src/features/journal/JournalCard.tsx` — carte cliquable (titre Cormorant, extrait, badge, date relative)
+- [x] `src/features/journal/JournalList.tsx` — liste avec stagger Framer Motion + compteur + empty state
+- [x] `src/app/(main)/journal/page.tsx` — branché sur JournalList
+
 ### Profil & Stats Contemplatives
 - [x] `src/lib/stores/profil.store.ts` — Zustand persist (thème, police, taille, traduction, locale)
 - [x] `src/features/profil/CitizenIdentity.tsx` — Avatar + initiales + fallback nameToHsl
@@ -86,7 +93,7 @@ _(vide)_
 
 ## 📋 Prochaine session
 
-1. `src/features/journal/` — Liste + éditeur de journaux avec titre auto (Gemini)
+1. `src/features/journal/JournalEditor.tsx` — éditeur Tiptap plein écran + route `/journal/[id]`
 2. `src/features/secrets/` — Capture de secrets, classification Domaines (Gemini)
 3. `src/lib/db/` — Dexie.js IndexedDB (notes, secrets, verses) + sync Supabase
 4. Supabase auth + `fetchDomainStats()` réel dans `CartePage`
