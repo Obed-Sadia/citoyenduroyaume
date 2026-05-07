@@ -1,7 +1,10 @@
+@import "tailwindcss";
 @import './tokens.css';
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+@theme {
+  --font-family-sans: 'DM Sans', system-ui, sans-serif;
+  --font-family-editorial: 'Cormorant Garamond', Georgia, serif;
+}
 
 html {
   background: var(--color-bg-base);
@@ -16,3 +19,31 @@ html {
   background: var(--color-border);
   border-radius: 2px;
 }
+
+/* Tiptap editor */
+.ProseMirror {
+  outline: none;
+  color: var(--color-text-primary);
+  font-family: var(--font-editorial);
+  font-size: 16px;
+  line-height: 1.75;
+  min-height: 200px;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--color-text-disabled);
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+
+.ProseMirror p { margin: 0 0 0.75em; }
+.ProseMirror h1, .ProseMirror h2, .ProseMirror h3 {
+  color: var(--color-text-primary);
+  font-weight: 600;
+  margin: 1.25em 0 0.5em;
+}
+.ProseMirror ul, .ProseMirror ol { padding-left: 1.5em; margin: 0.5em 0; }
+.ProseMirror strong { color: var(--color-text-primary); font-weight: 600; }
+.ProseMirror em { font-style: italic; }
