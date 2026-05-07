@@ -7,21 +7,6 @@ export type DomainId =
 
 export type ExplorationLevel = 0 | 1 | 2 | 3 | 4 | 5
 
-const R    = 22
-const S3O2 = parseFloat((R * Math.sqrt(3) / 2).toFixed(2))
-const RH   = R / 2
-
-export function hexPoints(cx: number, cy: number): string {
-  return [
-    [cx,        cy - R ],
-    [cx + S3O2, cy - RH],
-    [cx + S3O2, cy + RH],
-    [cx,        cy + R ],
-    [cx - S3O2, cy + RH],
-    [cx - S3O2, cy - RH],
-  ].map(([x, y]) => `${x},${y}`).join(' ')
-}
-
 export const FILL: Record<ExplorationLevel, string> = {
   5: '#EF9F27',
   4: '#BA7517',
