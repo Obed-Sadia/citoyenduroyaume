@@ -73,21 +73,31 @@ export function HexMap({ stats, activeThisWeek = null }: HexMapProps) {
   const router = useRouter()
   const [selected, setSelected] = useState<DomainId | null>(null)
   const longPressRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const longPressFireRef = useRef(false)
 
   const selectedDomain = selected
     ? HEXMAP_DOMAINS.find((d) => d.id === selected) ?? null
     : null
 
   const tooltipStyle: React.CSSProperties = selectedDomain
-    ? {
-        left: `${(selectedDomain.cx / SVG_W) * 100}%`,
-        top: `${((selectedDomain.cy + R + 10) / SVG_H) * 100}%`,
-        transform: 'translateX(-50%)',
-      }
+    ? (() => {
+        const flipUp = (selectedDomain.cy + R + 10) / SVG_H > 0.8
+        return {
+          left: `${(selectedDomain.cx / SVG_W) * 100}%`,
+          top: flipUp
+            ? `${((selectedDomain.cy - R - 10) / SVG_H) * 100}%`
+            : `${((selectedDomain.cy + R + 10) / SVG_H) * 100}%`,
+          transform: flipUp
+            ? 'translate(-50%, -100%)'
+            : 'translateX(-50%)',
+        }
+      })()
     : {}
 
   function handlePointerDown(domainId: DomainId): void {
+    longPressFireRef.current = false
     longPressRef.current = setTimeout(() => {
+      longPressFireRef.current = true
       longPressRef.current = null
       router.push(`/domaines/${domainId}`)
     }, 500)
@@ -101,6 +111,7 @@ export function HexMap({ stats, activeThisWeek = null }: HexMapProps) {
   }
 
   function handleClick(domainId: DomainId): void {
+    if (longPressFireRef.current) return
     setSelected((prev) => (prev === domainId ? null : domainId))
   }
 
@@ -140,6 +151,7 @@ export function HexMap({ stats, activeThisWeek = null }: HexMapProps) {
               onPointerDown={() => handlePointerDown(domain.id)}
               onPointerUp={handlePointerUp}
               onPointerLeave={handlePointerUp}
+              onPointerCancel={handlePointerUp}
             >
               <title>{domain.label}</title>
 
