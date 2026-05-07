@@ -1,11 +1,13 @@
+// src/features/journal/mock-notes.ts
 import type { DomainId } from '@/features/carte/domain-constants'
 
 export interface Note {
   id: string
   title: string
   excerpt: string
+  content: string  // HTML Tiptap
   domain: DomainId | null
-  createdAt: string // ISO 8601
+  createdAt: string  // ISO 8601
   wordCount: number
 }
 
@@ -15,6 +17,7 @@ export const MOCK_NOTES: Note[] = [
     title: 'La paix qui surpasse tout entendement',
     excerpt:
       "En méditant sur Philippiens 4:7, j'ai réalisé que cette paix n'est pas une absence de tempête mais une présence au milieu d'elle. Le Roi règne même dans le chaos.",
+    content: '',
     domain: 'roi',
     createdAt: new Date(Date.now() - 1 * 86_400_000).toISOString(),
     wordCount: 312,
@@ -24,6 +27,7 @@ export const MOCK_NOTES: Note[] = [
     title: '',
     excerpt:
       "Quelques réflexions sur la souveraineté divine dans les petites choses du quotidien. Rien n'échappe à la Constitution du Royaume.",
+    content: '',
     domain: 'constitution',
     createdAt: new Date(Date.now() - 2 * 86_400_000).toISOString(),
     wordCount: 87,
@@ -32,6 +36,7 @@ export const MOCK_NOTES: Note[] = [
     id: '3',
     title: "Le territoire de l'âme",
     excerpt: '',
+    content: '',
     domain: 'territoire',
     createdAt: new Date(Date.now() - 3 * 86_400_000).toISOString(),
     wordCount: 24,
@@ -41,6 +46,7 @@ export const MOCK_NOTES: Note[] = [
     title: 'Méditation sur la grâce',
     excerpt:
       "La grâce n'est pas simplement une faveur accordée, c'est une transformation profonde qui remodèle l'identité du Citoyen du Royaume.",
+    content: '',
     domain: null,
     createdAt: new Date(Date.now() - 6 * 86_400_000).toISOString(),
     wordCount: 445,
