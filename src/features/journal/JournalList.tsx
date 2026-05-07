@@ -1,19 +1,32 @@
 // src/features/journal/JournalList.tsx
 "use client"
 
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Plus } from 'lucide-react'
+import { useNotesStore } from '@/lib/stores/notes.store'
 import { JournalCard } from '@/features/journal/JournalCard'
-import { MOCK_NOTES } from '@/features/journal/mock-notes'
-import type { Note } from '@/features/journal/mock-notes'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
-interface JournalListProps {
-  notes?: Note[]
-}
+export function JournalList() {
+  const { notes, addNote } = useNotesStore()
+  const router = useRouter()
 
-export function JournalList({ notes = MOCK_NOTES }: JournalListProps) {
+  function handleCreate() {
+    const id = crypto.randomUUID()
+    addNote({
+      id,
+      title: '',
+      excerpt: '',
+      content: '',
+      domain: null,
+      createdAt: new Date().toISOString(),
+      wordCount: 0,
+    })
+    router.push(`/journal/${id}`)
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between px-6 py-4">
@@ -24,6 +37,7 @@ export function JournalList({ notes = MOCK_NOTES }: JournalListProps) {
           {notes.length} méditation{notes.length !== 1 ? 's' : ''}
         </p>
         <button
+          onClick={handleCreate}
           aria-label="Nouvelle méditation"
           className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] transition-opacity hover:opacity-80"
           style={{ color: 'var(--color-amber-400)' }}
