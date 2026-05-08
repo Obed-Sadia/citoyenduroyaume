@@ -8,8 +8,8 @@ export default function LoginPage() {
     <div className="w-full max-w-sm px-6">
       <div className="mb-10 text-center">
         <h1
-          className="font-serif text-3xl text-[var(--color-text)] mb-2"
-          style={{ fontFamily: 'var(--font-cormorant)' }}
+          className="text-3xl text-[var(--color-text-primary)] mb-2"
+          style={{ fontFamily: 'var(--font-editorial)' }}
         >
           BASILEIA
         </h1>
