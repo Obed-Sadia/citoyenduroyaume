@@ -1,6 +1,7 @@
 // src/features/journal/JournalList.tsx
 "use client"
 
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Plus } from 'lucide-react'
@@ -11,7 +12,12 @@ const EASE = [0.16, 1, 0.3, 1] as const
 
 export function JournalList() {
   const { notes, addNote } = useNotesStore()
+  const loadFromDb = useNotesStore((s) => s.loadFromDb)
   const router = useRouter()
+
+  useEffect(() => {
+    loadFromDb()
+  }, [loadFromDb])
 
   function handleCreate() {
     const id = crypto.randomUUID()
