@@ -6,8 +6,12 @@ export async function GET(request: Request): Promise<NextResponse> {
   const code = url.searchParams.get('code')
 
   if (code) {
-    const supabase = await createServerSupabaseClient()
-    await supabase.auth.exchangeCodeForSession(code)
+    try {
+      const supabase = await createServerSupabaseClient()
+      await supabase.auth.exchangeCodeForSession(code)
+    } catch (error) {
+      console.error('[auth/callback] exchangeCodeForSession failed:', error)
+    }
   }
 
   return NextResponse.redirect(`${url.origin}/`)
