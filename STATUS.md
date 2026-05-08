@@ -86,6 +86,20 @@ Phase 1 — Design system + Navigation
 - [x] `src/features/profil/stats/TerritoireAtlas.tsx` — SVG 7 hexagones, Framer Motion pulse, 6 niveaux
 - [x] `src/features/profil/PreferencesForm.tsx` — 5 dropdowns connectés au store
 
+### Les Secrets — Fulgurances
+- [x] `src/lib/stores/secrets.store.ts` — interface Secret + Zustand (addSecret, liste vide)
+- [x] `src/features/secrets/SecretCard.tsx` — carte compacte (texte, date, domaine optionnel)
+- [x] `src/features/secrets/CaptureBar.tsx` — barre sticky, focus auto, Enter soumet
+- [x] `src/features/secrets/SecretFeed.tsx` — flux vertical + stagger Framer Motion
+- [x] `src/app/(main)/secrets/page.tsx` — branché sur SecretFeed + CaptureBar
+
+### Persistance locale — Dexie.js
+- [x] `src/lib/db/basileia.db.ts` — BasileiaDB (tables notes + secrets)
+- [x] `src/lib/db/notes.repo.ts` — NotesRepo (getAll/add/update/remove)
+- [x] `src/lib/db/secrets.repo.ts` — SecretsRepo (getAll/add/remove)
+- [x] `src/lib/stores/notes.store.ts` — hydraté depuis IndexedDB au mount
+- [x] `src/lib/stores/secrets.store.ts` — hydraté depuis IndexedDB au mount
+
 ---
 
 ## 🔄 En cours
@@ -96,9 +110,9 @@ _(vide)_
 
 ## 📋 Prochaine session
 
-1. `src/features/secrets/` — Capture de secrets, classification Domaines (Gemini)
-2. `src/lib/db/` — Dexie.js IndexedDB (notes, secrets, verses) + sync Supabase
-3. Supabase auth + `fetchDomainStats()` réel dans `CartePage`
+1. ~~`src/lib/db/` — Dexie.js IndexedDB~~ ✅ fait
+2. Supabase auth + `fetchDomainStats()` réel dans `CartePage` ← **en cours**
+3. Gemini — classification automatique des Domaines (Journal + Secrets)
 
 ---
 
