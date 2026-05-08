@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 import { HexMap, type DomainStats } from '@/features/carte/HexMap'
-import type { DomainId, ExplorationLevel } from '@/features/carte/domain-constants'
+import { type DomainId, type ExplorationLevel, DOMAIN_META } from '@/features/carte/domain-constants'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = { title: 'La Carte — BASILEIA' }
+
+const VALID_DOMAIN_IDS = new Set<string>(DOMAIN_META.map((d) => d.id))
 
 function computeExploration(total: number): ExplorationLevel {
   if (total >= 21) return 5
@@ -20,7 +22,10 @@ async function fetchDomainStats(): Promise<Partial<Record<DomainId, DomainStats>
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return {}
 
-    const [{ data: notesRows }, { data: secretsRows }] = await Promise.all([
+    const [
+      { data: notesRows, error: notesErr },
+      { data: secretsRows, error: secretsErr },
+    ] = await Promise.all([
       supabase
         .from('notes')
         .select('domain_id')
@@ -33,18 +38,23 @@ async function fetchDomainStats(): Promise<Partial<Record<DomainId, DomainStats>
         .not('domain_id', 'is', null),
     ])
 
+    if (process.env.NODE_ENV === 'development') {
+      if (notesErr)   console.error('[fetchDomainStats] notes:', notesErr.message)
+      if (secretsErr) console.error('[fetchDomainStats] secrets:', secretsErr.message)
+    }
+
     const journalCounts: Partial<Record<DomainId, number>> = {}
     const secretCounts:  Partial<Record<DomainId, number>> = {}
 
     notesRows?.forEach(({ domain_id }) => {
-      if (domain_id) {
+      if (domain_id && VALID_DOMAIN_IDS.has(domain_id)) {
         const id = domain_id as DomainId
         journalCounts[id] = (journalCounts[id] ?? 0) + 1
       }
     })
 
     secretsRows?.forEach(({ domain_id }) => {
-      if (domain_id) {
+      if (domain_id && VALID_DOMAIN_IDS.has(domain_id)) {
         const id = domain_id as DomainId
         secretCounts[id] = (secretCounts[id] ?? 0) + 1
       }
