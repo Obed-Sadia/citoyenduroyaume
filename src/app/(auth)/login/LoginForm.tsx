@@ -1,14 +1,24 @@
 'use client'
 
 import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 
+const ERROR_MESSAGES: Record<string, string> = {
+  link_expired: 'Ce lien a expiré. Demandez-en un nouveau.',
+}
+
 export function LoginForm() {
+  const searchParams = useSearchParams()
+  const urlError = searchParams.get('error')
+
   const [email, setEmail]     = useState('')
   const [sent, setSent]       = useState(false)
   const [loading, setLoading] = useState(false)
-  const [error, setError]     = useState<string | null>(null)
+  const [error, setError]     = useState<string | null>(
+    urlError ? (ERROR_MESSAGES[urlError] ?? 'Une erreur est survenue.') : null
+  )
 
   async function handleSubmit(e: React.FormEvent): Promise<void> {
     e.preventDefault()
@@ -24,7 +34,7 @@ export function LoginForm() {
         },
       })
       if (sbError) {
-        setError(sbError.message)
+        setError('Impossible d\'envoyer le lien. Réessayez.')
       } else {
         setSent(true)
       }
