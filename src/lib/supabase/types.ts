@@ -23,12 +23,23 @@ export type Database = {
           user_id:    string
           title:      string | null
           content:    unknown
-          domain_id:  number | null
+          domain_id:  string | null
           created_at: string
           updated_at: string
         }
         Insert: Omit<Database['public']['Tables']['notes']['Row'], 'id' | 'created_at' | 'updated_at'>
         Update: Partial<Database['public']['Tables']['notes']['Insert']>
+      }
+      secrets: {
+        Row: {
+          id:         string
+          user_id:    string
+          text:       string
+          domain_id:  string | null
+          created_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['secrets']['Row'], 'id' | 'created_at'>
+        Update: Partial<Database['public']['Tables']['secrets']['Insert']>
       }
     }
   }
