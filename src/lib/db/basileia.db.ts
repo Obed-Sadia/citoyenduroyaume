@@ -16,7 +16,7 @@ class BasileiaDB extends Dexie {
 
   constructor() {
     super('basileia')
-    this.version(1).stores({
+    this.version(2).stores({
       notes:   'id, createdAt, domain',
       secrets: 'id, createdAt, domainId',
     })
