@@ -51,6 +51,7 @@ export function CaptureBar() {
         placeholder="Une fulgurance… Entrée pour capturer"
         className="w-full bg-transparent text-[14px] leading-relaxed outline-none placeholder:text-[var(--color-text-disabled)]"
         style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-editorial)' }}
+        suppressHydrationWarning
       />
 
       {showDomainRow && (

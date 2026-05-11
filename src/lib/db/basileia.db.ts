@@ -20,7 +20,22 @@ class BasileiaDB extends Dexie {
       notes:   'id, createdAt, domain',
       secrets: 'id, createdAt, domainId',
     })
+    this.on('blocked', () => {
+      console.warn('[BasileiaDB] upgrade blocked — close other tabs')
+    })
   }
 }
 
-export const db = new BasileiaDB()
+function createDb(): BasileiaDB {
+  const instance = new BasileiaDB()
+  instance.open().catch(async (err) => {
+    if (err.name === 'UpgradeError' || err.name === 'DatabaseClosedError') {
+      console.warn('[BasileiaDB] schema conflict, deleting DB and retrying…', err)
+      await Dexie.delete('basileia')
+      window.location.reload()
+    }
+  })
+  return instance
+}
+
+export const db = createDb()

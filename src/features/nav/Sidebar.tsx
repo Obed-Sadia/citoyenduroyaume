@@ -81,6 +81,7 @@ export default function Sidebar() {
 
       <motion.button
         onClick={toggleLock}
+        initial={{ opacity: 0 }}
         animate={{ opacity: isHovered || isLocked ? 1 : 0 }}
         transition={{ duration: 0.15 }}
         className="absolute top-[58px] right-0 translate-x-1/2

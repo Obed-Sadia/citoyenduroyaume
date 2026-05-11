@@ -49,6 +49,7 @@ export default function BottomNav() {
               </AnimatePresence>
             </div>
             <motion.span
+              initial={{ opacity: 0, y: 3 }}
               animate={{ opacity: active ? 1 : 0, y: active ? 0 : 3 }}
               transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.15 }}
               className={cn('text-[10px] font-medium leading-none',
