@@ -79,21 +79,6 @@ export function HexMap({ stats, activeThisWeek = null }: HexMapProps) {
     ? HEXMAP_DOMAINS.find((d) => d.id === selected) ?? null
     : null
 
-  const tooltipStyle: React.CSSProperties = selectedDomain
-    ? (() => {
-        const flipUp = (selectedDomain.cy + R + 10) / SVG_H > 0.8
-        return {
-          left: `${(selectedDomain.cx / SVG_W) * 100}%`,
-          top: flipUp
-            ? `${((selectedDomain.cy - R - 10) / SVG_H) * 100}%`
-            : `${((selectedDomain.cy + R + 10) / SVG_H) * 100}%`,
-          transform: flipUp
-            ? 'translate(-50%, -100%)'
-            : 'translateX(-50%)',
-        }
-      })()
-    : {}
-
   function handlePointerDown(domainId: DomainId): void {
     longPressFireRef.current = false
     longPressRef.current = setTimeout(() => {
@@ -116,85 +101,87 @@ export function HexMap({ stats, activeThisWeek = null }: HexMapProps) {
   }
 
   return (
-    <div className="relative mx-auto w-full max-w-[500px]">
-      <motion.svg
-        viewBox={`0 0 ${SVG_W} ${SVG_H}`}
-        fill="none"
-        className="w-full"
-        aria-label="Atlas des 7 Domaines"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {HEXMAP_DOMAINS.map((domain) => {
-          const domainStats = stats[domain.id]
-          const level       = (domainStats?.exploration ?? 0) as ExplorationLevel
-          const fill        = FILL[level]
-          const stroke      = STROKE[level]
-          const isActive    = activeThisWeek === domain.id
-          const points      = hexPoints(domain.cx, domain.cy)
-          const textColor   = level >= 2
-            ? 'rgba(255,252,245,0.65)'
-            : 'rgba(255,252,245,0.18)'
+    <div className="w-full max-w-[500px] mx-auto">
+      <div className="relative">
+        <motion.svg
+          viewBox={`0 0 ${SVG_W} ${SVG_H}`}
+          fill="none"
+          className="w-full"
+          aria-label="Atlas des 7 Domaines"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {HEXMAP_DOMAINS.map((domain) => {
+            const domainStats = stats[domain.id]
+            const level       = (domainStats?.exploration ?? 0) as ExplorationLevel
+            const fill        = FILL[level]
+            const stroke      = STROKE[level]
+            const isActive    = activeThisWeek === domain.id
+            const points      = hexPoints(domain.cx, domain.cy)
+            const textColor   = level >= 2
+              ? 'rgba(255,252,245,0.65)'
+              : 'rgba(255,252,245,0.18)'
 
-          return (
-            <motion.g
-              key={domain.id}
-              variants={hexVariants}
-              style={{
-                cursor: 'pointer',
-                transformOrigin: `${domain.cx}px ${domain.cy}px`,
-              }}
-              whileHover={{ scale: 1.04 }}
-              transition={{ ease: [0.16, 1, 0.3, 1] as const, duration: 0.15 }}
-              onClick={() => handleClick(domain.id)}
-              onPointerDown={() => handlePointerDown(domain.id)}
-              onPointerUp={handlePointerUp}
-              onPointerLeave={handlePointerUp}
-              onPointerCancel={handlePointerUp}
-            >
-              <title>{domain.label}</title>
-
-              <motion.polygon
-                points={points}
-                fill={fill}
-                stroke={stroke.color}
-                strokeWidth={stroke.width}
-                animate={isActive ? { opacity: [1, 0.7, 1] } : { opacity: 1 }}
-                transition={
-                  isActive
-                    ? { repeat: Infinity, duration: 3, ease: 'easeInOut' }
-                    : { duration: 0 }
-                }
-              />
-
-              {level === 0 && <ZoneGrise points={points} id={domain.id} />}
-
-              <text
-                x={domain.cx}
-                y={domain.cy + 3}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fontSize={14}
-                fill={textColor}
-                fontFamily="var(--font-sans)"
-                letterSpacing="0.06em"
-                style={{ userSelect: 'none', pointerEvents: 'none' }}
+            return (
+              <motion.g
+                key={domain.id}
+                variants={hexVariants}
+                style={{
+                  cursor: 'pointer',
+                  transformOrigin: `${domain.cx}px ${domain.cy}px`,
+                }}
+                whileHover={{ scale: 1.04 }}
+                transition={{ ease: [0.16, 1, 0.3, 1] as const, duration: 0.15 }}
+                onClick={() => handleClick(domain.id)}
+                onPointerDown={() => handlePointerDown(domain.id)}
+                onPointerUp={handlePointerUp}
+                onPointerLeave={handlePointerUp}
+                onPointerCancel={handlePointerUp}
               >
-                {domain.abbr}
-              </text>
-            </motion.g>
-          )
-        })}
-      </motion.svg>
+                <title>{domain.label}</title>
 
-      {selected && (
-        <div
-          className="fixed inset-0 z-10"
-          onClick={() => setSelected(null)}
-          aria-hidden="true"
-        />
-      )}
+                <motion.polygon
+                  points={points}
+                  fill={fill}
+                  stroke={stroke.color}
+                  strokeWidth={stroke.width}
+                  animate={isActive ? { opacity: [1, 0.7, 1] } : { opacity: 1 }}
+                  transition={
+                    isActive
+                      ? { repeat: Infinity, duration: 3, ease: 'easeInOut' }
+                      : { duration: 0 }
+                  }
+                />
+
+                {level === 0 && <ZoneGrise points={points} id={domain.id} />}
+
+                <text
+                  x={domain.cx}
+                  y={domain.cy + 3}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fontSize={14}
+                  fill={textColor}
+                  fontFamily="var(--font-sans)"
+                  letterSpacing="0.06em"
+                  style={{ userSelect: 'none', pointerEvents: 'none' }}
+                >
+                  {domain.abbr}
+                </text>
+              </motion.g>
+            )
+          })}
+        </motion.svg>
+
+        {selected && (
+          <div
+            className="fixed inset-0 z-10"
+            onClick={() => setSelected(null)}
+            aria-hidden="true"
+          />
+        )}
+      </div>
 
       <AnimatePresence>
         {selected && selectedDomain && (
@@ -204,7 +191,6 @@ export function HexMap({ stats, activeThisWeek = null }: HexMapProps) {
             exploration={(stats[selected]?.exploration ?? 0) as ExplorationLevel}
             journalCount={stats[selected]?.journalCount ?? 0}
             secretCount={stats[selected]?.secretCount ?? 0}
-            style={tooltipStyle}
             onNavigate={() => {
               setSelected(null)
               router.push(`/domaines/${selected}`)

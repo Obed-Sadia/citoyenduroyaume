@@ -17,7 +17,6 @@ interface DomainTooltipProps {
   exploration: ExplorationLevel
   journalCount: number
   secretCount: number
-  style: React.CSSProperties
   onNavigate: () => void
 }
 
@@ -26,7 +25,6 @@ export function DomainTooltip({
   exploration,
   journalCount,
   secretCount,
-  style,
   onNavigate,
 }: DomainTooltipProps) {
   return (
@@ -36,14 +34,14 @@ export function DomainTooltip({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 8 }}
       transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.15 }}
-      style={style}
-      className="absolute z-20 min-w-[180px] rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-4 shadow-[var(--shadow-md)]"
+      className="mt-3 w-full rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-4"
+      style={{ boxShadow: 'var(--shadow-md)' }}
     >
       <div className="mb-3 flex items-start justify-between gap-3">
         <p className="text-[10px] font-medium uppercase tracking-[.09em] text-[var(--color-text-muted)]">
           {label}
         </p>
-        <span className="shrink-0 rounded-[var(--radius-xs)] bg-[var(--color-amber-bg)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--color-text-amber)]">
+        <span className="shrink-0 rounded-[var(--radius-xs)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--color-amber-400)]">
           {LEVEL_LABELS[exploration]}
         </span>
       </div>
@@ -56,7 +54,7 @@ export function DomainTooltip({
 
       <button
         onClick={onNavigate}
-        className="flex w-full items-center justify-center gap-1.5 rounded-[var(--radius-md)] bg-[var(--color-amber-bg)] px-3 py-2 text-[11px] font-medium text-[var(--color-text-amber)] transition-colors hover:bg-[rgba(239,159,39,0.16)]"
+        className="flex w-full items-center justify-center gap-1.5 rounded-[var(--radius-md)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] px-3 py-2 text-[11px] font-medium text-[var(--color-amber-400)] transition-colors hover:bg-[rgba(239,159,39,0.16)]"
       >
         Explorer
         <span aria-hidden="true">→</span>

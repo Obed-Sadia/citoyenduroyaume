@@ -17,12 +17,12 @@ export const FILL: Record<ExplorationLevel, string> = {
 }
 
 export const STROKE: Record<ExplorationLevel, { color: string; width: number }> = {
-  5: { color: 'rgba(255,255,255,0.18)', width: 0.8  },
-  4: { color: 'rgba(255,255,255,0.12)', width: 0.8  },
-  3: { color: 'rgba(255,255,255,0.10)', width: 0.8  },
-  2: { color: 'rgba(255,255,255,0.08)', width: 0.8  },
-  1: { color: 'rgba(120,115,110,0.50)', width: 0.5  },
-  0: { color: 'rgba(120,115,110,0.35)', width: 0.22 },
+  5: { color: 'rgba(255,255,255,0.18)', width: 0.8 },
+  4: { color: 'rgba(255,255,255,0.12)', width: 0.8 },
+  3: { color: 'rgba(255,255,255,0.10)', width: 0.8 },
+  2: { color: 'rgba(255,255,255,0.08)', width: 0.8 },
+  1: { color: 'rgba(120,115,110,0.40)', width: 0.5 },
+  0: { color: 'rgba(120,115,110,0.22)', width: 0.5 },
 }
 
 export const DOMAIN_META: Array<{ id: DomainId; label: string; abbr: string }> = [
