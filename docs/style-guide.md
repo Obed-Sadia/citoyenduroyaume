@@ -22,6 +22,27 @@ Règle : ne jamais créer un composant visuel sans avoir lu
 au minimum `frontend-design` + `framer-motion`.
 
 
+## 0. Architecture CSS (Tailwind v4)
+
+Ce projet utilise **Tailwind v4** — syntaxe incompatible avec v3.
+
+```css
+/* globals.css — structure obligatoire */
+@import "tailwindcss";      /* ← remplace @tailwind base/components/utilities */
+@import './tokens.css';
+
+@theme {
+  --font-family-sans: 'DM Sans', system-ui, sans-serif;
+  --font-family-editorial: 'Cormorant Garamond', Georgia, serif;
+}
+```
+
+- **Pas de `tailwind.config.ts`** — configuration via `@theme {}` dans le CSS
+- `content` auto-détecté — pas besoin de le déclarer
+- Les tokens CSS (`--color-*`, `--font-*`, etc.) restent dans `tokens.css` importé après
+
+---
+
 ## 1. Couleurs
 
 ### Règle fondamentale
