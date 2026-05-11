@@ -100,6 +100,18 @@ Phase 1 — Design system + Navigation
 - [x] `src/lib/stores/notes.store.ts` — hydraté depuis IndexedDB au mount
 - [x] `src/lib/stores/secrets.store.ts` — hydraté depuis IndexedDB au mount
 
+### Auth & Stats — Supabase
+- [x] `src/lib/supabase/server.ts` — client serveur SSR
+- [x] `middleware.ts` + `proxy.ts` — refresh session + protection routes
+- [x] `src/app/auth/callback/route.ts` — échange code → session
+- [x] `src/app/(auth)/login/` — page magic link (LoginForm)
+- [x] `src/app/(main)/page.tsx` — fetchDomainStats() réel depuis Supabase
+
+### IA — Classification Gemini
+- [x] `src/lib/ai/classify-domain.ts` — Server Action (gemini-2.0-flash)
+- [x] `src/features/journal/JournalEditor.tsx` — suggestion domaine au premier save
+- [x] `src/features/secrets/CaptureBar.tsx` — bouton ◈ Domaine manuel
+
 ---
 
 ## 🔄 En cours
@@ -110,9 +122,10 @@ _(vide)_
 
 ## 📋 Prochaine session
 
-1. ~~`src/lib/db/` — Dexie.js IndexedDB~~ ✅ fait
-2. Supabase auth + `fetchDomainStats()` réel dans `CartePage` ← **en cours**
-3. Gemini — classification automatique des Domaines (Journal + Secrets)
+1. ~~Supabase auth + `fetchDomainStats()`~~ ✅ fait
+2. ~~Gemini — classification automatique des Domaines~~ ✅ fait
+3. Gemini — auto-titre des notes Journal (si titre vide après 30s d'écriture)
+4. Sync Supabase — pousser notes + secrets IndexedDB vers Supabase en arrière-plan
 
 ---
 
