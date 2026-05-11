@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
@@ -29,9 +29,15 @@ export default function Sidebar() {
   const pathname = usePathname()
   const expanded = isLocked || isHovered
 
+  useEffect(() => {
+    if (window.innerWidth >= 1024) {
+      useNavStore.setState({ isLocked: true })
+    }
+  }, [])
+
   return (
     <motion.nav
-      animate={{ width: expanded ? 220 : 48 }}
+      animate={{ width: expanded ? 240 : 48 }}
       transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.2 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
