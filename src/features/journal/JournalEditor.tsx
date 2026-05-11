@@ -10,6 +10,8 @@ import CharacterCount from '@tiptap/extension-character-count'
 import { ArrowLeft } from 'lucide-react'
 import { useNotesStore } from '@/lib/stores/notes.store'
 import { DomainBadge } from '@/features/journal/DomainBadge'
+import { classifyDomain } from '@/lib/ai/classify-domain'
+import { DOMAIN_META, type DomainId } from '@/features/carte/domain-constants'
 
 interface JournalEditorProps {
   id: string
@@ -24,6 +26,11 @@ export function JournalEditor({ id }: JournalEditorProps) {
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving'>('saved')
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  const [suggestion, setSuggestion]   = useState<DomainId | null>(null)
+  const [classifying, setClassifying] = useState(false)
+  const hasAttemptedRef               = useRef(!!note?.domain)
+  const classifyingRef                = useRef(false)
+
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -35,13 +42,28 @@ export function JournalEditor({ id }: JournalEditorProps) {
     onUpdate({ editor }) {
       setSaveStatus('saving')
       if (saveTimer.current) clearTimeout(saveTimer.current)
-      saveTimer.current = setTimeout(() => {
-        const html = editor.getHTML()
-        const text = editor.getText()
-        const words = text.trim() ? text.trim().split(/\s+/).length : 0
+      saveTimer.current = setTimeout(async () => {
+        const html    = editor.getHTML()
+        const text    = editor.getText()
+        const words   = text.trim() ? text.trim().split(/\s+/).length : 0
         const excerpt = text.slice(0, 120)
         updateNote(id, { content: html, excerpt, wordCount: words })
         setSaveStatus('saved')
+
+        if (!hasAttemptedRef.current && !classifyingRef.current && text.length >= 20) {
+          hasAttemptedRef.current = true
+          classifyingRef.current  = true
+          setClassifying(true)
+          try {
+            const domain = await classifyDomain(text)
+            setSuggestion(domain)
+          } catch {
+            // silent — App-Effacement
+          } finally {
+            setClassifying(false)
+            classifyingRef.current = false
+          }
+        }
       }, 1000)
     },
   })
@@ -51,6 +73,16 @@ export function JournalEditor({ id }: JournalEditorProps) {
       if (saveTimer.current) clearTimeout(saveTimer.current)
     }
   }, [])
+
+  function handleValidateDomain() {
+    if (!suggestion) return
+    updateNote(id, { domain: suggestion })
+    setSuggestion(null)
+  }
+
+  function handleDismissSuggestion() {
+    setSuggestion(null)
+  }
 
   function handleTitleChange(value: string) {
     setTitle(value)
@@ -105,7 +137,32 @@ export function JournalEditor({ id }: JournalEditorProps) {
           style={{ fontFamily: 'var(--font-editorial)', color: 'var(--color-text-primary)' }}
         />
 
-        {note.domain && <DomainBadge domain={note.domain} />}
+        {note.domain ? (
+          <DomainBadge domain={note.domain} />
+        ) : suggestion ? (
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span
+              className="animate-pulse text-[10px] font-medium tracking-[.06em] uppercase px-2 py-1 rounded-[var(--radius-sm)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] text-[var(--color-amber-400)]"
+            >
+              {DOMAIN_META.find((d) => d.id === suggestion)?.abbr} · Suggéré
+            </span>
+            <button
+              onClick={handleValidateDomain}
+              className="text-[10px] px-2 py-1 rounded-[var(--radius-sm)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] text-[var(--color-amber-400)] transition-opacity hover:opacity-70"
+            >
+              Valider
+            </button>
+            <button
+              onClick={handleDismissSuggestion}
+              className="text-[10px] text-[var(--color-text-muted)] transition-opacity hover:opacity-70"
+              aria-label="Ignorer la suggestion"
+            >
+              ✕
+            </button>
+          </div>
+        ) : classifying ? (
+          <span className="text-[10px] text-[var(--color-text-muted)] animate-pulse shrink-0">…</span>
+        ) : null}
       </header>
 
       <div className="flex-1 overflow-y-auto px-6 py-5">
