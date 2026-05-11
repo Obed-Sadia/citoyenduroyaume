@@ -42,8 +42,8 @@ const SECTION_LABEL = 'text-[10px] font-medium tracking-[.09em] uppercase mb-4'
 
 export default function ProfilPage() {
   return (
-    <div>
-      <header className="px-[22px] py-5 border-b" style={{ borderColor: 'var(--color-border)' }}>
+    <div className="max-w-[920px] mx-auto">
+      <header className="px-10 py-5 border-b" style={{ borderColor: 'var(--color-border)' }}>
         <p className={SECTION_LABEL} style={{ color: 'var(--color-text-muted)' }}>
           Profil & Paramètres
         </p>
@@ -52,7 +52,7 @@ export default function ProfilPage() {
         </p>
       </header>
 
-      <div className="px-[22px] py-6 space-y-8">
+      <div className="px-10 py-8 space-y-10">
 
         {/* ── Identité ── */}
         <section>
