@@ -11,6 +11,7 @@
   --color-bg-surface: #0F0E0C;
   --color-bg-elevated: #161412;
   --color-bg-hover: rgba(255,255,255,0.04);
+  --color-bg-active: rgba(239,159,39,0.08);
 
   --color-text-primary: rgba(255,252,245,0.92);
   --color-text-secondary: rgba(255,252,245,0.55);
@@ -24,8 +25,14 @@
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-editorial: 'Cormorant Garamond', Georgia, serif;
 
+  --shadow-sm:    0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md:    0 4px 12px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-amber: 0 0 0 1px var(--color-amber-border), 0 0 16px rgba(239,159,39,0.08);
+
+  --ease-fast: cubic-bezier(0.16,1,0.3,1);
+
   --sidebar-collapsed-width: 48px;
-  --sidebar-expanded-width: 220px;
+  --sidebar-expanded-width: 240px;
   --bottom-nav-height: 64px;
 
   --radius-xs: 3px;
