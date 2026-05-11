@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { SecretsRepo } from '@/lib/db/secrets.repo'
+import { syncSecret } from '@/lib/supabase/sync'
 import type { Secret } from '@/lib/db/basileia.db'
 import type { DomainId } from '@/features/carte/domain-constants'
 
@@ -37,6 +38,7 @@ export const useSecretsStore = create<SecretsStore>((set, get) => ({
     set((state) => ({ secrets: [secret, ...state.secrets] }))
     try {
       await SecretsRepo.add(secret)
+      void syncSecret(secret)
     } catch (err) {
       set((state) => ({ secrets: state.secrets.filter((s) => s.id !== secret.id) }))
       console.error('[SecretsStore] addSecret failed', err)

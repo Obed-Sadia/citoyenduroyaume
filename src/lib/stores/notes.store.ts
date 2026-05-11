@@ -1,6 +1,7 @@
 // src/lib/stores/notes.store.ts
 import { create } from 'zustand'
 import { NotesRepo } from '@/lib/db/notes.repo'
+import { syncNote } from '@/lib/supabase/sync'
 import type { Note } from '@/features/journal/mock-notes'
 
 interface NotesStore {
@@ -31,6 +32,7 @@ export const useNotesStore = create<NotesStore>((set, get) => ({
     set((state) => ({ notes: [note, ...state.notes] }))
     try {
       await NotesRepo.add(note)
+      void syncNote(note)
     } catch (err) {
       set((state) => ({ notes: state.notes.filter((n) => n.id !== note.id) }))
       console.error('[NotesStore] addNote failed', err)
@@ -43,6 +45,8 @@ export const useNotesStore = create<NotesStore>((set, get) => ({
     }))
     try {
       await NotesRepo.update(id, patch)
+      const updated = get().notes.find((n) => n.id === id)
+      if (updated) void syncNote(updated)
     } catch (err) {
       console.error('[NotesStore] updateNote failed', err)
     }

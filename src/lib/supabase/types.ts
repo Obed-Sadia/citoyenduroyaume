@@ -14,8 +14,23 @@ export type Database = {
           created_at:        string
           updated_at:        string
         }
-        Insert: Omit<Database['public']['Tables']['citizen_profiles']['Row'], 'created_at' | 'updated_at'>
-        Update: Partial<Database['public']['Tables']['citizen_profiles']['Insert']>
+        Insert: {
+          id:                 string
+          display_name:       string
+          avatar_url?:        string | null
+          locale?:            string
+          bible_translation?: string
+          preferences?:       Record<string, unknown>
+        }
+        Update: {
+          id?:                string
+          display_name?:      string
+          avatar_url?:        string | null
+          locale?:            string
+          bible_translation?: string
+          preferences?:       Record<string, unknown>
+        }
+        Relationships: []
       }
       notes: {
         Row: {
@@ -27,8 +42,23 @@ export type Database = {
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['notes']['Row'], 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Database['public']['Tables']['notes']['Insert']>
+        Insert: {
+          id?:         string
+          user_id:     string
+          title?:      string | null
+          content?:    unknown
+          domain_id?:  string | null
+          updated_at?: string
+        }
+        Update: {
+          id?:         string
+          user_id?:    string
+          title?:      string | null
+          content?:    unknown
+          domain_id?:  string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       secrets: {
         Row: {
@@ -38,9 +68,22 @@ export type Database = {
           domain_id:  string | null
           created_at: string
         }
-        Insert: Omit<Database['public']['Tables']['secrets']['Row'], 'id' | 'created_at'>
-        Update: Partial<Database['public']['Tables']['secrets']['Insert']>
+        Insert: {
+          id?:        string
+          user_id:    string
+          text:       string
+          domain_id?: string | null
+        }
+        Update: {
+          id?:        string
+          user_id?:   string
+          text?:      string
+          domain_id?: string | null
+        }
+        Relationships: []
       }
     }
+    Views: Record<string, never>
+    Functions: Record<string, never>
   }
 }

@@ -11,6 +11,7 @@ import { ArrowLeft } from 'lucide-react'
 import { useNotesStore } from '@/lib/stores/notes.store'
 import { DomainBadge } from '@/features/journal/DomainBadge'
 import { classifyDomain } from '@/lib/ai/classify-domain'
+import { generateTitle } from '@/lib/ai/generate-title'
 import { DOMAIN_META, type DomainId } from '@/features/carte/domain-constants'
 
 interface JournalEditorProps {
@@ -30,6 +31,8 @@ export function JournalEditor({ id }: JournalEditorProps) {
   const [classifying, setClassifying] = useState(false)
   const hasAttemptedRef               = useRef(!!note?.domain)
   const classifyingRef                = useRef(false)
+  const hasTitleAttemptedRef          = useRef(!!(note?.title))
+  const titleTimerRef                 = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -49,6 +52,22 @@ export function JournalEditor({ id }: JournalEditorProps) {
         const excerpt = text.slice(0, 120)
         updateNote(id, { content: html, excerpt, wordCount: words })
         setSaveStatus('saved')
+
+        if (!hasTitleAttemptedRef.current && !title.trim() && text.length >= 50) {
+          hasTitleAttemptedRef.current = true
+          if (titleTimerRef.current) clearTimeout(titleTimerRef.current)
+          titleTimerRef.current = setTimeout(async () => {
+            try {
+              const generated = await generateTitle(text)
+              if (generated) {
+                setTitle(generated)
+                updateNote(id, { title: generated })
+              }
+            } catch {
+              // silent — App-Effacement
+            }
+          }, 30_000)
+        }
 
         if (!hasAttemptedRef.current && !classifyingRef.current && text.length >= 20) {
           hasAttemptedRef.current = true
@@ -71,6 +90,7 @@ export function JournalEditor({ id }: JournalEditorProps) {
   useEffect(() => {
     return () => {
       if (saveTimer.current) clearTimeout(saveTimer.current)
+      if (titleTimerRef.current) clearTimeout(titleTimerRef.current)
     }
   }, [])
 
