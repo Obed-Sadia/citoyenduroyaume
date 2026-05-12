@@ -22,7 +22,7 @@ const PROMPT =
 export async function classifyDomain(text: string): Promise<DomainId | null> {
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' })
     const result = await model.generateContent(PROMPT + text)
     const raw = result.response.text().trim().toLowerCase()
     return (VALID_IDS.has(raw) ? raw : null) as DomainId | null
