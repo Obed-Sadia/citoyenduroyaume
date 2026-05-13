@@ -25,9 +25,12 @@ export function JournalEditor({ id }: JournalEditorProps) {
 
   const [title, setTitle] = useState(note?.title ?? '')
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving'>('saved')
-  const [visibility, setVisibility] = useState<'private' | 'allies'>(
-    (note?.visibility as 'private' | 'allies') ?? 'private'
+  const [visibility, setVisibility] = useState<'private' | 'allies' | 'tribe'>(
+    (note?.visibility as 'private' | 'allies' | 'tribe') ?? 'private'
   )
+  const [tribeId, setTribeId]               = useState<string | null>(note?.tribe_id ?? null)
+  const [myTribes, setMyTribes]             = useState<Array<{ id: string; name: string }>>([])
+  const [showTribePicker, setShowTribePicker] = useState(false)
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const [suggestion, setSuggestion]   = useState<DomainId | null>(null)
@@ -97,6 +100,12 @@ export function JournalEditor({ id }: JournalEditorProps) {
     }
   }, [])
 
+  useEffect(() => {
+    import('@/lib/actions/tribes').then(({ getMyTribes }) => {
+      void getMyTribes().then((t) => setMyTribes(t.map((x) => ({ id: x.id, name: x.name }))))
+    })
+  }, [])
+
   function handleValidateDomain() {
     if (!suggestion) return
     updateNote(id, { domain: suggestion })
@@ -108,9 +117,23 @@ export function JournalEditor({ id }: JournalEditorProps) {
   }
 
   function cycleVisibility() {
-    const next = visibility === 'private' ? 'allies' : 'private'
-    setVisibility(next)
-    updateNote(id, { visibility: next })
+    if (visibility === 'private') {
+      setVisibility('allies')
+      updateNote(id, { visibility: 'allies', tribe_id: null })
+    } else if (visibility === 'allies') {
+      setShowTribePicker(true)
+    } else {
+      setVisibility('private')
+      setTribeId(null)
+      updateNote(id, { visibility: 'private', tribe_id: null })
+    }
+  }
+
+  function selectTribe(tid: string) {
+    setVisibility('tribe')
+    setTribeId(tid)
+    setShowTribePicker(false)
+    updateNote(id, { visibility: 'tribe', tribe_id: tid })
   }
 
   function handleTitleChange(value: string) {
@@ -206,18 +229,44 @@ export function JournalEditor({ id }: JournalEditorProps) {
           {words} mot{words !== 1 ? 's' : ''}
         </span>
         <div className="flex items-center gap-4">
-          <button
-            onClick={cycleVisibility}
-            className="text-[10px] font-medium tracking-[.06em] uppercase transition-opacity hover:opacity-70"
-            style={{
-              color: visibility === 'allies'
-                ? 'var(--color-amber-400)'
-                : 'var(--color-text-disabled)',
-            }}
-            aria-label="Visibilité du Journal"
-          >
-            {visibility === 'allies' ? '◈ Alliés' : '◈ Privé'}
-          </button>
+          <div className="relative">
+            <button
+              onClick={cycleVisibility}
+              className="text-[10px] font-medium tracking-[.06em] uppercase transition-opacity hover:opacity-70"
+              style={{
+                color: visibility === 'private'
+                  ? 'var(--color-text-disabled)'
+                  : 'var(--color-amber-400)',
+              }}
+              aria-label="Visibilité du Journal"
+            >
+              {visibility === 'private' && '◈ Privé'}
+              {visibility === 'allies' && '◈ Alliés'}
+              {visibility === 'tribe' && '◈ Tribu'}
+            </button>
+            {showTribePicker && (
+              <div className="absolute bottom-full mb-1 left-0 z-10 rounded-[var(--radius-md)] border border-[rgba(255,255,255,0.08)] py-1 min-w-[160px]"
+                style={{ background: 'var(--color-bg-surface)' }}>
+                {myTribes.length === 0 && (
+                  <p className="px-3 py-2 text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
+                    Aucune Tribu
+                  </p>
+                )}
+                {myTribes.map((t) => (
+                  <button key={t.id} onClick={() => selectTribe(t.id)}
+                    className="block w-full text-left px-3 py-1.5 text-[12px] hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+                    style={{ color: 'var(--color-text-secondary)' }}>
+                    {t.name}
+                  </button>
+                ))}
+                <button onClick={() => setShowTribePicker(false)}
+                  className="block w-full text-left px-3 py-1.5 text-[11px] border-t border-[rgba(255,255,255,0.06)]"
+                  style={{ color: 'var(--color-text-muted)' }}>
+                  Annuler
+                </button>
+              </div>
+            )}
+          </div>
           <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
             {saveStatus === 'saving' ? 'Modification en cours…' : 'Enregistré'}
           </span>
