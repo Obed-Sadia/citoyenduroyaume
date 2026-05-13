@@ -4,6 +4,7 @@
 import Link from 'next/link'
 import { relativeTime } from '@/lib/utils'
 import { DomainBadge } from '@/features/journal/DomainBadge'
+import { EnluminureBadge } from '@/features/enluminures/EnluminureBadge'
 import type { Note } from '@/features/journal/mock-notes'
 
 interface JournalCardProps {
@@ -44,6 +45,7 @@ export function JournalCard({ note }: JournalCardProps) {
         <span>{relativeTime(note.createdAt)}</span>
         <span style={{ color: 'var(--color-text-disabled)' }}>·</span>
         <span>{note.wordCount} mot{note.wordCount !== 1 ? 's' : ''}</span>
+        <EnluminureBadge noteId={note.id} />
       </div>
     </Link>
   )

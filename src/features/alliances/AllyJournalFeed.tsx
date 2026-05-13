@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { relativeTime } from '@/lib/utils'
+import { EnluminureMargin } from '@/features/enluminures/EnluminureMargin'
 
 interface SharedNote {
   id:         string
@@ -12,8 +13,18 @@ interface SharedNote {
 }
 
 export function AllyJournalFeed({ allyId }: { allyId: string }) {
-  const [notes, setNotes]     = useState<SharedNote[]>([])
-  const [loading, setLoading] = useState(true)
+  const [notes, setNotes]           = useState<SharedNote[]>([])
+  const [loading, setLoading]       = useState(true)
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set())
+
+  function toggleExpand(id: string) {
+    setExpandedIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
 
   useEffect(() => {
     async function load() {
@@ -57,6 +68,14 @@ export function AllyJournalFeed({ allyId }: { allyId: string }) {
           <p className="text-[10px] mt-1" style={{ color: 'var(--color-text-disabled)' }}>
             {relativeTime(note.created_at)}
           </p>
+          <button onClick={() => toggleExpand(note.id)}
+            className="text-[10px] tracking-[.06em] uppercase mt-1 transition-opacity hover:opacity-70"
+            style={{ color: 'var(--color-text-muted)' }}>
+            ◈ Enluminer
+          </button>
+          {expandedIds.has(note.id) && (
+            <EnluminureMargin noteId={note.id} isAuthor={false} />
+          )}
         </div>
       ))}
     </div>
