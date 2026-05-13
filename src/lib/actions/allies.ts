@@ -1,0 +1,92 @@
+'use server'
+
+import { createServerSupabaseClient } from '@/lib/supabase/server'
+
+export async function sendAllyRequest(shortCode: string): Promise<{ error?: string }> {
+  try {
+    const supabase = await createServerSupabaseClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { error: 'Non authentifié' }
+
+    const { data: profile, error: profileError } = await supabase
+      .from('citizen_profiles')
+      .select('id')
+      .eq('short_code', shortCode.toUpperCase())
+      .single()
+
+    if (profileError || !profile) return { error: 'Code invalide — aucun Citoyen trouvé' }
+    if (profile.id === user.id) return { error: 'Tu ne peux pas t\'ajouter toi-même' }
+
+    const { error } = await supabase.from('allies').insert({
+      requester_id: user.id,
+      receiver_id:  profile.id,
+    })
+
+    if (error?.code === '23505') return { error: 'Demande déjà envoyée' }
+    if (error) return { error: 'Erreur lors de l\'envoi' }
+    return {}
+  } catch {
+    return { error: 'Erreur inattendue' }
+  }
+}
+
+export async function respondToAllyRequest(
+  allyId: string,
+  response: 'accepted' | 'rejected'
+): Promise<void> {
+  try {
+    const supabase = await createServerSupabaseClient()
+    await supabase.from('allies').update({ status: response }).eq('id', allyId)
+  } catch {
+    // silent
+  }
+}
+
+export type AllyWithProfile = {
+  id:          string
+  status:      'pending' | 'accepted' | 'rejected'
+  isRequester: boolean
+  ally: {
+    id:           string
+    display_name: string
+    short_code:   string | null
+  }
+}
+
+export async function getMyAllies(): Promise<AllyWithProfile[]> {
+  try {
+    const supabase = await createServerSupabaseClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return []
+
+    const { data } = await supabase
+      .from('allies')
+      .select(`
+        id, status, requester_id, receiver_id,
+        requester:citizen_profiles!allies_requester_id_fkey(id, display_name, short_code),
+        receiver:citizen_profiles!allies_receiver_id_fkey(id, display_name, short_code)
+      `)
+      .or(`requester_id.eq.${user.id},receiver_id.eq.${user.id}`)
+      .order('created_at', { ascending: false })
+
+    if (!data) return []
+
+    return data.map((row: Record<string, unknown>) => {
+      const isRequester = row.requester_id === user.id
+      const ally = isRequester ? row.receiver : row.requester
+      return {
+        id:          row.id as string,
+        status:      row.status as AllyWithProfile['status'],
+        isRequester,
+        ally:        ally as AllyWithProfile['ally'],
+      }
+    })
+  } catch {
+    return []
+  }
+}
+
+export async function getPendingRequests(): Promise<AllyWithProfile[]> {
+  const all = await getMyAllies()
+  return all.filter((a) => a.status === 'pending' && !a.isRequester)
+}
