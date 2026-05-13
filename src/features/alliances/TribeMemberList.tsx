@@ -22,8 +22,8 @@ export function TribeMemberList({ tribeId }: { tribeId: string }) {
       .eq('tribe_id', tribeId)
       .order('joined_at', { ascending: true })
     if (data) {
-      setMembers(data.map((r) => ({
-        id:           r.id,
+      setMembers((data as Record<string, unknown>[]).map((r) => ({
+        id:           r.id as string,
         status:       r.status as 'pending' | 'member',
         display_name: (r.citizen_profiles as { display_name: string } | null)?.display_name ?? '?',
       })))

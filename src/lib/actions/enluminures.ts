@@ -51,7 +51,7 @@ export async function getEnluminuresForNote(noteId: string): Promise<Enluminure[
       .order('created_at', { ascending: true })
 
     if (!data) return []
-    return data.map((r) => ({
+    return (data as Record<string, unknown>[]).map((r) => ({
       id:                  r.id as string,
       author_id:           r.author_id as string,
       author_name:         (r.citizen_profiles as { display_name: string } | null)?.display_name ?? '?',

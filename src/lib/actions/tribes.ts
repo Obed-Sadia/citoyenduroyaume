@@ -144,7 +144,7 @@ export async function getMyTribes(): Promise<TribeWithRole[]> {
     if (!data) return []
 
     const tribes = await Promise.all(
-      data.map(async (row) => {
+      (data as Record<string, unknown>[]).map(async (row) => {
         const tribe = row.tribes as { id: string; name: string; theme: string; invite_code: string }
         const { count } = await supabase
           .from('tribe_members')
