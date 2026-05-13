@@ -7,7 +7,6 @@ import { relativeTime } from '@/lib/utils'
 interface SharedNote {
   id:         string
   title:      string | null
-  excerpt:    string | null
   domain_id:  string | null
   created_at: string
 }
@@ -21,7 +20,7 @@ export function AllyJournalFeed({ allyId }: { allyId: string }) {
       const supabase = createClient()
       const { data } = await supabase
         .from('notes')
-        .select('id, title, excerpt, domain_id, created_at')
+        .select('id, title, domain_id, created_at')
         .eq('user_id', allyId)
         .eq('visibility', 'allies')
         .order('created_at', { ascending: false })
@@ -55,12 +54,6 @@ export function AllyJournalFeed({ allyId }: { allyId: string }) {
           }}>
             {note.title ?? 'Sans titre'}
           </p>
-          {note.excerpt && (
-            <p className="text-[11px] mt-0.5 line-clamp-2"
-              style={{ color: 'var(--color-text-muted)' }}>
-              {note.excerpt}
-            </p>
-          )}
           <p className="text-[10px] mt-1" style={{ color: 'var(--color-text-disabled)' }}>
             {relativeTime(note.created_at)}
           </p>
