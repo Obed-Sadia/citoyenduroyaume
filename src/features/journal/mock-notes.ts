@@ -9,6 +9,8 @@ export interface Note {
   domain: DomainId | null
   createdAt: string  // ISO 8601
   wordCount: number
+  visibility?: 'private' | 'allies' | 'tribe'
+  tribe_id?:   string | null
 }
 
 export const MOCK_NOTES: Note[] = [

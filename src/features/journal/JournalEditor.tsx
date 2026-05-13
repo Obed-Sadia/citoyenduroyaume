@@ -25,6 +25,9 @@ export function JournalEditor({ id }: JournalEditorProps) {
 
   const [title, setTitle] = useState(note?.title ?? '')
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving'>('saved')
+  const [visibility, setVisibility] = useState<'private' | 'allies'>(
+    (note?.visibility as 'private' | 'allies') ?? 'private'
+  )
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const [suggestion, setSuggestion]   = useState<DomainId | null>(null)
@@ -102,6 +105,12 @@ export function JournalEditor({ id }: JournalEditorProps) {
 
   function handleDismissSuggestion() {
     setSuggestion(null)
+  }
+
+  function cycleVisibility() {
+    const next = visibility === 'private' ? 'allies' : 'private'
+    setVisibility(next)
+    updateNote(id, { visibility: next })
   }
 
   function handleTitleChange(value: string) {
@@ -196,9 +205,23 @@ export function JournalEditor({ id }: JournalEditorProps) {
         <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
           {words} mot{words !== 1 ? 's' : ''}
         </span>
-        <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
-          {saveStatus === 'saving' ? 'Modification en cours…' : 'Enregistré'}
-        </span>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={cycleVisibility}
+            className="text-[10px] font-medium tracking-[.06em] uppercase transition-opacity hover:opacity-70"
+            style={{
+              color: visibility === 'allies'
+                ? 'var(--color-amber-400)'
+                : 'var(--color-text-disabled)',
+            }}
+            aria-label="Visibilité du Journal"
+          >
+            {visibility === 'allies' ? '◈ Alliés' : '◈ Privé'}
+          </button>
+          <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
+            {saveStatus === 'saving' ? 'Modification en cours…' : 'Enregistré'}
+          </span>
+        </div>
       </footer>
     </div>
   )
