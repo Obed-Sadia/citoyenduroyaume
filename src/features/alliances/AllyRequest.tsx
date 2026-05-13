@@ -15,8 +15,12 @@ export function AllyRequest({ id, displayName, onRespond }: AllyRequestProps) {
 
   async function respond(response: 'accepted' | 'rejected') {
     setLoading(true)
-    await respondToAllyRequest(id, response)
-    onRespond()
+    try {
+      await respondToAllyRequest(id, response)
+      onRespond()
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
