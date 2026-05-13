@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { getTribePreview, requestToJoinTribe } from '@/lib/actions/tribes'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 export const metadata: Metadata = { title: 'Rejoindre une Tribu — BASILEIA' }
 
@@ -16,6 +16,7 @@ export default async function TribePreviewPage({ params }: Props) {
   async function handleJoin() {
     'use server'
     await requestToJoinTribe(invite_code)
+    redirect('/alliances')
   }
 
   return (

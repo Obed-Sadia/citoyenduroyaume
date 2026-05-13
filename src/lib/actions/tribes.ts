@@ -72,11 +72,29 @@ export async function requestToJoinTribe(inviteCode: string): Promise<{ error?: 
   }
 }
 
+async function assertTribeAdmin(
+  supabase: Awaited<ReturnType<typeof createServerSupabaseClient>>,
+  memberId: string,
+  userId: string,
+): Promise<string | null> {
+  const { data: member } = await supabase
+    .from('tribe_members').select('tribe_id').eq('id', memberId).single()
+  if (!member) return 'Membre introuvable'
+  const { data: caller } = await supabase
+    .from('tribe_members').select('role')
+    .eq('tribe_id', member.tribe_id).eq('user_id', userId).single()
+  if (caller?.role !== 'admin') return 'Non autorisé'
+  return null
+}
+
 export async function approveTribeMember(memberId: string): Promise<{ error?: string }> {
   try {
     const supabase = await createServerSupabaseClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return { error: 'Non authentifié' }
+
+    const authError = await assertTribeAdmin(supabase, memberId, user.id)
+    if (authError) return { error: authError }
 
     const { error } = await supabase
       .from('tribe_members')
@@ -95,6 +113,9 @@ export async function rejectTribeMember(memberId: string): Promise<{ error?: str
     const supabase = await createServerSupabaseClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return { error: 'Non authentifié' }
+
+    const authError = await assertTribeAdmin(supabase, memberId, user.id)
+    if (authError) return { error: authError }
 
     const { error } = await supabase
       .from('tribe_members')
