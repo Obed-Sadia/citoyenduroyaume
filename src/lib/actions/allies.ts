@@ -33,12 +33,22 @@ export async function sendAllyRequest(shortCode: string): Promise<{ error?: stri
 export async function respondToAllyRequest(
   allyId: string,
   response: 'accepted' | 'rejected'
-): Promise<void> {
+): Promise<{ error?: string }> {
   try {
     const supabase = await createServerSupabaseClient()
-    await supabase.from('allies').update({ status: response }).eq('id', allyId)
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { error: 'Non authentifié' }
+
+    const { error } = await supabase
+      .from('allies')
+      .update({ status: response })
+      .eq('id', allyId)
+      .eq('receiver_id', user.id)
+
+    if (error) return { error: 'Erreur lors de la réponse' }
+    return {}
   } catch {
-    // silent
+    return { error: 'Erreur inattendue' }
   }
 }
 
@@ -71,16 +81,18 @@ export async function getMyAllies(): Promise<AllyWithProfile[]> {
 
     if (!data) return []
 
-    return data.map((row: Record<string, unknown>) => {
-      const isRequester = row.requester_id === user.id
-      const ally = isRequester ? row.receiver : row.requester
-      return {
-        id:          row.id as string,
-        status:      row.status as AllyWithProfile['status'],
-        isRequester,
-        ally:        ally as AllyWithProfile['ally'],
-      }
-    })
+    return data
+      .map((row: Record<string, unknown>) => {
+        const isRequester = row.requester_id === user.id
+        const ally = isRequester ? row.receiver : row.requester
+        return {
+          id:          row.id as string,
+          status:      row.status as AllyWithProfile['status'],
+          isRequester,
+          ally:        ally as AllyWithProfile['ally'],
+        }
+      })
+      .filter((r): r is AllyWithProfile => r.ally != null)
   } catch {
     return []
   }
