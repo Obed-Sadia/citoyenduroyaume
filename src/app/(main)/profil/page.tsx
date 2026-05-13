@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
 import { CitizenIdentity } from '@/features/profil/CitizenIdentity'
+import { InviteBlock } from '@/features/alliances/InviteBlock'
 import { TerritoireAtlas } from '@/features/profil/stats/TerritoireAtlas'
 import { MetricBlock } from '@/features/profil/stats/MetricBlock'
 import { PreferencesForm } from '@/features/profil/PreferencesForm'
@@ -92,6 +93,7 @@ export default function ProfilPage() {
             Compte
           </p>
           <div>
+            <InviteBlock shortCode="......" />
             <div className="flex items-center justify-between py-3" style={ROW}>
               <span className="text-[12.5px]" style={{ color: 'var(--color-text-secondary)' }}>Email</span>
               <span className="text-[11px]"   style={{ color: 'var(--color-text-muted)' }}>o•••••@gmail.com</span>
