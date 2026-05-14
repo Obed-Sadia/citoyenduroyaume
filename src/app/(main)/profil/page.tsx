@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
 import { CitizenIdentity } from '@/features/profil/CitizenIdentity'
+import { LogoutButton } from '@/features/profil/LogoutButton'
 import { InviteBlock } from '@/features/alliances/InviteBlock'
 import { TerritoireAtlas } from '@/features/profil/stats/TerritoireAtlas'
 import { MetricBlock } from '@/features/profil/stats/MetricBlock'
@@ -104,7 +105,7 @@ export default function ProfilPage() {
             </div>
             <div className="flex items-center justify-between py-3" style={ROW}>
               <span className="text-[12.5px]" style={{ color: 'var(--color-text-secondary)' }}>Session</span>
-              <button className="transition-opacity hover:opacity-70" style={BTN_STYLE}>Déconnecter</button>
+              <LogoutButton />
             </div>
             <div className="flex items-center justify-between py-3">
               <span className="text-[12.5px]" style={{ color: 'rgba(180,70,70,0.80)' }}>Supprimer le compte</span>
