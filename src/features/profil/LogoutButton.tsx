@@ -18,9 +18,13 @@ export function LogoutButton() {
 
   async function handleLogout(): Promise<void> {
     setLoading(true)
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    // AuthProvider listens to SIGNED_OUT and handles reset + redirect
+    try {
+      const supabase = createClient()
+      await supabase.auth.signOut()
+      // AuthProvider listens to SIGNED_OUT and handles reset + redirect
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
