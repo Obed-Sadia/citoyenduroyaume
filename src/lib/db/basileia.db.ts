@@ -38,18 +38,16 @@ class BasileiaDB extends Dexie {
 
 let _db: BasileiaDB | null = null
 
-export function initDb(userId: string): void {
+export async function initDb(userId: string): Promise<void> {
   if (_db) {
     _db.close()
   }
   _db = new BasileiaDB(userId)
-  _db.open().catch((err) => {
-    console.error('[BasileiaDB] open failed', err)
-  })
+  await _db.open()
 }
 
 export function getDb(): BasileiaDB {
-  if (!_db) throw new Error('[BasileiaDB] not initialized — call initDb(userId) first')
+  if (!_db) throw new Error('[BasileiaDB] not initialized — call await initDb(userId) first')
   return _db
 }
 
