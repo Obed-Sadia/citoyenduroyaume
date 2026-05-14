@@ -4,8 +4,8 @@ import type { Secret, Verse } from '@/lib/db/basileia.db'
 
 async function getUserId(): Promise<string | null> {
   const supabase = createClient()
-  const { data: { session } } = await supabase.auth.getSession()
-  return session?.user.id ?? null
+  const { data: { user } } = await supabase.auth.getUser()
+  return user?.id ?? null
 }
 
 export async function syncNote(note: Note): Promise<void> {
