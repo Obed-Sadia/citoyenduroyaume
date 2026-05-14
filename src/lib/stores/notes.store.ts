@@ -11,6 +11,7 @@ interface NotesStore {
   addNote: (note: Note) => Promise<void>
   updateNote: (id: string, patch: Partial<Note>) => Promise<void>
   getNoteById: (id: string) => Note | undefined
+  reset: () => void
 }
 
 export const useNotesStore = create<NotesStore>((set, get) => ({
@@ -53,4 +54,6 @@ export const useNotesStore = create<NotesStore>((set, get) => ({
   },
 
   getNoteById: (id) => get().notes.find((n) => n.id === id),
+
+  reset: () => set({ notes: [], isLoaded: false }),
 }))

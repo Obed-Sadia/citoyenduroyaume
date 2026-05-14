@@ -11,6 +11,7 @@ interface SecretsStore {
   isLoaded: boolean
   loadFromDb: () => Promise<void>
   addSecret: (text: string, domainId?: DomainId) => Promise<void>
+  reset: () => void
 }
 
 export const useSecretsStore = create<SecretsStore>((set, get) => ({
@@ -44,4 +45,6 @@ export const useSecretsStore = create<SecretsStore>((set, get) => ({
       console.error('[SecretsStore] addSecret failed', err)
     }
   },
+
+  reset: () => set({ secrets: [], isLoaded: false }),
 }))
