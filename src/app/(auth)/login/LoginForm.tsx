@@ -1,24 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 
-const ERROR_MESSAGES: Record<string, string> = {
-  link_expired: 'Ce lien a expiré. Demandez-en un nouveau.',
-}
-
 export function LoginForm() {
-  const searchParams = useSearchParams()
-  const urlError = searchParams.get('error')
-
+  const router = useRouter()
   const [email, setEmail]     = useState('')
-  const [sent, setSent]       = useState(false)
   const [loading, setLoading] = useState(false)
-  const [error, setError]     = useState<string | null>(
-    urlError ? (ERROR_MESSAGES[urlError] ?? 'Une erreur est survenue.') : null
-  )
+  const [error, setError]     = useState<string | null>(null)
 
   async function handleSubmit(e: React.FormEvent): Promise<void> {
     e.preventDefault()
@@ -29,33 +20,18 @@ export function LoginForm() {
       const supabase = createClient()
       const { error: sbError } = await supabase.auth.signInWithOtp({
         email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
+        options: { shouldCreateUser: true },
       })
       if (sbError) {
-        setError('Impossible d\'envoyer le lien. Réessayez.')
+        setError('Impossible d\'envoyer le code. Réessayez.')
       } else {
-        setSent(true)
+        router.push(`/login/verify?email=${encodeURIComponent(email)}`)
       }
     } catch {
       setError('Erreur réseau. Réessayez.')
     } finally {
       setLoading(false)
     }
-  }
-
-  if (sent) {
-    return (
-      <div className="text-center space-y-2">
-        <p className="text-[var(--color-text-primary)] text-sm">
-          Lien envoyé à <strong>{email}</strong>
-        </p>
-        <p className="text-[var(--color-text-muted)] text-xs">
-          Vérifiez votre boîte mail et cliquez sur le lien.
-        </p>
-      </div>
-    )
   }
 
   return (
@@ -87,7 +63,7 @@ export function LoginForm() {
           loading && 'opacity-50 cursor-not-allowed'
         )}
       >
-        {loading ? 'Envoi…' : 'Recevoir un lien magique'}
+        {loading ? 'Envoi…' : 'Recevoir un code'}
       </button>
     </form>
   )
