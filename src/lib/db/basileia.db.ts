@@ -10,15 +10,25 @@ export interface Secret {
   createdAt: string
 }
 
+export interface Verse {
+  id: string
+  reference: string
+  text: string
+  domain: DomainId | null
+  createdAt: string
+}
+
 class BasileiaDB extends Dexie {
   notes!: EntityTable<Note, 'id'>
   secrets!: EntityTable<Secret, 'id'>
+  verses!: EntityTable<Verse, 'id'>
 
-  constructor() {
-    super('basileia')
-    this.version(2).stores({
+  constructor(userId: string) {
+    super(`basileia_${userId}`)
+    this.version(1).stores({
       notes:   'id, createdAt, domain',
       secrets: 'id, createdAt, domainId',
+      verses:  'id, createdAt',
     })
     this.on('blocked', () => {
       console.warn('[BasileiaDB] upgrade blocked — close other tabs')
@@ -26,16 +36,26 @@ class BasileiaDB extends Dexie {
   }
 }
 
-function createDb(): BasileiaDB {
-  const instance = new BasileiaDB()
-  instance.open().catch(async (err) => {
-    if (err.name === 'UpgradeError' || err.name === 'DatabaseClosedError') {
-      console.warn('[BasileiaDB] schema conflict, deleting DB and retrying…', err)
-      await Dexie.delete('basileia')
-      window.location.reload()
-    }
+let _db: BasileiaDB | null = null
+
+export function initDb(userId: string): void {
+  if (_db) {
+    _db.close()
+  }
+  _db = new BasileiaDB(userId)
+  _db.open().catch((err) => {
+    console.error('[BasileiaDB] open failed', err)
   })
-  return instance
 }
 
-export const db = createDb()
+export function getDb(): BasileiaDB {
+  if (!_db) throw new Error('[BasileiaDB] not initialized — call initDb(userId) first')
+  return _db
+}
+
+export async function closeDb(): Promise<void> {
+  if (_db) {
+    _db.close()
+    _db = null
+  }
+}
