@@ -6,7 +6,7 @@
 ---
 
 ## Phase actuelle
-Phase 1 — Design system + Navigation
+Phase C complète ✅ — Phase D à définir (vue TerritoireAtlas côté Allié)
 
 ---
 
@@ -107,10 +107,40 @@ Phase 1 — Design system + Navigation
 - [x] `src/app/(auth)/login/` — page magic link (LoginForm)
 - [x] `src/app/(main)/page.tsx` — fetchDomainStats() réel depuis Supabase
 
-### IA — Classification Gemini
-- [x] `src/lib/ai/classify-domain.ts` — Server Action (gemini-2.0-flash)
-- [x] `src/features/journal/JournalEditor.tsx` — suggestion domaine au premier save
+### IA — Gemini
+- [x] `src/lib/ai/classify-domain.ts` — Server Action (gemini-2.5-flash)
+- [x] `src/lib/ai/generate-title.ts` — Server Action (gemini-2.5-flash)
+- [x] `src/features/journal/JournalEditor.tsx` — suggestion domaine + auto-titre (30s, titre vide, ≥50 chars)
 - [x] `src/features/secrets/CaptureBar.tsx` — bouton ◈ Domaine manuel
+
+### Sync Supabase
+- [x] `src/lib/supabase/sync.ts` — syncNote() + syncSecret() + syncVerse() fire-and-forget
+
+### Versets Ancrés — La Bibliothèque
+- [x] `src/lib/db/basileia.db.ts` — bump version + table `verses`
+- [x] `src/lib/db/verses.repo.ts` — VersesRepo (getAll/add/remove)
+- [x] `src/lib/stores/verses.store.ts` — Zustand (addVerse, removeVerse, loadFromDb)
+- [x] `src/features/bibliotheque/VerseCard.tsx`
+- [x] `src/features/bibliotheque/VerseCaptureBar.tsx` — référence + texte + ◈ Domaine
+- [x] `src/features/bibliotheque/VerseFeed.tsx`
+- [x] `src/app/(main)/bibliotheque/page.tsx` — câbrage
+- [x] Supabase Dashboard — table `verses` créée
+
+### Domaines Vivants
+- [x] `src/features/carte/DomaineHeader.tsx` — hex ambre + nom Cormorant + stats
+- [x] `src/features/carte/DomaineContent.tsx` — tabs Notes | Secrets | Versets + filtrage
+- [x] `src/app/(main)/domaines/[id]/page.tsx` — câbrage + validation id + notFound()
+- [x] `src/features/carte/DomainTooltip.tsx` — navigation Explorer → /domaines/[id] ✅
+- [x] Checklist Phase 2 validée · fix tooltip fixed bottom (HexMap) ✅
+
+### Phase C — Sync bidirectionnel + Préférences DB + Toggle territoire
+- [x] `Note.updatedAt?: string` — champ ajouté pour last-write-wins
+- [x] `syncNote` — utilise `note.updatedAt` (fix last-write-wins)
+- [x] `sync.ts` — `syncPreferences`, `pullNotes`, `pullSecrets`, `pullVerses`
+- [x] `notes.repo.ts` / `secrets.repo.ts` / `verses.repo.ts` — `getById` ajouté
+- [x] `profil.store.ts` — `share_territoire`, `hydrateFromRemote`, setters avec sync
+- [x] `AuthProvider.tsx` — `initSession` : initDb → pull → prefs → loadFromDb
+- [x] `PreferencesForm.tsx` — toggle "Partager mon Territoire avec mes Alliés"
 
 ---
 
@@ -120,12 +150,10 @@ _(vide)_
 
 ---
 
-## 📋 Prochaine session
+## 📋 Phase C — Plan complet
 
-1. ~~Supabase auth + `fetchDomainStats()`~~ ✅ fait
-2. ~~Gemini — classification automatique des Domaines~~ ✅ fait
-3. Gemini — auto-titre des notes Journal (si titre vide après 30s d'écriture)
-4. Sync Supabase — pousser notes + secrets IndexedDB vers Supabase en arrière-plan
+> Spec : `docs/superpowers/specs/2026-05-16-phase-c-sync-preferences-partage.md`
+> Plan : `docs/superpowers/plans/2026-05-16-phase-c-sync-preferences-partage.md`
 
 ---
 
@@ -140,6 +168,9 @@ _(vide)_
 | Stats | Pas de streaks · pas de scores · contemplatif uniquement |
 | Supabase | RLS activé · chaque Citoyen lit son propre profil uniquement |
 | Offline | Dexie.js IndexedDB · sync Supabase en arrière-plan |
+| Sync bidirectionnel | pull au login (last-write-wins notes · insert-if-missing secrets/verses) |
+| Préférences | `citizen_profiles.preferences` JSONB · push à chaque changement · pull au login |
+| share_territoire | toggle Phase C (sauvegarde seulement) · vue côté Allié = Phase D |
 | IA | Gemini invisible · classification Domaines · auto-titre Journal |
 | Thème | Sombre par défaut · thème clair disponible via `[data-theme="light"]` |
 
