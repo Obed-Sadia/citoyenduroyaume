@@ -8,6 +8,7 @@ export interface Note {
   content: string  // HTML Tiptap
   domain: DomainId | null
   createdAt: string  // ISO 8601
+  updatedAt?: string  // ISO 8601
   wordCount: number
   visibility?: 'private' | 'allies' | 'tribe'
   tribe_id?:   string | null
