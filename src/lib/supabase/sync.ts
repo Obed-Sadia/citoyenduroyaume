@@ -113,3 +113,25 @@ export async function deleteVerse(id: string): Promise<void> {
     }
   })
 }
+
+export async function syncPreferences(patch: Record<string, unknown>): Promise<void> {
+  await track(async () => {
+    try {
+      const userId = await getUserId()
+      if (!userId) return
+      const supabase = createClient()
+      const { data: existing } = await supabase
+        .from('citizen_profiles')
+        .select('preferences')
+        .eq('id', userId)
+        .single()
+      const merged = { ...(existing?.preferences as Record<string, unknown> ?? {}), ...patch }
+      await supabase
+        .from('citizen_profiles')
+        .update({ preferences: merged })
+        .eq('id', userId)
+    } catch {
+      // silent — fire-and-forget
+    }
+  })
+}
