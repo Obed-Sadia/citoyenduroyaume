@@ -13,4 +13,8 @@ export const SecretsRepo = {
   async remove(id: string): Promise<void> {
     await getDb().secrets.delete(id)
   },
+
+  async getById(id: string): Promise<Secret | undefined> {
+    return getDb().secrets.get(id)
+  },
 }

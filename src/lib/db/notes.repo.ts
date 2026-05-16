@@ -17,4 +17,8 @@ export const NotesRepo = {
   async remove(id: string): Promise<void> {
     await getDb().notes.delete(id)
   },
+
+  async getById(id: string): Promise<Note | undefined> {
+    return getDb().notes.get(id)
+  },
 }
