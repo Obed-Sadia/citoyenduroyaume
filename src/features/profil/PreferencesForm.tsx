@@ -15,6 +15,19 @@ const SELECT_STYLE: CSSProperties = {
   outline:      'none',
 }
 
+const TOGGLE_TRACK: CSSProperties = {
+  display:       'inline-flex',
+  alignItems:    'center',
+  width:         '32px',
+  height:        '18px',
+  borderRadius:  '9999px',
+  border:        '1px solid rgba(255,255,255,0.15)',
+  padding:       '2px',
+  cursor:        'pointer',
+  transition:    'background 200ms',
+  flexShrink:    0,
+}
+
 function PreferenceRow({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div
@@ -36,6 +49,7 @@ export function PreferencesForm() {
     theme,             setTheme,
     editor_font,       setEditorFont,
     font_size,         setFontSize,
+    share_territoire,  setShareTerritoire,
   } = useProfilStore()
 
   return (
@@ -95,6 +109,32 @@ export function PreferencesForm() {
           <option value="md">Normale</option>
           <option value="lg">Grande</option>
         </select>
+      </PreferenceRow>
+
+      <PreferenceRow label="Partager mon Territoire avec mes Alliés">
+        <button
+          role="switch"
+          aria-checked={share_territoire}
+          onClick={() => setShareTerritoire(!share_territoire)}
+          style={{
+            ...TOGGLE_TRACK,
+            background: share_territoire
+              ? 'rgba(239,159,39,0.55)'
+              : 'rgba(255,255,255,0.06)',
+          }}
+        >
+          <span
+            style={{
+              display:       'block',
+              width:         '12px',
+              height:        '12px',
+              borderRadius:  '9999px',
+              background:    share_territoire ? '#EF9F27' : 'rgba(255,255,255,0.30)',
+              transform:     share_territoire ? 'translateX(14px)' : 'translateX(0)',
+              transition:    'transform 200ms, background 200ms',
+            }}
+          />
+        </button>
       </PreferenceRow>
     </div>
   )
