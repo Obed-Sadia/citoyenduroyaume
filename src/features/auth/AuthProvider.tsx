@@ -7,6 +7,8 @@ import { initDb, closeDb } from '@/lib/db/basileia.db'
 import { useNotesStore } from '@/lib/stores/notes.store'
 import { useSecretsStore } from '@/lib/stores/secrets.store'
 import { useVersesStore } from '@/lib/stores/verses.store'
+import { useProfilStore } from '@/lib/stores/profil.store'
+import { pullNotes, pullSecrets, pullVerses } from '@/lib/supabase/sync'
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
@@ -16,6 +18,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     async function initSession(userId: string): Promise<void> {
       await initDb(userId)
+
+      await Promise.all([pullNotes(), pullSecrets(), pullVerses()])
+
+      const { data: profile } = await supabase
+        .from('citizen_profiles')
+        .select('preferences')
+        .eq('id', userId)
+        .single()
+      if (profile?.preferences) {
+        useProfilStore.getState().hydrateFromRemote(
+          profile.preferences as Record<string, unknown>
+        )
+      }
+
       await Promise.all([
         useNotesStore.getState().loadFromDb(),
         useSecretsStore.getState().loadFromDb(),
