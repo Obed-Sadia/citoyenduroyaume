@@ -260,6 +260,8 @@ export async function syncPreferences(patch: Record<string, unknown>): Promise<v
       const merged = { ...(existing?.preferences as Record<string, unknown> ?? {}), ...patch }
       if (merged.share_territoire === true) {
         merged.territoire = await computeExplorationSnapshot()
+      } else {
+        delete merged.territoire
       }
       await supabase
         .from('citizen_profiles')
