@@ -41,8 +41,9 @@ export default function Sidebar() {
       transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.2 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      style={{ background: 'var(--glass-sidebar-bg)' }}
       className="relative flex flex-col h-full flex-shrink-0 overflow-hidden
-                 bg-[var(--color-bg-surface)] border-r border-[var(--color-border)]"
+                 backdrop-blur-[20px] border-r border-[var(--color-border)]"
     >
       <Link href="/" className="flex items-center gap-2.5 h-[52px] px-[13px] flex-shrink-0
                                 border-b border-[var(--color-border)]">
