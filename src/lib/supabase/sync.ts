@@ -279,6 +279,17 @@ export async function pullVerses(): Promise<void> {
   })
 }
 
+function hasChanged(
+  prev: Record<string, unknown> | undefined,
+  next: Record<string, unknown>
+): boolean {
+  const keys = new Set([...Object.keys(prev ?? {}), ...Object.keys(next)])
+  for (const k of keys) {
+    if ((prev ?? {})[k] !== next[k]) return true
+  }
+  return false
+}
+
 export async function syncPreferences(patch: Record<string, unknown>): Promise<void> {
   await track(async () => {
     try {
@@ -291,15 +302,44 @@ export async function syncPreferences(patch: Record<string, unknown>): Promise<v
         .eq('id', userId)
         .maybeSingle()
       const merged = { ...(existing?.preferences as Record<string, unknown> ?? {}), ...patch }
+
+      let territoryChanged = false
       if (merged.share_territoire === true) {
-        merged.territoire = await computeExplorationSnapshot()
+        const newTerritoire = await computeExplorationSnapshot()
+        const prevTerritoire = (existing?.preferences as Record<string, unknown> | undefined)?.territoire as Record<string, unknown> | undefined
+        territoryChanged = hasChanged(prevTerritoire, newTerritoire as Record<string, unknown>)
+        merged.territoire = newTerritoire
       } else {
         delete merged.territoire
       }
+
       await supabase
         .from('citizen_profiles')
         .update({ preferences: merged })
         .eq('id', userId)
+
+      if (territoryChanged) {
+        const { data: allyRows } = await supabase
+          .from('allies')
+          .select('requester_id, receiver_id')
+          .eq('status', 'accepted')
+          .or(`requester_id.eq.${userId},receiver_id.eq.${userId}`)
+
+        const allyIds = (allyRows ?? []).map(row =>
+          row.requester_id === userId ? row.receiver_id : row.requester_id
+        )
+
+        if (allyIds.length > 0) {
+          await supabase.from('notifications').insert(
+            allyIds.map(allyId => ({
+              user_id:      allyId,
+              type:         'territory_updated' as const,
+              from_user_id: userId,
+              payload:      {},
+            }))
+          )
+        }
+      }
     } catch {
       // silent — offline-first
     }
