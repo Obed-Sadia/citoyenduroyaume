@@ -1,16 +1,23 @@
 import type { Metadata } from 'next'
+import { getNotifications } from '@/lib/actions/allies'
+import { NotificationFeed } from '@/features/notifications/NotificationFeed'
 
 export const metadata: Metadata = { title: 'Notifications — BASILEIA' }
 
-export default function NotificationsPage() {
+export default async function NotificationsPage() {
+  const notifications = await getNotifications()
+
   return (
     <div>
       <header className="px-6 py-5 border-b border-[var(--color-border)]">
-        <p className="text-[10px] font-medium tracking-[.09em] uppercase text-[var(--color-text-muted)] mb-4">
-          Notifications · Enluminures
+        <p
+          className="text-[10px] font-medium tracking-[.09em] uppercase mb-1"
+          style={{ color: 'var(--color-text-muted)' }}
+        >
+          Notifications
         </p>
       </header>
-      <div className="px-6 py-5">{/* TODO */}</div>
+      <NotificationFeed notifications={notifications} />
     </div>
   )
 }
