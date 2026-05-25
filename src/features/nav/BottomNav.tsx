@@ -29,7 +29,7 @@ export default function BottomNav() {
     <nav className="fixed bottom-0 left-0 right-0 z-[var(--z-bottomnav)]
                     h-16 pb-[env(safe-area-inset-bottom,0px)]
                     flex items-stretch
-                    bg-[rgba(10,9,7,0.88)] backdrop-blur-xl
+                    bg-[rgba(9,8,11,0.75)] backdrop-blur-[24px]
                     border-t border-[var(--color-border)] md:hidden">
       {ITEMS.map(({ href, label, icon: Icon, badge }) => {
         const active    = isActive(href, pathname)
