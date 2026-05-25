@@ -5,7 +5,7 @@ import type { Secret, Verse } from '@/lib/db/basileia.db'
 import { NotesRepo } from '@/lib/db/notes.repo'
 import { SecretsRepo } from '@/lib/db/secrets.repo'
 import { VersesRepo } from '@/lib/db/verses.repo'
-import type { DomainId } from '@/features/carte/domain-constants'
+import type { DomainId, ExplorationLevel } from '@/features/carte/domain-constants'
 
 async function getUserId(): Promise<string | null> {
   const supabase = createClient()
@@ -17,6 +17,41 @@ function track<T>(fn: () => Promise<T>): Promise<T> {
   const { increment, decrement } = useSyncStore.getState()
   increment()
   return fn().finally(decrement)
+}
+
+function toExplorationLevel(count: number): ExplorationLevel {
+  if (count === 0) return 0
+  if (count <= 2)  return 1
+  if (count <= 5)  return 2
+  if (count <= 10) return 3
+  if (count <= 20) return 4
+  return 5
+}
+
+async function computeExplorationSnapshot(): Promise<Partial<Record<DomainId, ExplorationLevel>>> {
+  const [notes, secrets, verses] = await Promise.all([
+    NotesRepo.getAll(),
+    SecretsRepo.getAll(),
+    VersesRepo.getAll(),
+  ])
+
+  const counts: Partial<Record<DomainId, number>> = {}
+
+  for (const n of notes) {
+    if (n.domain) counts[n.domain] = (counts[n.domain] ?? 0) + 1
+  }
+  for (const s of secrets) {
+    if (s.domainId) counts[s.domainId] = (counts[s.domainId] ?? 0) + 1
+  }
+  for (const v of verses) {
+    if (v.domain) counts[v.domain] = (counts[v.domain] ?? 0) + 1
+  }
+
+  const result: Partial<Record<DomainId, ExplorationLevel>> = {}
+  for (const [id, count] of Object.entries(counts)) {
+    result[id as DomainId] = toExplorationLevel(count ?? 0)
+  }
+  return result
 }
 
 export async function syncNote(note: Note): Promise<void> {
@@ -221,14 +256,17 @@ export async function syncPreferences(patch: Record<string, unknown>): Promise<v
         .from('citizen_profiles')
         .select('preferences')
         .eq('id', userId)
-        .single()
+        .maybeSingle()
       const merged = { ...(existing?.preferences as Record<string, unknown> ?? {}), ...patch }
+      if (merged.share_territoire === true) {
+        merged.territoire = await computeExplorationSnapshot()
+      }
       await supabase
         .from('citizen_profiles')
         .update({ preferences: merged })
         .eq('id', userId)
     } catch {
-      // silent — fire-and-forget
+      // silent — offline-first
     }
   })
 }
