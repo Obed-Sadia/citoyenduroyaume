@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from 'framer-motion'
+import { GlassPanel } from '@/components/ui/GlassPanel'
 import type { ExplorationLevel } from '@/features/carte/domain-constants'
 
 const LEVEL_LABELS: Record<ExplorationLevel, string> = {
@@ -34,9 +35,8 @@ export function DomainTooltip({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 8 }}
       transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.15 }}
-      className="mt-3 w-full rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-4"
-      style={{ boxShadow: 'var(--shadow-md)' }}
     >
+      <GlassPanel variant="strong" className="p-4 min-w-[180px]">
       <div className="mb-3 flex items-start justify-between gap-3">
         <p className="text-[10px] font-medium uppercase tracking-[.09em] text-[var(--color-text-muted)]">
           {label}
@@ -59,6 +59,7 @@ export function DomainTooltip({
         Explorer
         <span aria-hidden="true">→</span>
       </button>
+      </GlassPanel>
     </motion.div>
   )
 }
