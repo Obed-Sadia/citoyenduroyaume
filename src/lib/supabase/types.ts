@@ -8,6 +8,7 @@ export type Database = {
           id:                string
           display_name:      string
           avatar_url:        string | null
+          email:             string | null
           locale:            string
           bible_translation: string
           preferences:       Record<string, unknown>
@@ -19,6 +20,7 @@ export type Database = {
           id:                 string
           display_name:       string
           avatar_url?:        string | null
+          email?:             string | null
           locale?:            string
           bible_translation?: string
           preferences?:       Record<string, unknown>
@@ -28,6 +30,7 @@ export type Database = {
           id?:                string
           display_name?:      string
           avatar_url?:        string | null
+          email?:             string | null
           locale?:            string
           bible_translation?: string
           preferences?:       Record<string, unknown>
@@ -55,6 +58,7 @@ export type Database = {
           domain_id?:  string | null
           visibility?: 'private' | 'allies' | 'tribe'
           tribe_id?:   string | null
+          created_at?: string
           updated_at?: string
         }
         Update: {
@@ -98,21 +102,24 @@ export type Database = {
           reference:  string
           text:       string
           domain:     string | null
+          visibility: 'private' | 'allies'
           created_at: string
         }
         Insert: {
-          id?:       string
-          user_id:   string
-          reference: string
-          text:      string
-          domain?:   string | null
+          id?:         string
+          user_id:     string
+          reference:   string
+          text:        string
+          domain?:     string | null
+          visibility?: 'private' | 'allies'
         }
         Update: {
-          id?:        string
-          user_id?:   string
-          reference?: string
-          text?:      string
-          domain?:    string | null
+          id?:         string
+          user_id?:    string
+          reference?:  string
+          text?:       string
+          domain?:     string | null
+          visibility?: 'private' | 'allies'
         }
         Relationships: []
       }
@@ -202,8 +209,36 @@ export type Database = {
         Update: never
         Relationships: []
       }
+      notifications: {
+        Row: {
+          id:           string
+          user_id:      string
+          type:         'invitation_received' | 'invitation_accepted' | 'territory_updated' | 'verse_shared'
+          from_user_id: string
+          payload:      Record<string, unknown>
+          read_at:      string | null
+          created_at:   string
+        }
+        Insert: {
+          id?:          string
+          user_id:      string
+          type:         'invitation_received' | 'invitation_accepted' | 'territory_updated' | 'verse_shared'
+          from_user_id: string
+          payload?:     Record<string, unknown>
+          read_at?:     string | null
+        }
+        Update: {
+          read_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: Record<string, never>
-    Functions: Record<string, never>
+    Functions: {
+      search_citizen_by_email: {
+        Args: { search_email: string }
+        Returns: Array<{ id: string; display_name: string; avatar_url: string | null }>
+      }
+    }
   }
 }
