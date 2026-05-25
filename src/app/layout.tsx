@@ -1,15 +1,17 @@
 import type { Metadata } from 'next'
-import { DM_Sans, Cormorant_Garamond } from 'next/font/google'
+import { Geist } from 'next/font/google'
+import { Fraunces } from 'next/font/google'
 import '@/styles/globals.css'
 
-const dmSans = DM_Sans({
+const geist = Geist({
   subsets: ['latin'],
   variable: '--font-sans',
 })
 
-const cormorant = Cormorant_Garamond({
+const fraunces = Fraunces({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  axes: ['opsz'],
+  weight: 'variable',
   style: ['normal', 'italic'],
   variable: '--font-editorial',
 })
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className={`${dmSans.variable} ${cormorant.variable}`}>
+      <body className={`${geist.variable} ${fraunces.variable}`}>
         {children}
       </body>
     </html>

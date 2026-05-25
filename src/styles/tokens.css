@@ -7,7 +7,7 @@
   --color-amber-bg: rgba(239,159,39,0.11);
   --color-amber-border: rgba(239,159,39,0.30);
 
-  --color-bg-base: #0A0907;
+  --color-bg-base: #09080B;
   --color-bg-surface: #0F0E0C;
   --color-bg-elevated: #161412;
   --color-bg-hover: rgba(255,255,255,0.04);
@@ -30,6 +30,21 @@
   --shadow-amber: 0 0 0 1px var(--color-amber-border), 0 0 16px rgba(239,159,39,0.08);
 
   --ease-fast: cubic-bezier(0.16,1,0.3,1);
+
+  /* Glass */
+  --glass-blur: 16px;
+  --glass-blur-heavy: 24px;
+  --glass-base-bg:      rgba(255, 255, 255, 0.045);
+  --glass-base-border:  rgba(255, 255, 255, 0.09);
+  --glass-amber-bg:     rgba(239, 159, 39, 0.07);
+  --glass-amber-border: rgba(239, 159, 39, 0.18);
+  --glass-strong-bg:    rgba(255, 255, 255, 0.065);
+  --glass-strong-border: rgba(255, 255, 255, 0.11);
+  --glass-sidebar-bg:   rgba(255, 255, 255, 0.03);
+
+  /* Bento */
+  --bento-gap: 8px;
+  --bento-radius: 11px;
 
   --sidebar-collapsed-width: 48px;
   --sidebar-expanded-width: 240px;

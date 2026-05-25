@@ -2,8 +2,8 @@
 @import './tokens.css';
 
 @theme {
-  --font-family-sans: 'DM Sans', system-ui, sans-serif;
-  --font-family-editorial: 'Cormorant Garamond', Georgia, serif;
+  --font-family-sans:      'Geist', system-ui, sans-serif;
+  --font-family-editorial: 'Fraunces', Georgia, serif;
 }
 
 html {
