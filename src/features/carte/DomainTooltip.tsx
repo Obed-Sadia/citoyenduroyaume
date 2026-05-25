@@ -36,7 +36,7 @@ export function DomainTooltip({
       exit={{ opacity: 0, y: 8 }}
       transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.15 }}
     >
-      <GlassPanel variant="strong" className="p-4 min-w-[180px]">
+      <GlassPanel variant="strong" className="p-[13px] min-w-[180px]">
       <div className="mb-3 flex items-start justify-between gap-3">
         <p className="text-[10px] font-medium uppercase tracking-[.09em] text-[var(--color-text-muted)]">
           {label}
