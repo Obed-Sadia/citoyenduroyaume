@@ -6,7 +6,7 @@
 ---
 
 ## Phase actuelle
-Phase C complète ✅ — Phase D à définir (vue TerritoireAtlas côté Allié)
+Phase D complète ✅ — TerritoireAtlas des Alliés implémenté
 
 ---
 
@@ -142,6 +142,12 @@ Phase C complète ✅ — Phase D à définir (vue TerritoireAtlas côté Allié
 - [x] `AuthProvider.tsx` — `initSession` : initDb → pull → prefs → loadFromDb
 - [x] `PreferencesForm.tsx` — toggle "Partager mon Territoire avec mes Alliés"
 
+### Phase D — TerritoireAtlas des Alliés
+- [x] `sync.ts` — `computeExplorationSnapshot()` + snapshot territoire dans `syncPreferences` + purge si désactivé
+- [x] Supabase Dashboard — RLS policy `allies_read_shared_territoire` (citizen_profiles SELECT cross-user)
+- [x] `allies.ts` — `getAllyTerritoire(allyId)` Server Action avec vérification d'alliance + sanitisation JSONB
+- [x] `AllyCard.tsx` — fetch territoire au premier expand + affichage conditionnel `TerritoireAtlas`
+
 ---
 
 ## 🔄 En cours
@@ -150,10 +156,10 @@ _(vide)_
 
 ---
 
-## 📋 Phase C — Plan complet
+## 📋 Phase D — Plan complet
 
-> Spec : `docs/superpowers/specs/2026-05-16-phase-c-sync-preferences-partage.md`
-> Plan : `docs/superpowers/plans/2026-05-16-phase-c-sync-preferences-partage.md`
+> Spec : `docs/superpowers/specs/2026-05-24-phase-d-territoire-allies.md`
+> Plan : `docs/superpowers/plans/2026-05-24-phase-d-territoire-allies.md`
 
 ---
 
@@ -170,7 +176,9 @@ _(vide)_
 | Offline | Dexie.js IndexedDB · sync Supabase en arrière-plan |
 | Sync bidirectionnel | pull au login (last-write-wins notes · insert-if-missing secrets/verses) |
 | Préférences | `citizen_profiles.preferences` JSONB · push à chaque changement · pull au login |
-| share_territoire | toggle Phase C (sauvegarde seulement) · vue côté Allié = Phase D |
+| share_territoire | toggle Phase C · snapshot territoire dans preferences Phase D · vue AllyCard Phase D |
+| Territoire snapshot | Snapshot Dexie local → JSONB preferences → lu par allié via RLS cross-user |
+| Sécurité territoire | Double vérification : RLS Supabase + check alliance applicatif dans Server Action |
 | IA | Gemini invisible · classification Domaines · auto-titre Journal |
 | Thème | Sombre par défaut · thème clair disponible via `[data-theme="light"]` |
 
