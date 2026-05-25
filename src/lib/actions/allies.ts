@@ -112,6 +112,17 @@ export async function getAllyTerritoire(
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return null
 
+    const { data: alliance } = await supabase
+      .from('allies')
+      .select('id')
+      .eq('status', 'accepted')
+      .or(
+        `and(requester_id.eq.${user.id},receiver_id.eq.${allyId}),and(requester_id.eq.${allyId},receiver_id.eq.${user.id})`
+      )
+      .maybeSingle()
+
+    if (!alliance) return null
+
     const { data } = await supabase
       .from('citizen_profiles')
       .select('preferences')
