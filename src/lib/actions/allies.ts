@@ -1,6 +1,7 @@
 'use server'
 
 import { createServerSupabaseClient } from '@/lib/supabase/server'
+import type { DomainId, ExplorationLevel } from '@/features/carte/domain-constants'
 
 export async function sendAllyRequest(shortCode: string): Promise<{ error?: string }> {
   try {
@@ -101,4 +102,27 @@ export async function getMyAllies(): Promise<AllyWithProfile[]> {
 export async function getPendingRequests(): Promise<AllyWithProfile[]> {
   const all = await getMyAllies()
   return all.filter((a) => a.status === 'pending' && !a.isRequester)
+}
+
+export async function getAllyTerritoire(
+  allyId: string
+): Promise<Partial<Record<DomainId, ExplorationLevel>> | null> {
+  try {
+    const supabase = await createServerSupabaseClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return null
+
+    const { data } = await supabase
+      .from('citizen_profiles')
+      .select('preferences')
+      .eq('id', allyId)
+      .single()
+
+    if (!data) return null
+    const prefs = data.preferences as Record<string, unknown>
+    if (!prefs?.territoire || typeof prefs.territoire !== 'object') return null
+    return prefs.territoire as Partial<Record<DomainId, ExplorationLevel>>
+  } catch {
+    return null
+  }
 }
