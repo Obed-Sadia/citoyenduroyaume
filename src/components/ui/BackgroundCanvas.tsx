@@ -15,7 +15,7 @@ export function BackgroundCanvas() {
           background: 'rgba(239, 159, 39, 0.13)',
           filter: 'blur(80px)',
           pointerEvents: 'none',
-          zIndex: 0,
+          zIndex: -1,
         }}
       />
       <div
@@ -30,7 +30,7 @@ export function BackgroundCanvas() {
           background: 'rgba(110, 75, 180, 0.08)',
           filter: 'blur(70px)',
           pointerEvents: 'none',
-          zIndex: 0,
+          zIndex: -1,
         }}
       />
     </>

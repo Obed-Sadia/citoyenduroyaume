@@ -9,7 +9,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     <AuthProvider>
       <BackgroundCanvas />
       <SyncDot />
-      <div className="flex h-screen overflow-hidden relative" style={{ zIndex: 1 }}>
+      <div className="flex h-screen overflow-hidden relative">
         <div className="hidden md:flex h-full relative z-[var(--z-sidebar)]">
           <Sidebar />
         </div>
