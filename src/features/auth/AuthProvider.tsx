@@ -8,7 +8,9 @@ import { useNotesStore } from '@/lib/stores/notes.store'
 import { useSecretsStore } from '@/lib/stores/secrets.store'
 import { useVersesStore } from '@/lib/stores/verses.store'
 import { useProfilStore } from '@/lib/stores/profil.store'
+import { useNavStore } from '@/lib/stores/nav.store'
 import { pullNotes, pullSecrets, pullVerses } from '@/lib/supabase/sync'
+import { getUnreadCount } from '@/lib/actions/allies'
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
@@ -37,6 +39,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         useSecretsStore.getState().loadFromDb(),
         useVersesStore.getState().loadFromDb(),
       ])
+
+      const count = await getUnreadCount()
+      useNavStore.getState().setUnreadCount(count)
     }
 
     function resetSession(): void {
@@ -44,6 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       useNotesStore.getState().reset()
       useSecretsStore.getState().reset()
       useVersesStore.getState().reset()
+      useNavStore.getState().clearUnread()
     }
 
     supabase.auth.getUser().then(({ data: { user } }) => {
