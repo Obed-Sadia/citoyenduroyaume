@@ -101,6 +101,14 @@ export async function syncVerse(verse: Verse): Promise<void> {
       const userId = await getUserId()
       if (!userId) return
       const supabase = createClient()
+
+      const { data: existing } = await supabase
+        .from('verses')
+        .select('id')
+        .eq('id', verse.id)
+        .maybeSingle()
+      const isNew = !existing
+
       await supabase.from('verses').upsert({
         id:         verse.id,
         user_id:    userId,
@@ -109,6 +117,29 @@ export async function syncVerse(verse: Verse): Promise<void> {
         domain:     verse.domain ?? null,
         visibility: verse.visibility,
       })
+
+      if (isNew && verse.visibility === 'allies') {
+        const { data: allyRows } = await supabase
+          .from('allies')
+          .select('requester_id, receiver_id')
+          .eq('status', 'accepted')
+          .or(`requester_id.eq.${userId},receiver_id.eq.${userId}`)
+
+        const allyIds = (allyRows ?? []).map(row =>
+          row.requester_id === userId ? row.receiver_id : row.requester_id
+        )
+
+        if (allyIds.length > 0) {
+          await supabase.from('notifications').insert(
+            allyIds.map(allyId => ({
+              user_id:      allyId,
+              type:         'verse_shared' as const,
+              from_user_id: userId,
+              payload:      { reference: verse.reference },
+            }))
+          )
+        }
+      }
     } catch {
       // silent — offline-first
     }
