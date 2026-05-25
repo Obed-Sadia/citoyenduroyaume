@@ -102,11 +102,12 @@ export async function syncVerse(verse: Verse): Promise<void> {
       if (!userId) return
       const supabase = createClient()
       await supabase.from('verses').upsert({
-        id:        verse.id,
-        user_id:   userId,
-        reference: verse.reference,
-        text:      verse.text,
-        domain:    verse.domain ?? null,
+        id:         verse.id,
+        user_id:    userId,
+        reference:  verse.reference,
+        text:       verse.text,
+        domain:     verse.domain ?? null,
+        visibility: verse.visibility,
       })
     } catch {
       // silent — offline-first
@@ -225,18 +226,19 @@ export async function pullVerses(): Promise<void> {
       const supabase = createClient()
       const { data: rows } = await supabase
         .from('verses')
-        .select('id, reference, text, domain, created_at')
+        .select('id, reference, text, domain, visibility, created_at')
         .eq('user_id', userId)
       if (!rows) return
       for (const row of rows) {
         const existing = await VersesRepo.getById(row.id)
         if (!existing) {
           await VersesRepo.add({
-            id:        row.id,
-            reference: row.reference,
-            text:      row.text,
-            domain:    (row.domain ?? null) as DomainId | null,
-            createdAt: row.created_at,
+            id:         row.id,
+            reference:  row.reference,
+            text:       row.text,
+            domain:     (row.domain ?? null) as DomainId | null,
+            visibility: (row.visibility ?? 'private') as 'private' | 'allies',
+            createdAt:  row.created_at,
           })
         }
       }

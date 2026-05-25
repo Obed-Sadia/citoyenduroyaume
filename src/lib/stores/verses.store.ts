@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { VersesRepo } from '@/lib/db/verses.repo'
-import { syncVerse } from '@/lib/supabase/sync'
+import { syncVerse, deleteVerse } from '@/lib/supabase/sync'
 import type { Verse } from '@/lib/db/basileia.db'
 import type { DomainId } from '@/features/carte/domain-constants'
 
@@ -10,7 +10,7 @@ interface VersesStore {
   verses: Verse[]
   isLoaded: boolean
   loadFromDb: () => Promise<void>
-  addVerse: (reference: string, text: string, domain?: DomainId) => Promise<void>
+  addVerse: (reference: string, text: string, domain?: DomainId, visibility?: 'private' | 'allies') => Promise<void>
   removeVerse: (id: string) => Promise<void>
   reset: () => void
 }
@@ -30,12 +30,13 @@ export const useVersesStore = create<VersesStore>((set, get) => ({
     }
   },
 
-  addVerse: async (reference, text, domain) => {
+  addVerse: async (reference, text, domain, visibility) => {
     const verse: Verse = {
       id: crypto.randomUUID(),
       reference,
       text,
       domain: domain ?? null,
+      visibility: visibility ?? 'private',
       createdAt: new Date().toISOString(),
     }
     set((state) => ({ verses: [verse, ...state.verses] }))
@@ -53,6 +54,7 @@ export const useVersesStore = create<VersesStore>((set, get) => ({
     set((state) => ({ verses: state.verses.filter((v) => v.id !== id) }))
     try {
       await VersesRepo.remove(id)
+      void deleteVerse(id)
     } catch (err) {
       set({ verses: prev })
       console.error('[VersesStore] removeVerse failed', err)

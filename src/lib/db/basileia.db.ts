@@ -15,6 +15,7 @@ export interface Verse {
   reference: string
   text: string
   domain: DomainId | null
+  visibility: 'private' | 'allies'
   createdAt: string
 }
 
@@ -29,6 +30,15 @@ class BasileiaDB extends Dexie {
       notes:   'id, createdAt, domain',
       secrets: 'id, createdAt, domainId',
       verses:  'id, createdAt',
+    })
+    this.version(2).stores({
+      notes:   'id, createdAt, domain',
+      secrets: 'id, createdAt, domainId',
+      verses:  'id, createdAt',
+    }).upgrade((tx) => {
+      return tx.table('verses').toCollection().modify((verse: any) => {
+        if (!verse.visibility) verse.visibility = 'private'
+      })
     })
     this.on('blocked', () => {
       console.warn('[BasileiaDB] upgrade blocked — close other tabs')
