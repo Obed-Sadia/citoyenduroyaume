@@ -25,6 +25,14 @@ export async function sendAllyRequest(shortCode: string): Promise<{ error?: stri
 
     if (error?.code === '23505') return { error: 'Demande déjà envoyée' }
     if (error) return { error: 'Erreur lors de l\'envoi' }
+
+    await supabase.from('notifications').insert({
+      user_id:      profile.id,
+      type:         'invitation_received',
+      from_user_id: user.id,
+      payload:      {},
+    })
+
     return {}
   } catch {
     return { error: 'Erreur inattendue' }
@@ -40,6 +48,13 @@ export async function respondToAllyRequest(
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return { error: 'Non authentifié' }
 
+    const { data: ally } = await supabase
+      .from('allies')
+      .select('requester_id')
+      .eq('id', allyId)
+      .eq('receiver_id', user.id)
+      .single()
+
     const { error } = await supabase
       .from('allies')
       .update({ status: response })
@@ -47,6 +62,16 @@ export async function respondToAllyRequest(
       .eq('receiver_id', user.id)
 
     if (error) return { error: 'Erreur lors de la réponse' }
+
+    if (response === 'accepted' && ally?.requester_id) {
+      await supabase.from('notifications').insert({
+        user_id:      ally.requester_id,
+        type:         'invitation_accepted',
+        from_user_id: user.id,
+        payload:      {},
+      })
+    }
+
     return {}
   } catch {
     return { error: 'Erreur inattendue' }
