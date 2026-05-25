@@ -132,7 +132,15 @@ export async function getAllyTerritoire(
     if (!data) return null
     const prefs = data.preferences as Record<string, unknown>
     if (!prefs?.territoire || typeof prefs.territoire !== 'object') return null
-    return prefs.territoire as Partial<Record<DomainId, ExplorationLevel>>
+
+    const VALID_LEVELS = new Set([0, 1, 2, 3, 4, 5])
+    const raw = prefs.territoire as Record<string, unknown>
+    const safe: Partial<Record<DomainId, ExplorationLevel>> = {}
+    for (const [k, v] of Object.entries(raw)) {
+      if (typeof v === 'number' && VALID_LEVELS.has(v))
+        safe[k as DomainId] = v as ExplorationLevel
+    }
+    return safe
   } catch {
     return null
   }
