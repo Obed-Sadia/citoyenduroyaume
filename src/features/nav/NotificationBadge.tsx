@@ -18,9 +18,9 @@ export function NotificationBadge() {
       <motion.span
         animate={{ scale: [1, 1.8, 1], opacity: [0.4, 0, 0.4] }}
         transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
-        className="absolute w-2 h-2 rounded-full bg-[var(--color-accent)]"
+        className="absolute w-2 h-2 rounded-full bg-[var(--color-text-primary)]"
       />
-      <span className="relative w-[7px] h-[7px] rounded-full bg-[var(--color-accent)]" />
+      <span className="relative w-[7px] h-[7px] rounded-full bg-[var(--color-text-primary)]" />
     </motion.span>
   )
 }
