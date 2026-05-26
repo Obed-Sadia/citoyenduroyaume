@@ -20,7 +20,7 @@ export function BentoCard({ label, wide, accent, className, onClick, children }:
         'rounded-[var(--bento-radius)] border p-[12px_14px] flex flex-col gap-1.5 transition-colors duration-150',
         wide && 'col-span-2',
         accent
-          ? 'bg-[var(--color-accent-bg)] border-[var(--color-accent-border)]'
+          ? 'bg-[rgba(255,255,255,0.04)] border-[var(--color-border-mid)]'
           : 'bg-[var(--color-bg-surface)] border-[var(--color-border)]',
         onClick && 'cursor-pointer hover:border-[var(--color-border-mid)] hover:bg-[var(--color-bg-elevated)]',
         className
@@ -38,7 +38,7 @@ export function BentoCard({ label, wide, accent, className, onClick, children }:
 
 export function BentoVal({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <span className={cn('text-[20px] font-normal text-[var(--color-accent)] leading-none', className)}>
+    <span className={cn('font-[family-name:var(--font-editorial)] text-[26px] font-normal text-[var(--color-text-primary)] leading-none tracking-[-0.02em]', className)}>
       {children}
     </span>
   )
