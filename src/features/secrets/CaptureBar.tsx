@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useSecretsStore } from '@/lib/stores/secrets.store'
 import { classifyDomain } from '@/lib/ai/classify-domain'
 import { DOMAIN_META, type DomainId } from '@/features/carte/domain-constants'
-import { cn } from '@/lib/utils'
 
 export function CaptureBar() {
   const [text, setText] = useState('')
