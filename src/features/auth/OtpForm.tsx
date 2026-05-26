@@ -84,9 +84,9 @@ export function OtpForm({ email }: Props) {
       <input
         type="text"
         inputMode="numeric"
-        pattern="[0-9]{6}"
-        maxLength={6}
-        placeholder="123456"
+        pattern="[0-9]{8}"
+        maxLength={8}
+        placeholder="12345678"
         value={token}
         onChange={(e) => setToken(e.target.value.replace(/\D/g, ''))}
         required
@@ -104,12 +104,12 @@ export function OtpForm({ email }: Props) {
       )}
       <button
         type="submit"
-        disabled={loading || token.length !== 6}
+        disabled={loading || token.length !== 8}
         className={cn(
           'w-full py-3 rounded-lg text-sm font-medium',
           'bg-[var(--color-accent)] text-[var(--color-bg-base)]',
           'transition-opacity duration-150',
-          (loading || token.length !== 6) && 'opacity-50 cursor-not-allowed'
+          (loading || token.length !== 8) && 'opacity-50 cursor-not-allowed'
         )}
       >
         {loading ? 'Vérification…' : 'Entrer dans le Royaume'}

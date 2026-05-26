@@ -191,5 +191,5 @@ return user?.id ?? null
 
 - Pas de nouvelles dépendances
 - Supabase OTP doit être activé dans le Dashboard (Auth > Providers > Email > Enable OTP)
-- Le flow OTP ne crée pas de nouveaux comptes si `shouldCreateUser: false` — à confirmer selon si BASILEIA est en invitation fermée ou ouverte
+- `shouldCreateUser: true` — BASILEIA est ouvert à tous, l'OTP crée le compte si l'email n'existe pas encore
 - `AuthProvider` doit être client mais ses enfants restent Server Components

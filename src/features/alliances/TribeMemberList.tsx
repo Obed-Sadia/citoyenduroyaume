@@ -38,7 +38,7 @@ export function TribeMemberList({ tribeId }: { tribeId: string }) {
         <div key={m.id} className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex h-7 w-7 items-center justify-center rounded-full text-[10px]"
-              style={{ background: nameToHsl(m.display_name), color: 'var(--color-amber-400)' }}>
+              style={{ background: nameToHsl(m.display_name), color: 'var(--color-accent)' }}>
               {getInitials(m.display_name)}
             </div>
             <span className="text-[12px]" style={{ color: 'var(--color-text-secondary)' }}>
@@ -52,7 +52,7 @@ export function TribeMemberList({ tribeId }: { tribeId: string }) {
           {m.status === 'pending' && (
             <div className="flex gap-1">
               <button onClick={async () => { await approveTribeMember(m.id); void load() }}
-                className="text-[10px] px-2 py-0.5 rounded border border-[var(--color-amber-border)] text-[var(--color-amber-400)]">
+                className="text-[10px] px-2 py-0.5 rounded border border-[var(--color-accent-border)] text-[var(--color-accent)]">
                 Approuver
               </button>
               <button onClick={async () => { await rejectTribeMember(m.id); void load() }}

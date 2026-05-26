@@ -81,7 +81,7 @@ export function NotificationFeed({ notifications }: Props) {
           {/* Icône type */}
           <div
             className="mt-0.5 shrink-0"
-            style={{ color: 'var(--color-amber-400)' }}
+            style={{ color: 'var(--color-accent)' }}
           >
             {getIcon(n.type)}
           </div>
@@ -91,8 +91,8 @@ export function NotificationFeed({ notifications }: Props) {
             className="h-8 w-8 shrink-0 rounded-full flex items-center justify-center text-[11px] font-medium"
             style={{
               background: nameToHsl(n.sender.display_name),
-              color: 'var(--color-amber-400)',
-              border: '1.5px solid rgba(239,159,39,0.3)',
+              color: 'var(--color-accent)',
+              border: '1.5px solid var(--color-accent-border)',
             }}
           >
             {getInitials(n.sender.display_name)}

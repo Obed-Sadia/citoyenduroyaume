@@ -25,7 +25,10 @@ export async function classifyDomain(text: string): Promise<DomainId | null> {
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' })
     const result = await model.generateContent(PROMPT + text)
     const raw = result.response.text().trim().toLowerCase()
-    return (VALID_IDS.has(raw) ? raw : null) as DomainId | null
+    if (VALID_IDS.has(raw)) return raw as DomainId
+    const validPattern = new RegExp(`\\b(${[...VALID_IDS].join('|')})\\b`)
+    const match = raw.match(validPattern)
+    return (match ? match[1] : null) as DomainId | null
   } catch {
     return null
   }

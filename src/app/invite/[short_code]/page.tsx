@@ -53,8 +53,8 @@ export default async function InvitePage({ params }: Props) {
           <div className="h-12 w-12 shrink-0 rounded-full flex items-center justify-center text-[14px] font-medium"
             style={{
               background: nameToHsl(inviter.display_name),
-              color: 'var(--color-amber-400)',
-              border: '1.5px solid rgba(239,159,39,0.3)',
+              color: 'var(--color-accent)',
+              border: '1.5px solid var(--color-accent-border)',
             }}>
             {getInitials(inviter.display_name)}
           </div>
@@ -86,7 +86,7 @@ export default async function InvitePage({ params }: Props) {
             <button
               type="submit"
               className="w-full py-3 rounded-[var(--radius-md)] text-[13px] font-medium tracking-wide"
-              style={{ background: 'var(--color-amber-400)', color: '#0A0907' }}>
+              style={{ background: 'var(--color-accent)', color: '#fff' }}>
               Accepter l&apos;alliance
             </button>
           </form>

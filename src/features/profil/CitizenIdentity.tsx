@@ -33,7 +33,7 @@ export function CitizenIdentity({
       <div
         className="shrink-0 w-[46px] h-[46px] rounded-full flex items-center justify-center overflow-hidden"
         style={{
-          border:     '1.5px solid rgba(239,159,39,0.40)',
+          border:     '1.5px solid var(--color-accent-border)',
           background: avatarUrl ? undefined : fallbackBg,
         }}
       >
@@ -43,7 +43,7 @@ export function CitizenIdentity({
         ) : (
           <span
             className="text-[14px] font-medium"
-            style={{ color: 'var(--color-text-amber)' }}
+            style={{ color: 'var(--color-text-accent)' }}
           >
             {initials}
           </span>

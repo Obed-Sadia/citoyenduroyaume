@@ -1,19 +1,20 @@
 import type { Metadata } from 'next'
-import { Geist } from 'next/font/google'
-import { Fraunces } from 'next/font/google'
+import { Lora, DM_Mono } from 'next/font/google'
 import '@/styles/globals.css'
 
-const geist = Geist({
+const lora = Lora({
   subsets: ['latin'],
-  variable: '--font-sans',
-})
-
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  axes: ['opsz'],
-  weight: 'variable',
+  weight: ['400', '500'],
   style: ['normal', 'italic'],
   variable: '--font-editorial',
+  display: 'swap',
+})
+
+const dmMono = DM_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-sans',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className={`${geist.variable} ${fraunces.variable}`}>
+      <body className={`${lora.variable} ${dmMono.variable}`}>
         {children}
       </body>
     </html>

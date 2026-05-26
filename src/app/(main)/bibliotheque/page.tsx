@@ -1,119 +1,72 @@
-'use client'
-
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useVersesStore } from '@/lib/stores/verses.store'
+import type { Metadata } from 'next'
 import { VerseFeed } from '@/features/bibliotheque/VerseFeed'
 import { VerseCaptureBar } from '@/features/bibliotheque/VerseCaptureBar'
-import { VerseSearch } from '@/features/bibliotheque/VerseSearch'
-import { BentoGrid, BentoCell } from '@/components/ui/BentoGrid'
+import { BentoCard, BentoVal, BentoSub } from '@/components/bento/BentoCard'
 
-export default function BibliothequePage() {
-  const verses = useVersesStore((s) => s.verses)
-  const loadFromDb = useVersesStore((s) => s.loadFromDb)
-  const [query, setQuery] = useState('')
+export const metadata: Metadata = { title: 'Bibliothèque — BASILEIA' }
 
-  useEffect(() => {
-    loadFromDb()
-  }, [loadFromDb])
-
-  const handleSearch = useCallback((q: string) => setQuery(q), [])
-
-  const filtered = useMemo(() => {
-    if (!query.trim()) return verses
-    const q = query.toLowerCase()
-    return verses.filter(
-      (v) => v.reference.toLowerCase().includes(q) || v.text.toLowerCase().includes(q)
-    )
-  }, [verses, query])
-
-  // Stats
-  const thisMonth = useMemo(() => {
-    const start = new Date()
-    start.setDate(1)
-    start.setHours(0, 0, 0, 0)
-    return verses.filter((v) => new Date(v.createdAt ?? 0) >= start).length
-  }, [verses])
-
-  const domains = useMemo(
-    () => new Set(verses.map((v) => v.domain).filter(Boolean)).size,
-    [verses]
-  )
-
+export default function BiblioPage() {
   return (
-    <div className="pb-20 px-4 pt-4 md:px-5 md:pt-5">
+    <div className="flex flex-col h-full">
+      {/* Hero */}
+      <div className="flex-shrink-0 px-[26px] pt-[22px] pb-[20px] border-b border-[var(--color-border)]">
+        <div className="flex items-start justify-between gap-5">
+          <div>
+            <p className="text-[9px] font-medium tracking-[.14em] uppercase text-[var(--color-accent)] opacity-65 mb-2">
+              La Bibliothèque
+            </p>
+            <h1 className="font-[family-name:var(--font-editorial)] text-[22px] font-[500] text-[var(--color-text-primary)] leading-[1.25] tracking-[-0.01em]">
+              Versets ancrés
+            </h1>
+          </div>
+          <div className="flex gap-2 flex-shrink-0">
+            <div className="flex flex-col items-end px-3 py-2 rounded-[7px] bg-[var(--color-bg-surface)] border border-[var(--color-border)] min-w-[60px]">
+              <span className="text-[18px] font-normal text-[var(--color-accent)] leading-none">—</span>
+              <span className="text-[8px] font-medium tracking-[.08em] uppercase text-[var(--color-text-muted)] mt-1">Versets</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      {/* Header bento */}
-      <BentoGrid cols={3} className="mb-2">
-        <BentoCell span={2} variant="strong" className="px-4 py-3">
-          <p
-            className="text-[9px] font-medium tracking-[0.11em] uppercase mb-0.5"
-            style={{ color: 'var(--color-amber-400)' }}
-          >
-            La Bibliothèque
+      {/* Bento */}
+      <div
+        className="flex-shrink-0 grid gap-[var(--bento-gap)] p-[16px_26px] border-b border-[var(--color-border)]"
+        style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}
+      >
+        <BentoCard label="Verset mis en avant" wide accent>
+          <p className="font-[family-name:var(--font-editorial)] italic text-[13px] text-[var(--color-text-secondary)] leading-[1.75]">
+            Ancre ton premier verset ci-dessous.
           </p>
-          <p
-            className="text-[15px] font-[family-name:var(--font-editorial)] font-[400]"
-            style={{ color: 'var(--color-text-primary)' }}
-          >
-            Versets Ancrés
-          </p>
-        </BentoCell>
+        </BentoCard>
+        <BentoCard label="Domaines couverts">
+          <BentoVal>—</BentoVal>
+          <BentoSub>sur 7</BentoSub>
+        </BentoCard>
+      </div>
 
-        <BentoCell variant="base" className="flex flex-col justify-center items-center text-center">
-          <p
-            className="font-[family-name:var(--font-editorial)] text-[32px] font-[300] leading-none"
-            style={{ color: 'var(--color-amber-400)' }}
+      {/* Tabs filtres (static for now) */}
+      <div className="flex-shrink-0 flex px-[26px] border-b border-[var(--color-border)]">
+        {(['Tous', 'Le Roi', 'Le Territoire', 'Les Lois'] as const).map((tab, i) => (
+          <button
+            key={tab}
+            type="button"
+            className={`text-[9px] font-medium tracking-[.10em] uppercase px-[14px] py-[11px] border-b-2 transition-colors ${
+              i === 0
+                ? 'text-[var(--color-accent)] border-[var(--color-accent)]'
+                : 'text-[var(--color-text-muted)] border-transparent hover:text-[var(--color-text-secondary)]'
+            }`}
           >
-            {verses.length}
-          </p>
-          <p
-            className="text-[8px] tracking-[0.08em] uppercase mt-0.5"
-            style={{ color: 'var(--color-text-muted)' }}
-          >
-            ancrés
-          </p>
-        </BentoCell>
-      </BentoGrid>
+            {tab}
+          </button>
+        ))}
+      </div>
 
-      <BentoGrid cols={3} className="mb-4">
-        <BentoCell variant="base" className="flex flex-col justify-center">
-          <p
-            className="font-[family-name:var(--font-editorial)] text-[24px] font-[300] leading-none"
-            style={{ color: 'var(--color-text-secondary)' }}
-          >
-            {thisMonth}
-          </p>
-          <p
-            className="text-[8px] tracking-[0.08em] uppercase mt-0.5"
-            style={{ color: 'var(--color-text-muted)' }}
-          >
-            ce mois
-          </p>
-        </BentoCell>
-        <BentoCell variant="base" className="flex flex-col justify-center">
-          <p
-            className="font-[family-name:var(--font-editorial)] text-[24px] font-[300] leading-none"
-            style={{ color: 'var(--color-amber-400)' }}
-          >
-            {domains}
-          </p>
-          <p
-            className="text-[8px] tracking-[0.08em] uppercase mt-0.5"
-            style={{ color: 'var(--color-text-muted)' }}
-          >
-            domaines
-          </p>
-        </BentoCell>
-        <BentoCell span={1} variant="base">
-          <VerseSearch onSearch={handleSearch} />
-        </BentoCell>
-      </BentoGrid>
+      {/* Feed */}
+      <div className="flex-1 overflow-hidden flex flex-col">
+        <VerseFeed />
+      </div>
 
-      {/* Feed dans un panel glass */}
-      <BentoCell span={3} variant="base" className="col-span-full">
-        <VerseFeed verses={filtered} />
-      </BentoCell>
-
+      {/* Capture bar */}
       <VerseCaptureBar />
     </div>
   )

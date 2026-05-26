@@ -46,17 +46,20 @@ export function VerseCaptureBar() {
   const showDomainRow = text.trim().length >= 3
 
   return (
-    <div className="sticky bottom-16 md:bottom-0 z-10 border-t border-[var(--color-border)] bg-[var(--color-bg-base)] px-4 pt-3 pb-2">
-      <div className="flex items-center gap-2">
+    <div className="flex-shrink-0 p-[12px_26px] border-t border-[var(--color-border)] bg-[var(--color-bg-surface)]">
+      <div className="flex items-center gap-2.5 bg-[var(--color-bg-base)] border border-[var(--color-border-mid)] rounded-[7px] px-3.5 py-[9px] focus-within:border-[var(--color-accent-border)] transition-colors">
+        <span className="text-[9px] text-[var(--color-text-muted)] whitespace-nowrap">Réf.</span>
+        <div className="w-px h-[12px] bg-[var(--color-border-mid)]" />
         <input
           type="text"
           value={reference}
           onChange={(e) => setReference(e.target.value)}
           placeholder="Jean 3:16"
-          className="w-[140px] shrink-0 bg-transparent text-[13px] outline-none placeholder:text-[var(--color-text-disabled)] border-r border-[var(--color-border)] pr-2"
+          className="w-[100px] shrink-0 bg-transparent text-[13px] outline-none placeholder:text-[var(--color-text-disabled)]"
           style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-sans)' }}
           suppressHydrationWarning
         />
+        <div className="w-px h-[12px] bg-[var(--color-border-mid)]" />
         <input
           ref={textRef}
           type="text"
@@ -64,10 +67,23 @@ export function VerseCaptureBar() {
           onChange={(e) => { setText(e.target.value); setSuggestedDomain(null) }}
           onKeyDown={handleTextKeyDown}
           placeholder="Texte du verset…"
-          className="flex-1 bg-transparent text-[14px] leading-relaxed outline-none placeholder:text-[var(--color-text-disabled)]"
-          style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-editorial)' }}
+          className="flex-1 bg-transparent font-[family-name:var(--font-editorial)] italic text-[13px] leading-relaxed outline-none placeholder:text-[var(--color-text-disabled)]"
+          style={{ color: 'var(--color-text-secondary)' }}
           suppressHydrationWarning
         />
+        <button
+          type="button"
+          onClick={() => {
+            if (reference.trim() && text.trim()) {
+              addVerse(reference.trim(), text.trim(), suggestedDomain ?? undefined, visibility)
+              reset()
+            }
+          }}
+          disabled={!reference.trim() || !text.trim()}
+          className="text-[8px] font-medium tracking-[.10em] uppercase px-3 py-[5px] rounded-[5px] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)] disabled:opacity-40 hover:bg-[var(--color-accent-bg)] transition-colors whitespace-nowrap"
+        >
+          Ancrer
+        </button>
       </div>
 
       {showDomainRow && (
@@ -76,7 +92,7 @@ export function VerseCaptureBar() {
           <div className="flex items-center gap-1.5">
             {suggestedDomain ? (
               <>
-                <span className="text-[10px] font-medium tracking-[.06em] uppercase px-2 py-0.5 rounded-[var(--radius-sm)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] text-[var(--color-amber-400)]">
+                <span className="text-[10px] font-medium tracking-[.06em] uppercase px-2 py-0.5 rounded-[var(--radius-sm)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)]">
                   {DOMAIN_META.find((d) => d.id === suggestedDomain)?.abbr}
                 </span>
                 <button
@@ -109,7 +125,7 @@ export function VerseCaptureBar() {
             className={cn(
               'flex items-center gap-1 text-[10px] font-medium tracking-[.06em] uppercase transition-colors',
               visibility === 'allies'
-                ? 'text-[var(--color-amber-400)]'
+                ? 'text-[var(--color-accent)]'
                 : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'
             )}
           >

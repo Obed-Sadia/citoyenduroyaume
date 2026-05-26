@@ -12,6 +12,12 @@ Phase D complète ✅ — TerritoireAtlas des Alliés implémenté
 
 ## ✅ Terminé
 
+### Redesign Brume & Acier
+- [x] Design tokens Brume & Acier (saphir, ardoise froide)
+- [x] Typographie Lora + DM Mono
+- [x] Layout Magazine + Bento — toutes les pages
+- [x] Navigation redesign (saphir)
+
 ### Design system
 - [x] `src/styles/tokens.css` — variables CSS complètes (couleurs, typo, spacing, radius, z-index)
 - [x] `src/styles/globals.css` — imports tokens + base styles

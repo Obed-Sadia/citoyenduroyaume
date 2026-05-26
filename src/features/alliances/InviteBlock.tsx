@@ -25,7 +25,7 @@ export function InviteBlock({ shortCode }: InviteBlockProps) {
           Mon code Allié
         </p>
         <p className="text-[18px] font-medium tracking-[.12em] mt-0.5"
-          style={{ color: 'var(--color-amber-400)', fontFamily: 'var(--font-editorial)' }}>
+          style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-editorial)' }}>
           {shortCode}
         </p>
       </div>
@@ -35,7 +35,7 @@ export function InviteBlock({ shortCode }: InviteBlockProps) {
           'text-[11px] font-medium tracking-[.06em] uppercase px-3 py-1.5 rounded-[var(--radius-sm)]',
           'border transition-all',
           copied
-            ? 'border-[var(--color-amber-border)] text-[var(--color-amber-400)] bg-[var(--color-amber-bg)]'
+            ? 'border-[var(--color-accent-border)] text-[var(--color-accent)] bg-[var(--color-accent-bg)]'
             : 'border-[rgba(255,255,255,0.08)] text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'
         )}
       >

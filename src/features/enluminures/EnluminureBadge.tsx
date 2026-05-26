@@ -14,7 +14,7 @@ export function EnluminureBadge({ noteId }: { noteId: string }) {
 
   return (
     <span className="text-[10px] tracking-[.04em]"
-      style={{ color: 'var(--color-amber-400)' }}>
+      style={{ color: 'var(--color-accent)' }}>
       ◈ {count}
     </span>
   )

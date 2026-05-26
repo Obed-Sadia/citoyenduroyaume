@@ -8,10 +8,14 @@ export async function GET(request: Request): Promise<NextResponse> {
   if (code) {
     try {
       const supabase = await createServerSupabaseClient()
-      await supabase.auth.exchangeCodeForSession(code)
+      const { error } = await supabase.auth.exchangeCodeForSession(code)
+      if (error) {
+        console.error('[auth/callback] exchangeCodeForSession error:', error.message)
+        return NextResponse.redirect(`${origin}/login?error=link_expired`)
+      }
       return NextResponse.redirect(`${origin}/`)
     } catch (error) {
-      console.error('[auth/callback] exchangeCodeForSession failed:', error)
+      console.error('[auth/callback] exception:', error)
       return NextResponse.redirect(`${origin}/login?error=link_expired`)
     }
   }

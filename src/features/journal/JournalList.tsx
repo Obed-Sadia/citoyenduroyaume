@@ -45,8 +45,8 @@ export function JournalList() {
         <button
           onClick={handleCreate}
           aria-label="Nouvelle méditation"
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] transition-opacity hover:opacity-80"
-          style={{ color: 'var(--color-amber-400)' }}
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] transition-opacity hover:opacity-80"
+          style={{ color: 'var(--color-accent)' }}
         >
           <Plus size={14} strokeWidth={1.5} />
         </button>

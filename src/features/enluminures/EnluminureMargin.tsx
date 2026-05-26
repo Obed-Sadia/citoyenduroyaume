@@ -23,7 +23,7 @@ export function EnluminureMargin({ noteId, isAuthor }: EnluminureMarginProps) {
   return (
     <div className="mt-6 flex flex-col gap-3">
       {enluminures.map((e) => (
-        <div key={e.id} className="pl-3 border-l border-[rgba(239,159,39,0.25)]">
+        <div key={e.id} className="pl-3 border-l border-[var(--color-accent-border)]">
           {e.highlighted_passage && (
             <p className="text-[11px] italic mb-1 line-clamp-2"
               style={{ color: 'var(--color-text-disabled)', fontFamily: 'var(--font-editorial)' }}>
@@ -37,7 +37,7 @@ export function EnluminureMargin({ noteId, isAuthor }: EnluminureMarginProps) {
           ) : (
             <>
               <p className="text-[10px] tracking-[.06em] uppercase mb-0.5"
-                style={{ color: 'var(--color-amber-400)' }}>
+                style={{ color: 'var(--color-accent)' }}>
                 {e.content}
               </p>
               <p className="text-[12px] italic"

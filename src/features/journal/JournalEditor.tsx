@@ -155,7 +155,7 @@ export function JournalEditor({ id }: JournalEditorProps) {
         <button
           onClick={() => router.push('/journal')}
           className="mt-4 text-[12px] transition-opacity hover:opacity-70"
-          style={{ color: 'var(--color-amber-400)' }}
+          style={{ color: 'var(--color-accent)' }}
         >
           ← Retour au journal
         </button>
@@ -194,13 +194,13 @@ export function JournalEditor({ id }: JournalEditorProps) {
         ) : suggestion ? (
           <div className="flex items-center gap-1.5 shrink-0">
             <span
-              className="animate-pulse text-[10px] font-medium tracking-[.06em] uppercase px-2 py-1 rounded-[var(--radius-sm)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] text-[var(--color-amber-400)]"
+              className="animate-pulse text-[10px] font-medium tracking-[.06em] uppercase px-2 py-1 rounded-[var(--radius-sm)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)]"
             >
               {DOMAIN_META.find((d) => d.id === suggestion)?.abbr} · Suggéré
             </span>
             <button
               onClick={handleValidateDomain}
-              className="text-[10px] px-2 py-1 rounded-[var(--radius-sm)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] text-[var(--color-amber-400)] transition-opacity hover:opacity-70"
+              className="text-[10px] px-2 py-1 rounded-[var(--radius-sm)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)] transition-opacity hover:opacity-70"
             >
               Valider
             </button>
@@ -236,7 +236,7 @@ export function JournalEditor({ id }: JournalEditorProps) {
               style={{
                 color: visibility === 'private'
                   ? 'var(--color-text-disabled)'
-                  : 'var(--color-amber-400)',
+                  : 'var(--color-accent)',
               }}
               aria-label="Visibilité du Journal"
             >

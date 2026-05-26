@@ -8,21 +8,21 @@ export type DomainId =
 export type ExplorationLevel = 0 | 1 | 2 | 3 | 4 | 5
 
 export const FILL: Record<ExplorationLevel, string> = {
-  5: '#EF9F27',
-  4: '#BA7517',
-  3: '#854F0B',
-  2: '#633806',
-  1: 'rgba(120,115,110,0.18)',
-  0: 'rgba(120,115,110,0.07)',
+  5: '#6B9FD4',
+  4: 'rgba(107,159,212,0.55)',
+  3: 'rgba(107,159,212,0.28)',
+  2: 'rgba(107,159,212,0.14)',
+  1: 'rgba(180,195,210,0.10)',
+  0: 'rgba(180,195,210,0.10)',
 }
 
 export const STROKE: Record<ExplorationLevel, { color: string; width: number }> = {
-  5: { color: 'rgba(255,255,255,0.18)', width: 0.8 },
-  4: { color: 'rgba(255,255,255,0.12)', width: 0.8 },
-  3: { color: 'rgba(255,255,255,0.10)', width: 0.8 },
-  2: { color: 'rgba(255,255,255,0.08)', width: 0.8 },
-  1: { color: 'rgba(120,115,110,0.40)', width: 0.5 },
-  0: { color: 'rgba(120,115,110,0.22)', width: 0.5 },
+  5: { color: 'rgba(107,159,212,0.40)', width: 0.8 },
+  4: { color: 'rgba(107,159,212,0.28)', width: 0.8 },
+  3: { color: 'rgba(107,159,212,0.20)', width: 0.8 },
+  2: { color: 'rgba(107,159,212,0.14)', width: 0.8 },
+  1: { color: 'rgba(180,195,210,0.25)', width: 0.5 },
+  0: { color: 'rgba(180,195,210,0.15)', width: 0.5 },
 }
 
 export const DOMAIN_META: Array<{ id: DomainId; label: string; abbr: string }> = [

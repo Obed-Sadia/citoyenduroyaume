@@ -67,7 +67,7 @@ export function AllianceTabs() {
             className={cn(
               'py-3 shrink-0 text-[11px] font-medium tracking-[.06em] uppercase border-b-[1.5px] -mb-px transition-colors',
               tab === t
-                ? 'border-[var(--color-amber-400)] text-[var(--color-amber-400)]'
+                ? 'border-[var(--color-accent)] text-[var(--color-accent)]'
                 : 'border-transparent text-[var(--color-text-muted)]'
             )}>
             {TAB_LABELS[t]}

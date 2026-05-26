@@ -1,73 +1,77 @@
 :root {
-  --color-amber-400: #EF9F27;
-  --color-amber-300: #F5BB62;
-  --color-amber-500: #C97D0E;
-  --color-amber-600: #854F0B;
-  --color-amber-700: #633806;
-  --color-amber-bg: rgba(239,159,39,0.11);
-  --color-amber-border: rgba(239,159,39,0.30);
+  /* === Accent : Saphir (remplace ambre) === */
+  --color-accent:        #6B9FD4;
+  --color-accent-light:  #8BBAE0;
+  --color-accent-dark:   #4A80B8;
+  --color-accent-bg:     rgba(107,159,212,0.08);
+  --color-accent-border: rgba(107,159,212,0.20);
 
-  --color-bg-base: #09080B;
-  --color-bg-surface: #0F0E0C;
-  --color-bg-elevated: #161412;
-  --color-bg-hover: rgba(255,255,255,0.04);
-  --color-bg-active: rgba(239,159,39,0.08);
+  /* === Surfaces (ardoise froide) === */
+  --color-bg-base:     #131517;
+  --color-bg-surface:  #181c1f;
+  --color-bg-elevated: #1d2226;
+  --color-bg-hover:    rgba(180,195,210,0.04);
+  --color-bg-active:   rgba(107,159,212,0.08);
 
-  --color-text-primary: rgba(255,252,245,0.92);
-  --color-text-secondary: rgba(255,252,245,0.55);
-  --color-text-muted: rgba(255,252,245,0.30);
-  --color-text-disabled: rgba(255,252,245,0.18);
+  /* === Texte (bleuté froid) === */
+  --color-text-primary:   rgba(205,218,228,0.93);
+  --color-text-secondary: rgba(165,185,200,0.62);
+  --color-text-muted:     rgba(140,165,185,0.36);
+  --color-text-disabled:  rgba(140,165,185,0.18);
+  --color-text-accent:    #6B9FD4;
 
-  --color-border: rgba(255,255,255,0.07);
-  --color-border-subtle: rgba(255,255,255,0.04);
-  --color-border-amber: rgba(239,159,39,0.30);
+  /* === Bordures === */
+  --color-border:        rgba(180,195,210,0.08);
+  --color-border-mid:    rgba(180,195,210,0.13);
+  --color-border-subtle: rgba(180,195,210,0.05);
 
-  --font-sans: 'Geist', system-ui, sans-serif;
-  --font-editorial: 'Fraunces', Georgia, serif;
+  /* === Fonts (remplacées par next/font dans layout.tsx) === */
+  --font-sans:      'DM Mono', monospace;
+  --font-editorial: 'Lora', Georgia, serif;
 
-  --shadow-sm:    0 1px 2px rgba(0,0,0,0.4);
-  --shadow-md:    0 4px 12px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
-  --shadow-amber: 0 0 0 1px var(--color-amber-border), 0 0 16px rgba(239,159,39,0.08);
+  /* === Ombres === */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.5);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.6), 0 1px 3px rgba(0,0,0,0.4);
 
+  /* === Glass panels === */
+  --glass-base-bg:      rgba(180,195,210,0.04);
+  --glass-base-border:  rgba(180,195,210,0.08);
+  --glass-strong-bg:    rgba(180,195,210,0.07);
+  --glass-strong-border: rgba(180,195,210,0.13);
+  --glass-accent-bg:    rgba(107,159,212,0.07);
+  --glass-accent-border: rgba(107,159,212,0.20);
+
+  /* === Easing === */
   --ease-fast: cubic-bezier(0.16,1,0.3,1);
 
-  /* Glass */
-  --glass-blur: 16px;
-  --glass-blur-heavy: 24px;
-  --glass-base-bg:      rgba(255, 255, 255, 0.045);
-  --glass-base-border:  rgba(255, 255, 255, 0.09);
-  --glass-amber-bg:     rgba(239, 159, 39, 0.07);
-  --glass-amber-border: rgba(239, 159, 39, 0.18);
-  --glass-strong-bg:    rgba(255, 255, 255, 0.065);
-  --glass-strong-border: rgba(255, 255, 255, 0.11);
-  --glass-sidebar-bg:   rgba(255, 255, 255, 0.03);
+  /* === Layout === */
+  --bento-gap:    8px;
+  --bento-radius: 8px;
 
-  /* Bento */
-  --bento-gap: 8px;
-  --bento-radius: 11px;
+  --sidebar-collapsed-width: 50px;
+  --sidebar-expanded-width:  220px;
+  --bottom-nav-height:       64px;
 
-  --sidebar-collapsed-width: 48px;
-  --sidebar-expanded-width: 240px;
-  --bottom-nav-height: 64px;
-
+  /* === Radius === */
   --radius-xs: 3px;
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
-  --radius-xl: 14px;
+  --radius-sm: 5px;
+  --radius-md: 7px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
 
-  --z-sidebar: 10;
+  /* === Z-index === */
+  --z-sidebar:   10;
   --z-bottomnav: 50;
-  --z-modal: 60;
+  --z-modal:     60;
 }
 
 [data-theme="light"] {
-  --color-bg-base: #F8F6F2;
-  --color-bg-surface: #FFFFFF;
-  --color-bg-elevated: #FFFFFF;
-  --color-text-primary: rgba(20,18,15,0.90);
-  --color-text-secondary: rgba(20,18,15,0.55);
-  --color-text-muted: rgba(20,18,15,0.35);
-  --color-border: rgba(0,0,0,0.08);
+  --color-bg-base:     #f0f2f5;
+  --color-bg-surface:  #ffffff;
+  --color-bg-elevated: #ffffff;
+  --color-text-primary:   rgba(20,30,40,0.90);
+  --color-text-secondary: rgba(20,30,40,0.55);
+  --color-text-muted:     rgba(20,30,40,0.35);
+  --color-border:        rgba(0,0,0,0.09);
   --color-border-subtle: rgba(0,0,0,0.05);
 }
