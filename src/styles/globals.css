@@ -2,8 +2,8 @@
 @import './tokens.css';
 
 @theme {
-  --font-family-sans:      'Geist', system-ui, sans-serif;
-  --font-family-editorial: 'Fraunces', Georgia, serif;
+  --font-family-sans:      'DM Mono', monospace;
+  --font-family-editorial: 'Lora', Georgia, serif;
 }
 
 html {
@@ -37,8 +37,9 @@ html::after {
   outline: none;
   color: var(--color-text-primary);
   font-family: var(--font-editorial);
-  font-size: 16px;
-  line-height: 1.75;
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.85;
   min-height: 200px;
 }
 
