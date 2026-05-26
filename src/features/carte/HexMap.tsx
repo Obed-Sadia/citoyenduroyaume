@@ -185,17 +185,19 @@ export function HexMap({ stats, activeThisWeek = null }: HexMapProps) {
 
       <AnimatePresence>
         {selected && selectedDomain && (
-          <DomainTooltip
-            key={selected}
-            label={selectedDomain.label}
-            exploration={(stats[selected]?.exploration ?? 0) as ExplorationLevel}
-            journalCount={stats[selected]?.journalCount ?? 0}
-            secretCount={stats[selected]?.secretCount ?? 0}
-            onNavigate={() => {
-              setSelected(null)
-              router.push(`/domaines/${selected}`)
-            }}
-          />
+          <div className="fixed bottom-[4.5rem] md:bottom-4 left-4 right-4 z-20 max-w-[500px] mx-auto">
+            <DomainTooltip
+              key={selected}
+              label={selectedDomain.label}
+              exploration={(stats[selected]?.exploration ?? 0) as ExplorationLevel}
+              journalCount={stats[selected]?.journalCount ?? 0}
+              secretCount={stats[selected]?.secretCount ?? 0}
+              onNavigate={() => {
+                setSelected(null)
+                router.push(`/domaines/${selected}`)
+              }}
+            />
+          </div>
         )}
       </AnimatePresence>
     </div>

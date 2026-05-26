@@ -3,6 +3,13 @@
 > App de méditation profonde sur la Parole. Principe : **App-Effacement**.
 > Avant tout composant visuel → lire `docs/style-guide.md`.
 
+## Règles Design 
+utilise toujours ces skills et mpc avant de toucher ux ui 
+- frontend-design
+- ui-ux-pro-max
+- make-interfaces-feel-better
+- Magic
+
 ## Stack
 Next.js 16 App Router · TypeScript strict · Tailwind CSS v4 · Framer Motion · Radix/shadcn · Zustand · Supabase · Gemini
 

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { SecretsRepo } from '@/lib/db/secrets.repo'
-import { syncSecret } from '@/lib/supabase/sync'
+import { syncSecret, deleteSecret } from '@/lib/supabase/sync'
 import type { Secret } from '@/lib/db/basileia.db'
 import type { DomainId } from '@/features/carte/domain-constants'
 
@@ -11,6 +11,7 @@ interface SecretsStore {
   isLoaded: boolean
   loadFromDb: () => Promise<void>
   addSecret: (text: string, domainId?: DomainId) => Promise<void>
+  removeSecret: (id: string) => Promise<void>
   reset: () => void
 }
 
@@ -43,6 +44,18 @@ export const useSecretsStore = create<SecretsStore>((set, get) => ({
     } catch (err) {
       set((state) => ({ secrets: state.secrets.filter((s) => s.id !== secret.id) }))
       console.error('[SecretsStore] addSecret failed', err)
+    }
+  },
+
+  removeSecret: async (id) => {
+    const prev = get().secrets
+    set((state) => ({ secrets: state.secrets.filter((s) => s.id !== id) }))
+    try {
+      await SecretsRepo.remove(id)
+      void deleteSecret(id)
+    } catch (err) {
+      set({ secrets: prev })
+      console.error('[SecretsStore] removeSecret failed', err)
     }
   },
 
