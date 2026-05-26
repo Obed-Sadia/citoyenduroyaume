@@ -41,16 +41,16 @@ export default function Sidebar() {
       transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.2 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{ background: 'var(--glass-sidebar-bg)' }}
+      style={{ background: 'var(--color-bg-base)' }}
       className="relative flex flex-col h-full flex-shrink-0 overflow-hidden
-                 backdrop-blur-[20px] border-r border-[var(--color-border)]"
+                 border-r border-[var(--color-border)]"
     >
       <Link href="/" className="flex items-center gap-2.5 h-[52px] px-[13px] flex-shrink-0
                                 border-b border-[var(--color-border)]">
-        <div className="w-[30px] h-[30px] rounded-[6px] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] flex items-center justify-center font-[family-name:var(--font-editorial)] text-[14px] font-[500] text-[var(--color-accent)] flex-shrink-0">
+        <div className="w-[30px] h-[30px] rounded-[6px] border border-[var(--color-border-mid)] bg-[var(--color-bg-elevated)] flex items-center justify-center font-[family-name:var(--font-editorial)] text-[14px] font-[500] text-[var(--color-text-primary)] flex-shrink-0">
           B
         </div>
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           {expanded && (
             <motion.span
               initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -6 }}
