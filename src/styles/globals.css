@@ -2,10 +2,11 @@
 @import './tokens.css';
 
 @source not "../../docs/**";
+@source not "../../memory/**";
 
 @theme {
-  --font-family-sans:      'DM Mono', monospace;
-  --font-family-editorial: 'Lora', Georgia, serif;
+  --font-family-sans:      -apple-system, 'Helvetica Neue', sans-serif;
+  --font-family-editorial: 'Instrument Serif', Georgia, serif;
 }
 
 html {

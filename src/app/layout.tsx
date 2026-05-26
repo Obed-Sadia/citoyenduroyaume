@@ -1,19 +1,12 @@
 import type { Metadata } from 'next'
-import { Lora, DM_Mono } from 'next/font/google'
+import { Instrument_Serif } from 'next/font/google'
 import '@/styles/globals.css'
 
-const lora = Lora({
+const instrumentSerif = Instrument_Serif({
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: ['400'],
   style: ['normal', 'italic'],
   variable: '--font-editorial',
-  display: 'swap',
-})
-
-const dmMono = DM_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-sans',
   display: 'swap',
 })
 
@@ -25,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className={`${lora.variable} ${dmMono.variable}`}>
+      <body className={instrumentSerif.variable}>
         {children}
       </body>
     </html>
