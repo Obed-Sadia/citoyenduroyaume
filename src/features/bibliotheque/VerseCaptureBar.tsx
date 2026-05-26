@@ -92,7 +92,7 @@ export function VerseCaptureBar() {
           <div className="flex items-center gap-1.5">
             {suggestedDomain ? (
               <>
-                <span className="text-[10px] font-medium tracking-[.06em] uppercase px-2 py-0.5 rounded-[var(--radius-sm)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] text-[var(--color-amber-400)]">
+                <span className="text-[10px] font-medium tracking-[.06em] uppercase px-2 py-0.5 rounded-[var(--radius-sm)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)]">
                   {DOMAIN_META.find((d) => d.id === suggestedDomain)?.abbr}
                 </span>
                 <button
@@ -125,7 +125,7 @@ export function VerseCaptureBar() {
             className={cn(
               'flex items-center gap-1 text-[10px] font-medium tracking-[.06em] uppercase transition-colors',
               visibility === 'allies'
-                ? 'text-[var(--color-amber-400)]'
+                ? 'text-[var(--color-accent)]'
                 : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'
             )}
           >
