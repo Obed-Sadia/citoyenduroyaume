@@ -32,8 +32,8 @@ export function FeedEntry({
       tabIndex={onClick ? 0 : undefined}
       onKeyDown={onClick ? (e) => (e.key === 'Enter' || e.key === ' ') && onClick() : undefined}
       className={cn(
-        'flex items-start gap-3.5 py-[13px] border-b border-[var(--color-border-subtle)] transition-opacity duration-150',
-        onClick && 'cursor-pointer hover:opacity-80',
+        'flex items-start gap-3.5 py-[13px] px-[18px] border-b border-[var(--color-border)] last:border-b-0 transition-colors duration-150 hover:bg-[var(--color-bg-hover)]',
+        onClick && 'cursor-pointer',
         className
       )}
     >
@@ -58,14 +58,14 @@ export function FeedEntry({
             <span className={cn(
               'text-[8px] font-medium tracking-[.06em] uppercase px-[7px] py-[2px] rounded-[3px] border',
               tagAccent
-                ? 'border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)]'
+                ? 'border-[var(--color-border-mid)] bg-[rgba(255,255,255,0.05)] text-[var(--color-text-primary)]'
                 : 'border-[var(--color-border-mid)] text-[var(--color-text-muted)]'
             )}>
               {tag}
             </span>
           )}
           {reference && (
-            <span className="text-[9px] text-[var(--color-accent)] opacity-65 tracking-[.04em]">
+            <span className="text-[9px] text-[var(--color-text-muted)] tracking-[.04em]">
               {reference}
             </span>
           )}
@@ -93,7 +93,7 @@ export function FeedHeader({ title, action, onAction }: { title: string; action?
     <div className="flex items-center justify-between py-[14px]">
       <p className="text-[9px] font-medium tracking-[.12em] uppercase text-[var(--color-text-muted)]">{title}</p>
       {action && (
-        <button type="button" onClick={onAction} className="text-[9px] text-[var(--color-accent)] opacity-60 tracking-[.06em] hover:opacity-100 transition-opacity">
+        <button type="button" onClick={onAction} className="text-[9px] text-[var(--color-text-secondary)] opacity-60 tracking-[.06em] hover:opacity-100 transition-opacity">
           {action} →
         </button>
       )}
