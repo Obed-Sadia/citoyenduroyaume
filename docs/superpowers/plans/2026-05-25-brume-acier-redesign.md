@@ -1239,7 +1239,7 @@ Pattern de remplacement systématique :
 - `--color-amber-300` → `--color-accent-light`
 - `--color-amber-bg` → `--color-accent-bg`
 - `--color-amber-border` → `--color-accent-border`
-- `border-[var(--color-amber-*)]` → `border-[var(--color-accent-border)]`
+- `border-[var(--color-amber-N)]` → `border-[var(--color-accent-border)]`
 - `text-amber-*` / `fill-amber-*` → `text-[var(--color-accent)]` / `fill-[var(--color-accent)]`
 
 Dans `TerritoireAtlas.tsx`, les hexagones de niveaux différents utilisent des variantes d'opacité de l'accent saphir :
