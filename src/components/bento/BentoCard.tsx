@@ -13,6 +13,9 @@ export function BentoCard({ label, wide, accent, className, onClick, children }:
   return (
     <div
       onClick={onClick}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={onClick ? (e) => (e.key === 'Enter' || e.key === ' ') && onClick() : undefined}
       className={cn(
         'rounded-[var(--bento-radius)] border p-[12px_14px] flex flex-col gap-1.5 transition-colors duration-150',
         wide && 'col-span-2',

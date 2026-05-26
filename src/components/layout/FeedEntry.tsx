@@ -28,6 +28,9 @@ export function FeedEntry({
   return (
     <div
       onClick={onClick}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={onClick ? (e) => (e.key === 'Enter' || e.key === ' ') && onClick() : undefined}
       className={cn(
         'flex items-start gap-3.5 py-[13px] border-b border-[var(--color-border-subtle)] transition-opacity duration-150',
         onClick && 'cursor-pointer hover:opacity-80',
@@ -79,7 +82,7 @@ export function FeedEntry({
         </div>
       </div>
       {onClick && (
-        <span className="text-[12px] text-[var(--color-text-muted)] opacity-50 mt-[3px] flex-shrink-0">›</span>
+        <span aria-hidden="true" className="text-[12px] text-[var(--color-text-muted)] opacity-50 mt-[3px] flex-shrink-0">›</span>
       )}
     </div>
   )
@@ -90,7 +93,7 @@ export function FeedHeader({ title, action, onAction }: { title: string; action?
     <div className="flex items-center justify-between py-[14px]">
       <p className="text-[9px] font-medium tracking-[.12em] uppercase text-[var(--color-text-muted)]">{title}</p>
       {action && (
-        <button onClick={onAction} className="text-[9px] text-[var(--color-accent)] opacity-60 tracking-[.06em] hover:opacity-100 transition-opacity">
+        <button type="button" onClick={onAction} className="text-[9px] text-[var(--color-accent)] opacity-60 tracking-[.06em] hover:opacity-100 transition-opacity">
           {action} →
         </button>
       )}
