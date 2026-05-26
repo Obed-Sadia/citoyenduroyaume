@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import './tokens.css';
 
+@source not "../../docs";
+
 @theme {
   --font-family-sans:      'DM Mono', monospace;
   --font-family-editorial: 'Lora', Georgia, serif;
