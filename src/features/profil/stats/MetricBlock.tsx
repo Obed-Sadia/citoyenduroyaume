@@ -15,7 +15,7 @@ export function MetricBlock({ value, label, amber = false, small = false }: Metr
         className="font-medium leading-none"
         style={{
           fontSize: small ? '14px' : '21px',
-          color:    amber ? 'var(--color-text-amber)' : 'var(--color-text-primary)',
+          color:    amber ? 'var(--color-text-accent)' : 'var(--color-text-primary)',
         }}
       >
         {value}

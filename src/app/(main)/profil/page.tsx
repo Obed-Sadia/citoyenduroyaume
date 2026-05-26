@@ -143,25 +143,23 @@ export default async function ProfilPage() {
   const enProfondeur = notes.filter(n => n.domain_id !== null).length
 
   return (
-    <div className="max-w-[920px] mx-auto px-4 pt-4 md:px-5 md:pt-5 pb-20 space-y-3">
+    <div className="max-w-[920px] mx-auto pb-20 space-y-3">
 
-      {/* Header */}
+      {/* Hero header */}
+      <div className="flex-shrink-0 px-[26px] pt-[22px] pb-[20px] border-b border-[var(--color-border)]">
+        <p className="text-[9px] font-medium tracking-[.14em] uppercase text-[var(--color-accent)] opacity-65 mb-2">
+          Profil
+        </p>
+        <h1 className="font-[family-name:var(--font-editorial)] text-[22px] font-[500] text-[var(--color-text-primary)] leading-[1.25]">
+          Mon Identité
+        </h1>
+      </div>
+
+      <div className="px-4 md:px-5 pt-3 space-y-3">
+
+      {/* Identity card */}
       <BentoGrid cols={3}>
-        <BentoCell span={2} variant="strong" className="px-4 py-3">
-          <p
-            className="text-[9px] font-medium tracking-[0.11em] uppercase mb-0.5"
-            style={{ color: 'var(--color-amber-400)' }}
-          >
-            Profil & Paramètres
-          </p>
-          <p
-            className="text-[15px] font-[family-name:var(--font-editorial)]"
-            style={{ color: 'var(--color-text-primary)' }}
-          >
-            Mon Profil
-          </p>
-        </BentoCell>
-        <BentoCell variant="base" className="flex items-center justify-center">
+        <BentoCell span={3} variant="base" className="px-4 py-3">
           <CitizenIdentity
             displayName={profile?.display_name ?? user.email ?? 'Citoyen'}
             avatarUrl={profile?.avatar_url}
@@ -234,6 +232,7 @@ export default async function ProfilPage() {
         </div>
       </GlassPanel>
 
+      </div>
     </div>
   )
 }
