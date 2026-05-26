@@ -55,7 +55,7 @@ export function CaptureBar() {
 
         {showDomainRow && suggestedDomain ? (
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] font-medium tracking-[.06em] uppercase px-2 py-0.5 rounded-[var(--radius-sm)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] text-[var(--color-amber-400)]">
+            <span className="text-[10px] font-medium tracking-[.06em] uppercase px-2 py-0.5 rounded-[var(--radius-sm)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)]">
               {DOMAIN_META.find((d) => d.id === suggestedDomain)?.abbr}
             </span>
             <button
@@ -70,7 +70,7 @@ export function CaptureBar() {
           <button
             onClick={handleClassify}
             disabled={!text.trim() || classifying}
-            className="text-[8px] font-medium tracking-[.08em] uppercase px-3 py-[5px] rounded-[5px] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)] disabled:opacity-40 transition-colors hover:bg-[rgba(107,159,212,0.14)]"
+            className="text-[8px] font-medium tracking-[.08em] uppercase px-3 py-[5px] rounded-[5px] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)] disabled:opacity-40 transition-colors hover:bg-[var(--color-accent-bg)]"
           >
             {classifying ? '…' : '◈ Domaine'}
           </button>

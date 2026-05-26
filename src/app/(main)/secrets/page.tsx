@@ -19,7 +19,7 @@ export default function SecretsPage() {
               Fulgurances
             </h1>
             <p className="font-[family-name:var(--font-editorial)] italic text-[14px] text-[var(--color-text-secondary)] leading-[1.8] mt-1">
-              Intuitions soudaines. Capturées avant qu'elles ne s'évanouissent.
+              {'Intuitions soudaines. Capturées avant qu\'elles ne s\'évanouissent.'}
             </p>
           </div>
         </div>
