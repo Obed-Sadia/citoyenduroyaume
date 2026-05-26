@@ -31,8 +31,8 @@ export function AllyRequest({ id, displayName, onRespond }: AllyRequestProps) {
           className="flex h-9 w-9 items-center justify-center rounded-full text-[12px] font-medium"
           style={{
             background: nameToHsl(displayName),
-            color: 'var(--color-amber-400)',
-            border: '1.5px solid rgba(239,159,39,0.3)',
+            color: 'var(--color-accent)',
+            border: '1.5px solid var(--color-accent-border)',
           }}
         >
           {getInitials(displayName)}
@@ -50,7 +50,7 @@ export function AllyRequest({ id, displayName, onRespond }: AllyRequestProps) {
         <button
           onClick={() => respond('accepted')}
           disabled={loading}
-          className="text-[11px] font-medium tracking-[.06em] uppercase px-3 py-1 rounded-[var(--radius-sm)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] text-[var(--color-amber-400)] disabled:opacity-30"
+          className="text-[11px] font-medium tracking-[.06em] uppercase px-3 py-1 rounded-[var(--radius-sm)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)] disabled:opacity-30"
         >
           Accepter
         </button>

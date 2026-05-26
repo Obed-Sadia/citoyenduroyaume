@@ -39,7 +39,7 @@ export default async function TribePreviewPage({ params }: Props) {
         </div>
         <form action={handleJoin}>
           <button type="submit"
-            className="w-full py-2.5 rounded-[var(--radius-md)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] text-[var(--color-amber-400)] text-[12px] font-medium tracking-[.06em] uppercase">
+            className="w-full py-2.5 rounded-[var(--radius-md)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)] text-[12px] font-medium tracking-[.06em] uppercase">
             Demander à rejoindre
           </button>
         </form>

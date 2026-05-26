@@ -31,8 +31,8 @@ export function AllyVerseFeed({ verses }: AllyVerseFeedProps) {
               className="h-7 w-7 shrink-0 rounded-full flex items-center justify-center text-[10px] font-medium"
               style={{
                 background: nameToHsl(verse.author.display_name),
-                color: 'var(--color-amber-400)',
-                border: '1.5px solid rgba(239,159,39,0.3)',
+                color: 'var(--color-accent)',
+                border: '1.5px solid var(--color-accent-border)',
               }}
             >
               {getInitials(verse.author.display_name)}

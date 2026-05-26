@@ -17,7 +17,7 @@ export default async function NotificationsPage() {
         <BentoCell span={2} variant="strong" className="px-4 py-3">
           <p
             className="text-[9px] font-medium tracking-[0.11em] uppercase mb-0.5"
-            style={{ color: 'var(--color-amber-400)' }}
+            style={{ color: 'var(--color-accent)' }}
           >
             Notifications
           </p>
@@ -28,10 +28,10 @@ export default async function NotificationsPage() {
             Activité récente
           </p>
         </BentoCell>
-        <BentoCell variant={unread > 0 ? 'amber' : 'base'} className="flex flex-col justify-center items-center text-center">
+        <BentoCell variant={unread > 0 ? 'strong' : 'base'} className="flex flex-col justify-center items-center text-center">
           <p
             className="font-[family-name:var(--font-editorial)] text-[28px] font-[300] leading-none"
-            style={{ color: unread > 0 ? 'var(--color-amber-400)' : 'var(--color-text-secondary)' }}
+            style={{ color: unread > 0 ? 'var(--color-accent)' : 'var(--color-text-secondary)' }}
           >
             {unread}
           </p>

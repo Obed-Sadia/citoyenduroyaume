@@ -41,7 +41,7 @@ export function DomainTooltip({
         <p className="text-[10px] font-medium uppercase tracking-[.09em] text-[var(--color-text-muted)]">
           {label}
         </p>
-        <span className="shrink-0 rounded-[var(--radius-xs)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--color-amber-400)]">
+        <span className="shrink-0 rounded-[var(--radius-xs)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--color-accent)]">
           {LEVEL_LABELS[exploration]}
         </span>
       </div>
@@ -54,7 +54,7 @@ export function DomainTooltip({
 
       <button
         onClick={onNavigate}
-        className="flex w-full items-center justify-center gap-1.5 rounded-[var(--radius-md)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] px-3 py-2 text-[11px] font-medium text-[var(--color-amber-400)] transition-colors hover:bg-[rgba(239,159,39,0.16)]"
+        className="flex w-full items-center justify-center gap-1.5 rounded-[var(--radius-md)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] px-3 py-2 text-[11px] font-medium text-[var(--color-accent)] transition-colors hover:bg-[rgba(107,159,212,0.16)]"
       >
         Explorer
         <span aria-hidden="true">→</span>
