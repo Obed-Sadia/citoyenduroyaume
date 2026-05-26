@@ -105,40 +105,24 @@ export default async function CartePage() {
   return (
     <div className="flex flex-col h-full">
       {/* Hero */}
-      <div className="flex-shrink-0 px-[26px] pt-[22px] pb-[20px] border-b border-[var(--color-border)]">
-        <div className="flex items-start justify-between gap-5">
-          <div>
-            <p className="text-[9px] font-medium tracking-[.14em] uppercase text-[var(--color-accent)] opacity-65 mb-2">
-              La Carte
-            </p>
-            <h1 className="font-[family-name:var(--font-editorial)] text-[22px] font-[500] text-[var(--color-text-primary)] leading-[1.25] tracking-[-0.01em]">
-              Ton Territoire
-            </h1>
-            <p className="font-[family-name:var(--font-editorial)] italic text-[14px] text-[var(--color-text-secondary)] leading-[1.8] mt-1 max-w-[400px]">
-              {domainesActifs} domaine{domainesActifs > 1 ? 's' : ''} exploré{domainesActifs > 1 ? 's' : ''} sur 7. Continue à approfondir ta compréhension du Royaume.
-            </p>
-          </div>
-          <div className="flex gap-2 flex-shrink-0">
-            {[
-              { val: totalNotes,   lbl: 'Notes' },
-              { val: totalSecrets, lbl: 'Secrets' },
-              { val: `${domainesActifs}/7`, lbl: 'Domaines' },
-            ].map(({ val, lbl }) => (
-              <div key={lbl} className="flex flex-col items-end px-3 py-2 rounded-[7px] bg-[var(--color-bg-surface)] border border-[var(--color-border)] min-w-[60px]">
-                <span className="text-[18px] font-normal text-[var(--color-accent)] leading-none">{val}</span>
-                <span className="text-[8px] font-medium tracking-[.08em] uppercase text-[var(--color-text-muted)] mt-1">{lbl}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+      <div className="flex-shrink-0 px-[32px] pt-[28px] pb-[22px] border-b border-[var(--color-border)]">
+        <p className="text-[9px] font-medium tracking-[.14em] uppercase text-[var(--color-text-muted)] mb-3">
+          La Carte
+        </p>
+        <h1 className="font-[family-name:var(--font-editorial)] text-[34px] font-[400] text-[var(--color-text-primary)] leading-[1.15] tracking-[-0.02em]">
+          Ton Territoire
+        </h1>
+        <p className="font-[family-name:var(--font-editorial)] italic text-[14px] text-[var(--color-text-secondary)] leading-[1.8] mt-2 max-w-[400px]">
+          {domainesActifs} domaine{domainesActifs > 1 ? 's' : ''} exploré{domainesActifs > 1 ? 's' : ''} sur 7. Continue à approfondir ta compréhension du Royaume.
+        </p>
       </div>
 
       {/* Bento grid */}
       <div
-        className="flex-shrink-0 grid gap-[var(--bento-gap)] p-[16px_26px] border-b border-[var(--color-border)]"
+        className="flex-shrink-0 grid gap-[var(--bento-gap)] p-[16px_32px] border-b border-[var(--color-border)]"
         style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}
       >
-        {/* Wide accent : domaine le plus actif */}
+        {/* Wide accent: domaine le plus actif */}
         {topDomain ? (
           <Link href={`/domaines/${topDomain.meta.id}`} className="col-span-2">
             <BentoCard label="Domaine le plus actif" accent className="h-full">
@@ -158,8 +142,8 @@ export default async function CartePage() {
           </BentoCard>
         )}
 
-        {/* Stat cards — 4 premiers domaines */}
-        {DOMAIN_META.slice(0, 4).map((meta) => {
+        {/* Stat cards — 3 premiers domaines */}
+        {DOMAIN_META.slice(0, 3).map((meta) => {
           const s = domainStats[meta.id]
           return (
             <Link key={meta.id} href={`/domaines/${meta.id}`}>
@@ -174,7 +158,7 @@ export default async function CartePage() {
           )
         })}
 
-        {/* Stat total */}
+        {/* Entrées totales */}
         <BentoCard label="Entrées totales">
           <BentoVal>{totalItems}</BentoVal>
           <BentoSub>notes + secrets</BentoSub>
@@ -182,25 +166,27 @@ export default async function CartePage() {
       </div>
 
       {/* Feed — domaines restants */}
-      <div className="flex-1 overflow-y-auto px-[26px] pb-5">
+      <div className="flex-1 overflow-y-auto px-[32px] pb-5">
         <FeedHeader title="Domaines restants" />
-        {DOMAIN_META.slice(4).map((meta) => {
-          const s = domainStats[meta.id]
-          return (
-            <Link key={meta.id} href={`/domaines/${meta.id}`} className="block">
-              <FeedEntry
-                title={meta.label}
-                excerpt={
-                  s
-                    ? `Niveau ${s.level} · ${s.notes + s.secrets} entrées`
-                    : 'Inexploré — commence par ancrer un verset'
-                }
-                tag={s && s.level > 0 ? `Niv. ${s.level}` : 'Inexploré'}
-                tagAccent={!!s && s.level > 0}
-              />
-            </Link>
-          )
-        })}
+        <div className="border border-[var(--color-border)] rounded-[var(--radius-lg)] overflow-hidden">
+          {DOMAIN_META.slice(4).map((meta) => {
+            const s = domainStats[meta.id]
+            return (
+              <Link key={meta.id} href={`/domaines/${meta.id}`} className="block">
+                <FeedEntry
+                  title={meta.label}
+                  excerpt={
+                    s
+                      ? `Niveau ${s.level} · ${s.notes + s.secrets} entrées`
+                      : 'Inexploré — commence par ancrer un verset'
+                  }
+                  tag={s && s.level > 0 ? `Niv. ${s.level}` : 'Inexploré'}
+                  tagAccent={!!s && s.level > 0}
+                />
+              </Link>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
