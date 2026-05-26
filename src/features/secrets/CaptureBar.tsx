@@ -41,50 +41,42 @@ export function CaptureBar() {
   const showDomainRow = text.trim().length >= 3
 
   return (
-    <div className="sticky bottom-16 md:bottom-0 z-10 border-t border-[var(--color-border)] bg-[var(--color-bg-base)] px-4 pt-3 pb-2">
-      <input
-        ref={inputRef}
-        type="text"
-        value={text}
-        onChange={(e) => { setText(e.target.value); setSuggestedDomain(null) }}
-        onKeyDown={handleKeyDown}
-        placeholder="Une fulgurance… Entrée pour capturer"
-        className="w-full bg-transparent text-[14px] leading-relaxed outline-none placeholder:text-[var(--color-text-disabled)]"
-        style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-editorial)' }}
-        suppressHydrationWarning
-      />
+    <div className="flex-shrink-0 p-[12px_26px] border-t border-[var(--color-border)] bg-[var(--color-bg-surface)]">
+      <div className="flex items-center gap-2.5 bg-[var(--color-bg-base)] border border-[var(--color-border-mid)] rounded-[7px] px-3.5 py-[9px] focus-within:border-[var(--color-accent-border)] transition-colors">
+        <input
+          ref={inputRef}
+          type="text"
+          value={text}
+          onChange={(e) => { setText(e.target.value); setSuggestedDomain(null) }}
+          onKeyDown={handleKeyDown}
+          placeholder="Une fulgurance…"
+          className="flex-1 bg-transparent outline-none font-[family-name:var(--font-editorial)] italic text-[13px] text-[var(--color-text-secondary)] placeholder:text-[var(--color-text-muted)]"
+          suppressHydrationWarning
+        />
 
-      {showDomainRow && (
-        <div className="mt-2 flex h-6 items-center">
-          {suggestedDomain ? (
-            <div className="flex items-center gap-1.5">
-              <span className="text-[10px] font-medium tracking-[.06em] uppercase px-2 py-0.5 rounded-[var(--radius-sm)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] text-[var(--color-amber-400)]">
-                {DOMAIN_META.find((d) => d.id === suggestedDomain)?.abbr}
-              </span>
-              <button
-                onClick={() => setSuggestedDomain(null)}
-                className="text-[10px] text-[var(--color-text-muted)] transition-opacity hover:opacity-70"
-                aria-label="Retirer le domaine"
-              >
-                ✕
-              </button>
-            </div>
-          ) : (
+        {showDomainRow && suggestedDomain ? (
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] font-medium tracking-[.06em] uppercase px-2 py-0.5 rounded-[var(--radius-sm)] border border-[var(--color-amber-border)] bg-[var(--color-amber-bg)] text-[var(--color-amber-400)]">
+              {DOMAIN_META.find((d) => d.id === suggestedDomain)?.abbr}
+            </span>
             <button
-              onClick={handleClassify}
-              disabled={classifying}
-              className={cn(
-                'flex items-center gap-1 text-[10px] font-medium tracking-[.06em] uppercase transition-opacity',
-                'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]',
-                classifying && 'opacity-40 cursor-not-allowed'
-              )}
+              onClick={() => setSuggestedDomain(null)}
+              className="text-[10px] text-[var(--color-text-muted)] transition-opacity hover:opacity-70"
+              aria-label="Retirer le domaine"
             >
-              <span aria-hidden="true">{classifying ? '…' : '◈'}</span>
-              {!classifying && 'Domaine'}
+              ✕
             </button>
-          )}
-        </div>
-      )}
+          </div>
+        ) : (
+          <button
+            onClick={handleClassify}
+            disabled={!text.trim() || classifying}
+            className="text-[8px] font-medium tracking-[.08em] uppercase px-3 py-[5px] rounded-[5px] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)] disabled:opacity-40 transition-colors hover:bg-[rgba(107,159,212,0.14)]"
+          >
+            {classifying ? '…' : '◈ Domaine'}
+          </button>
+        )}
+      </div>
     </div>
   )
 }
