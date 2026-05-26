@@ -47,12 +47,9 @@ export default function Sidebar() {
     >
       <Link href="/" className="flex items-center gap-2.5 h-[52px] px-[13px] flex-shrink-0
                                 border-b border-[var(--color-border)]">
-        <span className="w-[22px] h-[22px] rounded-[var(--radius-sm)] flex-shrink-0
-                         border border-[var(--color-amber-border)]
-                         flex items-center justify-center
-                         text-[var(--color-amber-400)] text-[11px] font-medium">
+        <div className="w-[30px] h-[30px] rounded-[6px] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] flex items-center justify-center font-[family-name:var(--font-editorial)] text-[14px] font-[500] text-[var(--color-accent)] flex-shrink-0">
           B
-        </span>
+        </div>
         <AnimatePresence>
           {expanded && (
             <motion.span

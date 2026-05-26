@@ -40,11 +40,11 @@ export default function BottomNav() {
             <div className="relative">
               <Icon size={22} strokeWidth={active ? 2 : 1.5} aria-hidden
                     className={cn('transition-colors duration-150',
-                      active ? 'text-[var(--color-amber-400)]' : 'text-[var(--color-text-muted)]')} />
+                      active ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)]')} />
               <AnimatePresence>
                 {showBadge && (
                   <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                               className="absolute -top-0.5 -right-0.5 w-[6px] h-[6px] rounded-full bg-[var(--color-amber-400)]" />
+                               className="absolute -top-0.5 -right-0.5 w-[6px] h-[6px] rounded-full bg-[var(--color-accent)]" />
                 )}
               </AnimatePresence>
             </div>
@@ -53,7 +53,7 @@ export default function BottomNav() {
               animate={{ opacity: active ? 1 : 0, y: active ? 0 : 3 }}
               transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.15 }}
               className={cn('text-[10px] font-medium leading-none',
-                active ? 'text-[var(--color-amber-400)]' : 'text-[var(--color-text-muted)]')}
+                active ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-muted)]')}
             >
               {label}
             </motion.span>

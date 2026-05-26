@@ -23,7 +23,7 @@ export function NavItem({ href, label, icon: Icon, active = false, expanded = fa
         'relative flex items-center gap-2.5 h-9 rounded-md transition-colors duration-150 select-none',
         active ? 'pl-[10px] pr-2.5' : 'px-3',
         active
-          ? 'bg-[var(--color-amber-bg)] text-[var(--color-amber-400)] border-l-2 border-[var(--color-amber-400)] rounded-l-none'
+          ? 'bg-[var(--color-accent-bg)] text-[var(--color-accent)] border-l-2 border-[var(--color-accent-border)] rounded-l-none'
           : 'border-l-2 border-transparent text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-hover)] hover:text-[var(--color-text-primary)]'
       )}
     >
