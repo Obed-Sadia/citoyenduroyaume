@@ -32,11 +32,24 @@ Wrapper serveur : `src/lib/bible/bible-api.ts` — toutes les requêtes passent 
 
 ### Préférence version
 
-La colonne `bible_translation` existe déjà dans `citizen_profiles`.  
-- Valeur par défaut : `"LSG"` (Louis Segond 1910)  
-- Modifiée depuis le drawer Bible ET depuis `/profil` → Préférences  
-- Persistée via `updateProfile()` existant (Server Action)  
-- En attendant la sync, stockée en Zustand (`useBibleStore`)
+La colonne `bible_translation` existe déjà dans `citizen_profiles` et stocke des **abréviations** (`'LSG'`, `'NEG'`, `'NBS'`, `'KJV'`, `'NVI'`). api.bible utilise des IDs internes longs.
+
+Une constante de mapping est définie dans `src/lib/bible/bible-versions.ts` :
+```ts
+export const BIBLE_VERSION_MAP: Record<string, string> = {
+  LSG: 'de4e12af7f28f599-01',  // Louis Segond 1910
+  NEG: 'b17876dc5e1a2e82-01',  // Nouvelle Edition Genève
+  NBS: '...',                   // Nouvelle Bible Segond
+  KJV: 'de4e12af7f28f599-02',  // King James Version
+  NVI: '...',                   // Nueva Versión Internacional
+}
+```
+Les IDs exacts sont récupérés via `getAvailableBibles()` au premier lancement et mis en cache.
+
+- Valeur par défaut : `"LSG"`
+- Modifiée depuis le drawer Bible ET depuis `/profil` → Préférences (dropdown déjà existant dans `PreferencesForm`)
+- Persistée via `updateProfile()` existant (Server Action)
+- `useBibleStore.selectedBibleId` = l'abréviation (ex: `'LSG'`) — la résolution vers l'ID api.bible se fait dans `bible-api.ts`
 
 ---
 
@@ -82,12 +95,12 @@ Ouvre `BibleDrawer` en mode `'read'`.
 interface BibleStore {
   isOpen: boolean
   mode: 'read' | 'insert'
-  selectedBibleId: string           // ex: 'de4e12af7f28f599-01' (LSG)
+  selectedVersion: string           // abréviation ex: 'LSG', 'KJV'
   currentBook: string | null
   currentChapter: string | null
   open: (mode: 'read' | 'insert') => void
   close: () => void
-  setVersion: (bibleId: string) => void
+  setVersion: (abbreviation: string) => void  // persiste en profil aussi
   setChapter: (book: string, chapter: string) => void
 }
 ```
@@ -179,10 +192,11 @@ BIBLE_API_KEY=<clé api.bible>
 | Fichier | Action |
 |---------|--------|
 | `src/features/bible/BibleDrawer.tsx` | Créer |
-| `src/features/bible/BibleFAB.tsx` | Créer |
+| `src/features/bible/BibleFAB.tsx` | Créer — utilise `usePathname()` pour se cacher sur `/journal/[id]` |
 | `src/lib/stores/bible.store.ts` | Créer |
-| `src/lib/bible/bible-api.ts` | Créer |
-| `src/app/(main)/layout.tsx` | Modifier — ajouter FAB + Drawer |
+| `src/lib/bible/bible-api.ts` | Créer — Server Actions wrappant api.bible |
+| `src/lib/bible/bible-versions.ts` | Créer — constante `BIBLE_VERSION_MAP` (abréviation → api.bible ID) |
+| `src/app/(main)/layout.tsx` | Modifier — ajouter `BibleFAB` + `BibleDrawer` |
 | `src/features/journal/JournalEditor.tsx` | Modifier — bouton Bible + callback insert |
-| `src/features/profil/PreferencesForm.tsx` | Modifier — champ traduction Bible |
-| `.env.local` | Modifier — ajouter BIBLE_API_KEY |
+| `src/features/profil/PreferencesForm.tsx` | Inchangé — dropdown déjà existant, connecté via `useBibleStore.setVersion` dans le store |
+| `.env.local` | Modifier — ajouter `BIBLE_API_KEY` |
