@@ -38,6 +38,10 @@ export function BibleDrawer() {
   const [error, setError]               = useState<string | null>(null)
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  useEffect(() => {
+    return () => { if (searchTimer.current) clearTimeout(searchTimer.current) }
+  }, [])
+
   // Resolve bibleId when version changes
   useEffect(() => {
     resolveBibleId(bible_translation).then(setBibleId).catch(() => setError('Version introuvable.'))
@@ -258,9 +262,10 @@ export function BibleDrawer() {
                       {chapters.map((ch) => (
                         <button
                           key={ch.id}
-                          onClick={() =>
-                            setChapter(currentBook!, currentBookName!, ch.id, ch.number)
-                          }
+                          onClick={() => {
+                            if (!currentBook || !currentBookName) return
+                            setChapter(currentBook, currentBookName, ch.id, ch.number)
+                          }}
                           className={cn(
                             'text-[10px] w-7 h-7 rounded-[4px] transition-colors',
                             currentChapterId === ch.id
