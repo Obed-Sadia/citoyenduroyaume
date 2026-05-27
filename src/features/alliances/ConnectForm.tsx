@@ -64,7 +64,7 @@ export function ConnectForm({ prefilled = '', onSuccess }: ConnectFormProps) {
       </div>
       {message && (
         <p className="text-[11px]"
-          style={{ color: status === 'error' ? 'var(--color-text-muted)' : 'var(--color-accent)' }}>
+          style={{ color: status === 'error' ? 'var(--color-text-muted)' : 'var(--color-text-primary)' }}>
           {message}
         </p>
       )}

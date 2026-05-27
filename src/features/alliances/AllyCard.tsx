@@ -38,8 +38,8 @@ export function AllyCard({ ally }: AllyCardProps) {
             className="flex h-9 w-9 items-center justify-center rounded-full text-[12px] font-medium"
             style={{
               background: nameToHsl(ally.ally.display_name),
-              color: 'var(--color-accent)',
-              border: '1.5px solid var(--color-accent-border)',
+              color: 'var(--color-text-primary)',
+              border: '1.5px solid var(--color-border-mid)',
             }}
           >
             {getInitials(ally.ally.display_name)}

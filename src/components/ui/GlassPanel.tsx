@@ -5,16 +5,16 @@ export type GlassVariant = 'base' | 'accent' | 'strong'
 
 const VARIANT_STYLES: Record<GlassVariant, CSSProperties> = {
   base: {
-    background: 'var(--glass-base-bg)',
-    border: '1px solid var(--glass-base-border)',
+    background: 'var(--color-bg-surface)',
+    border: '1px solid var(--color-border)',
   },
   accent: {
-    background: 'var(--glass-accent-bg)',
-    border: '1px solid var(--glass-accent-border)',
+    background: 'rgba(255,255,255,0.04)',
+    border: '1px solid var(--color-border-mid)',
   },
   strong: {
-    background: 'var(--glass-strong-bg)',
-    border: '1px solid var(--glass-strong-border)',
+    background: 'var(--color-bg-elevated)',
+    border: '1px solid var(--color-border-mid)',
   },
 }
 

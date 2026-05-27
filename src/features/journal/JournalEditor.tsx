@@ -155,7 +155,7 @@ export function JournalEditor({ id }: JournalEditorProps) {
         <button
           onClick={() => router.push('/journal')}
           className="mt-4 text-[12px] transition-opacity hover:opacity-70"
-          style={{ color: 'var(--color-accent)' }}
+          style={{ color: 'var(--color-text-primary)' }}
         >
           ← Retour au journal
         </button>
@@ -194,13 +194,13 @@ export function JournalEditor({ id }: JournalEditorProps) {
         ) : suggestion ? (
           <div className="flex items-center gap-1.5 shrink-0">
             <span
-              className="animate-pulse text-[10px] font-medium tracking-[.06em] uppercase px-2 py-1 rounded-[var(--radius-sm)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)]"
+              className="animate-pulse text-[10px] font-medium tracking-[.06em] uppercase px-2 py-1 rounded-[var(--radius-sm)] border border-[var(--color-border-mid)] bg-[rgba(255,255,255,0.04)] text-[var(--color-text-primary)]"
             >
               {DOMAIN_META.find((d) => d.id === suggestion)?.abbr} · Suggéré
             </span>
             <button
               onClick={handleValidateDomain}
-              className="text-[10px] px-2 py-1 rounded-[var(--radius-sm)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)] transition-opacity hover:opacity-70"
+              className="text-[10px] px-2 py-1 rounded-[var(--radius-sm)] border border-[var(--color-border-mid)] bg-[rgba(255,255,255,0.04)] text-[var(--color-text-primary)] transition-opacity hover:opacity-70"
             >
               Valider
             </button>
@@ -236,7 +236,7 @@ export function JournalEditor({ id }: JournalEditorProps) {
               style={{
                 color: visibility === 'private'
                   ? 'var(--color-text-disabled)'
-                  : 'var(--color-accent)',
+                  : 'var(--color-text-primary)',
               }}
               aria-label="Visibilité du Journal"
             >

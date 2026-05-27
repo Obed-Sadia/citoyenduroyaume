@@ -147,7 +147,7 @@ export default async function ProfilPage() {
 
       {/* Hero header */}
       <div className="flex-shrink-0 px-[26px] pt-[22px] pb-[20px] border-b border-[var(--color-border)]">
-        <p className="text-[9px] font-medium tracking-[.14em] uppercase text-[var(--color-accent)] opacity-65 mb-2">
+        <p className="text-[9px] font-medium tracking-[.14em] uppercase text-[var(--color-text-primary)] opacity-65 mb-2">
           Profil
         </p>
         <h1 className="font-[family-name:var(--font-editorial)] text-[22px] font-[500] text-[var(--color-text-primary)] leading-[1.25]">

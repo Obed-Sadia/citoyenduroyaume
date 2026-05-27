@@ -46,7 +46,7 @@ export function LoginForm() {
           'w-full px-4 py-3 rounded-lg text-sm',
           'bg-[var(--color-bg-surface)] border border-[var(--color-border)]',
           'text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)]',
-          'focus:outline-none focus:border-[var(--color-accent)]',
+          'focus:outline-none focus:border-[var(--color-border-mid)]',
           'transition-colors duration-150'
         )}
       />
@@ -58,7 +58,7 @@ export function LoginForm() {
         disabled={loading}
         className={cn(
           'w-full py-3 rounded-lg text-sm font-medium',
-          'bg-[var(--color-accent)] text-[var(--color-bg-base)]',
+          'bg-[rgba(255,255,255,0.10)] text-[var(--color-text-primary)] border border-[var(--color-border-mid)]',
           'transition-opacity duration-150',
           loading && 'opacity-50 cursor-not-allowed'
         )}

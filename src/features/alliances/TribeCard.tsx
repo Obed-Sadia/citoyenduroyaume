@@ -30,7 +30,7 @@ export function TribeCard({ tribe }: TribeCardProps) {
           <p className="text-[11px] mt-0.5" style={{ color: 'var(--color-text-muted)' }}>
             {tribe.theme} · {tribe.memberCount} membre{tribe.memberCount > 1 ? 's' : ''}
             {tribe.role === 'admin' && (
-              <span className="ml-2" style={{ color: 'var(--color-accent)' }}>admin</span>
+              <span className="ml-2" style={{ color: 'var(--color-text-primary)' }}>admin</span>
             )}
           </p>
         </div>
@@ -44,7 +44,7 @@ export function TribeCard({ tribe }: TribeCardProps) {
         <button onClick={() => setTab(tab === 'journals' ? null : 'journals')}
           className={cn('text-[10px] tracking-[.06em] uppercase pb-1 border-b transition-colors',
             tab === 'journals'
-              ? 'border-[var(--color-accent)] text-[var(--color-accent)]'
+              ? 'border-[var(--color-border-mid)] text-[var(--color-text-primary)]'
               : 'border-transparent text-[var(--color-text-muted)]'
           )}>
           Journals
@@ -53,7 +53,7 @@ export function TribeCard({ tribe }: TribeCardProps) {
           <button onClick={() => setTab(tab === 'members' ? null : 'members')}
             className={cn('text-[10px] tracking-[.06em] uppercase pb-1 border-b transition-colors',
               tab === 'members'
-                ? 'border-[var(--color-accent)] text-[var(--color-accent)]'
+                ? 'border-[var(--color-border-mid)] text-[var(--color-text-primary)]'
                 : 'border-transparent text-[var(--color-text-muted)]'
             )}>
             Membres

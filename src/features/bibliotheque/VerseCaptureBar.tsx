@@ -47,7 +47,7 @@ export function VerseCaptureBar() {
 
   return (
     <div className="flex-shrink-0 p-[12px_26px] border-t border-[var(--color-border)] bg-[var(--color-bg-surface)]">
-      <div className="flex items-center gap-2.5 bg-[var(--color-bg-base)] border border-[var(--color-border-mid)] rounded-[7px] px-3.5 py-[9px] focus-within:border-[var(--color-accent-border)] transition-colors">
+      <div className="flex items-center gap-2.5 bg-[var(--color-bg-base)] border border-[var(--color-border-mid)] rounded-[7px] px-3.5 py-[9px] focus-within:border-[var(--color-border-mid)] transition-colors">
         <span className="text-[9px] text-[var(--color-text-muted)] whitespace-nowrap">Réf.</span>
         <div className="w-px h-[12px] bg-[var(--color-border-mid)]" />
         <input
@@ -80,7 +80,7 @@ export function VerseCaptureBar() {
             }
           }}
           disabled={!reference.trim() || !text.trim()}
-          className="text-[8px] font-medium tracking-[.10em] uppercase px-3 py-[5px] rounded-[5px] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)] disabled:opacity-40 hover:bg-[var(--color-accent-bg)] transition-colors whitespace-nowrap"
+          className="text-[8px] font-medium tracking-[.10em] uppercase px-3 py-[5px] rounded-[5px] border border-[var(--color-border-mid)] bg-[rgba(255,255,255,0.04)] text-[var(--color-text-primary)] disabled:opacity-40 hover:bg-[rgba(255,255,255,0.07)] transition-colors whitespace-nowrap"
         >
           Ancrer
         </button>
@@ -92,7 +92,7 @@ export function VerseCaptureBar() {
           <div className="flex items-center gap-1.5">
             {suggestedDomain ? (
               <>
-                <span className="text-[10px] font-medium tracking-[.06em] uppercase px-2 py-0.5 rounded-[var(--radius-sm)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)]">
+                <span className="text-[10px] font-medium tracking-[.06em] uppercase px-2 py-0.5 rounded-[var(--radius-sm)] border border-[var(--color-border-mid)] bg-[rgba(255,255,255,0.04)] text-[var(--color-text-primary)]">
                   {DOMAIN_META.find((d) => d.id === suggestedDomain)?.abbr}
                 </span>
                 <button
@@ -125,7 +125,7 @@ export function VerseCaptureBar() {
             className={cn(
               'flex items-center gap-1 text-[10px] font-medium tracking-[.06em] uppercase transition-colors',
               visibility === 'allies'
-                ? 'text-[var(--color-accent)]'
+                ? 'text-[var(--color-text-primary)]'
                 : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'
             )}
           >

@@ -41,7 +41,7 @@ export function CaptureBar() {
 
   return (
     <div className="flex-shrink-0 p-[12px_26px] border-t border-[var(--color-border)] bg-[var(--color-bg-surface)]">
-      <div className="flex items-center gap-2.5 bg-[var(--color-bg-base)] border border-[var(--color-border-mid)] rounded-[7px] px-3.5 py-[9px] focus-within:border-[var(--color-accent-border)] transition-colors">
+      <div className="flex items-center gap-2.5 bg-[var(--color-bg-base)] border border-[var(--color-border-mid)] rounded-[7px] px-3.5 py-[9px] focus-within:border-[var(--color-border-mid)] transition-colors">
         <input
           ref={inputRef}
           type="text"
@@ -55,7 +55,7 @@ export function CaptureBar() {
 
         {showDomainRow && suggestedDomain ? (
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] font-medium tracking-[.06em] uppercase px-2 py-0.5 rounded-[var(--radius-sm)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)]">
+            <span className="text-[10px] font-medium tracking-[.06em] uppercase px-2 py-0.5 rounded-[var(--radius-sm)] border border-[var(--color-border-mid)] bg-[rgba(255,255,255,0.04)] text-[var(--color-text-primary)]">
               {DOMAIN_META.find((d) => d.id === suggestedDomain)?.abbr}
             </span>
             <button
@@ -70,7 +70,7 @@ export function CaptureBar() {
           <button
             onClick={handleClassify}
             disabled={!text.trim() || classifying}
-            className="text-[8px] font-medium tracking-[.08em] uppercase px-3 py-[5px] rounded-[5px] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)] disabled:opacity-40 transition-colors hover:bg-[var(--color-accent-bg)]"
+            className="text-[8px] font-medium tracking-[.08em] uppercase px-3 py-[5px] rounded-[5px] border border-[var(--color-border-mid)] bg-[rgba(255,255,255,0.04)] text-[var(--color-text-primary)] disabled:opacity-40 transition-colors hover:bg-[rgba(255,255,255,0.07)]"
           >
             {classifying ? '…' : '◈ Domaine'}
           </button>

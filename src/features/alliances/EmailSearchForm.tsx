@@ -63,8 +63,9 @@ export function EmailSearchForm() {
           disabled={loading}
           className="px-4 py-2 rounded-md text-[12px] font-medium tracking-wide"
           style={{
-            background: 'var(--color-accent)',
-            color: '#fff',
+            background: 'rgba(255,255,255,0.10)',
+            color: 'var(--color-text-primary)',
+            border: '1px solid var(--color-border-mid)',
             opacity: loading ? 0.6 : 1,
             cursor: loading ? 'not-allowed' : 'pointer',
           }}
@@ -88,8 +89,8 @@ export function EmailSearchForm() {
             className="h-9 w-9 shrink-0 rounded-full flex items-center justify-center text-[12px] font-medium"
             style={{
               background: nameToHsl(result.display_name),
-              color: 'var(--color-accent)',
-              border: '1.5px solid var(--color-accent-border)',
+              color: 'var(--color-text-primary)',
+              border: '1.5px solid var(--color-border-mid)',
             }}
           >
             {getInitials(result.display_name)}
@@ -107,8 +108,9 @@ export function EmailSearchForm() {
               disabled={loading}
               className="px-3 py-1.5 rounded text-[12px] font-medium"
               style={{
-                background: 'var(--color-accent)',
-                color: '#fff',
+                background: 'rgba(255,255,255,0.10)',
+                color: 'var(--color-text-primary)',
+                border: '1px solid var(--color-border-mid)',
                 opacity: loading ? 0.6 : 1,
                 cursor: loading ? 'not-allowed' : 'pointer',
               }}

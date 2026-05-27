@@ -47,7 +47,7 @@ export function TribeCreateForm({ onSuccess }: TribeCreateFormProps) {
       {error && <p className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{error}</p>}
       <div className="flex gap-2">
         <button type="submit" disabled={loading || !name.trim() || !theme.trim()}
-          className="text-[11px] font-medium tracking-[.06em] uppercase px-3 py-1 rounded-[var(--radius-sm)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)] disabled:opacity-30">
+          className="text-[11px] font-medium tracking-[.06em] uppercase px-3 py-1 rounded-[var(--radius-sm)] border border-[var(--color-border-mid)] bg-[rgba(255,255,255,0.04)] text-[var(--color-text-primary)] disabled:opacity-30">
           {loading ? '…' : 'Créer'}
         </button>
         <button type="button" onClick={() => setOpen(false)}

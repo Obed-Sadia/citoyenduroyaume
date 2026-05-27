@@ -59,7 +59,7 @@ export function EnluminureComposer({ noteId, onSuccess, onCancel }: EnluminureCo
             className={cn(
               'text-[10px] font-medium tracking-[.06em] uppercase pb-0.5 border-b transition-colors',
               mode === m
-                ? 'border-[var(--color-accent)] text-[var(--color-accent)]'
+                ? 'border-[var(--color-border-mid)] text-[var(--color-text-primary)]'
                 : 'border-transparent text-[var(--color-text-muted)]'
             )}>
             {m === 'text' ? 'Annotation' : 'Verset'}
@@ -127,7 +127,7 @@ export function EnluminureComposer({ noteId, onSuccess, onCancel }: EnluminureCo
 
       <div className="flex gap-2">
         <button type="submit" disabled={!canSubmit || loading}
-          className="text-[11px] font-medium tracking-[.06em] uppercase px-3 py-1 rounded-[var(--radius-sm)] border border-[var(--color-accent-border)] bg-[var(--color-accent-bg)] text-[var(--color-accent)] disabled:opacity-30">
+          className="text-[11px] font-medium tracking-[.06em] uppercase px-3 py-1 rounded-[var(--radius-sm)] border border-[var(--color-border-mid)] bg-[rgba(255,255,255,0.04)] text-[var(--color-text-primary)] disabled:opacity-30">
           {loading ? '…' : 'Enluminer'}
         </button>
         <button type="button" onClick={onCancel}

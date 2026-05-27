@@ -55,7 +55,7 @@ export function DomaineHeader({ domainId, noteCount, secretCount, verseCount }: 
       </svg>
 
       <div>
-        <p className="text-[9px] font-medium tracking-[.14em] uppercase text-[var(--color-accent)] opacity-65 mb-2">
+        <p className="text-[9px] font-medium tracking-[.14em] uppercase text-[var(--color-text-primary)] opacity-65 mb-2">
           {meta.label}
         </p>
         <h1

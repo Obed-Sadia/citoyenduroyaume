@@ -11,7 +11,7 @@ export function SyncDot() {
       aria-hidden
       className="fixed top-3 right-3 z-50 w-2 h-2 rounded-full"
       style={{
-        background: 'var(--color-accent)',
+        background: 'var(--color-text-primary)',
         animation: 'pulse 1.4s ease-in-out infinite',
         opacity: 0.85,
       }}

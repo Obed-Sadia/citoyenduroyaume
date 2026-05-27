@@ -58,14 +58,14 @@ export function DomaineContent({ domainId }: DomaineContentProps) {
               className="relative px-4 py-2.5 text-[13px] font-medium transition-colors"
               style={{
                 fontFamily: 'var(--font-sans)',
-                color: isActive ? 'var(--color-accent)' : 'var(--color-text-muted)',
+                color: isActive ? 'var(--color-text-primary)' : 'var(--color-text-muted)',
               }}
             >
               {tab.label}
               {isActive && (
                 <span
                   className="absolute bottom-0 left-0 right-0 h-[1.5px] rounded-full"
-                  style={{ background: 'var(--color-accent)' }}
+                  style={{ background: 'var(--color-text-primary)' }}
                 />
               )}
             </button>

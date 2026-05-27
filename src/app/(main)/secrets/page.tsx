@@ -12,7 +12,7 @@ export default function SecretsPage() {
       <div className="flex-shrink-0 px-[26px] pt-[22px] pb-[20px] border-b border-[var(--color-border)]">
         <div className="flex items-start justify-between gap-5">
           <div>
-            <p className="text-[9px] font-medium tracking-[.14em] uppercase text-[var(--color-accent)] opacity-65 mb-2">
+            <p className="text-[9px] font-medium tracking-[.14em] uppercase text-[var(--color-text-primary)] opacity-65 mb-2">
               Les Secrets
             </p>
             <h1 className="font-[family-name:var(--font-editorial)] text-[22px] font-[500] text-[var(--color-text-primary)] leading-[1.25] tracking-[-0.01em]">
@@ -36,7 +36,7 @@ export default function SecretsPage() {
           </p>
         </BentoCard>
         <BentoCard label="Total">
-          <span className="text-[20px] font-normal text-[var(--color-accent)] leading-none">—</span>
+          <span className="text-[20px] font-normal text-[var(--color-text-primary)] leading-none">—</span>
         </BentoCard>
       </div>
 

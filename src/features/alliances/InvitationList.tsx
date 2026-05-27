@@ -45,8 +45,8 @@ export function InvitationList({ pendingReceived, shortCode }: InvitationListPro
                 <div className="h-9 w-9 shrink-0 rounded-full flex items-center justify-center text-[12px] font-medium"
                   style={{
                     background: nameToHsl(a.ally.display_name),
-                    color: 'var(--color-accent)',
-                    border: '1.5px solid var(--color-accent-border)',
+                    color: 'var(--color-text-primary)',
+                    border: '1.5px solid var(--color-border-mid)',
                   }}>
                   {getInitials(a.ally.display_name)}
                 </div>
@@ -57,7 +57,7 @@ export function InvitationList({ pendingReceived, shortCode }: InvitationListPro
                   <button
                     onClick={() => void handleRespond(a.id, 'accepted')}
                     className="px-3 py-1.5 rounded text-[12px] font-medium"
-                    style={{ background: 'var(--color-accent)', color: '#fff' }}>
+                    style={{ background: 'rgba(255,255,255,0.10)', color: 'var(--color-text-primary)', border: '1px solid var(--color-border-mid)' }}>
                     Accepter
                   </button>
                   <button
