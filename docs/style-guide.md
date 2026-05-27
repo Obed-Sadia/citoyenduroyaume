@@ -1,93 +1,40 @@
-# BASILEIA · Style Guide
+# BASILEIA — Style Guide : Noir Éditorial
 
-> Fichier de référence design. Claude Code doit le lire avant de créer tout composant visuel.
-> Philosophie : **App-Effacement** — l'interface s'efface devant la pensée.
-
----
-## Skills disponibles — charger avant de coder
-
-Avant tout composant visuel, charger les skills pertinents :
-
-| Tâche | Commande |
-|-------|----------|
-| N'importe quel composant UI | `frontend-design` |
-| Animation (hover, transition, mount) | `framer-motion` |
-| Vérifier la qualité UX | `ui-ux-pro-max` |
-| Améliorer un composant existant | `make-interfaces-feel-better` |
-| Composant trop complexe | `simplify` |
-| Composant shadcn nécessaire | `shadcn` |
-| Composant 21st.dev nécessaire | `use 21st-dev MCP` |
-
-Règle : ne jamais créer un composant visuel sans avoir lu
-au minimum `frontend-design` + `framer-motion`.
-
-
-## 0. Architecture CSS (Tailwind v4)
-
-Ce projet utilise **Tailwind v4** — syntaxe incompatible avec v3.
-
-```css
-/* globals.css — structure obligatoire */
-@import "tailwindcss";      /* ← remplace @tailwind base/components/utilities */
-@import './tokens.css';
-
-@theme {
-  --font-family-sans: 'DM Sans', system-ui, sans-serif;
-  --font-family-editorial: 'Cormorant Garamond', Georgia, serif;
-}
-```
-
-- **Pas de `tailwind.config.ts`** — configuration via `@theme {}` dans le CSS
-- `content` auto-détecté — pas besoin de le déclarer
-- Les tokens CSS (`--color-*`, `--font-*`, etc.) restent dans `tokens.css` importé après
+> Principes : App-Effacement absolu · Monochrome pur · Éditorial spacieux
 
 ---
 
 ## 1. Couleurs
 
+### Tokens disponibles
+
+```css
+/* Surfaces */
+--color-bg-base:     #0a0a0a       /* fond principal */
+--color-bg-surface:  #111111       /* cartes, panels */
+--color-bg-elevated: #181818       /* éléments surélevés */
+--color-bg-hover:    rgba(255,255,255,0.04)
+--color-bg-active:   rgba(255,255,255,0.06)
+
+/* Texte — hiérarchie par opacité uniquement */
+--color-text-primary:   rgba(255,255,255,0.88)   /* titres, valeurs actives */
+--color-text-secondary: rgba(255,255,255,0.42)   /* corps, labels nav inactifs */
+--color-text-muted:     rgba(255,255,255,0.22)   /* metadata, sous-titres */
+--color-text-disabled:  rgba(255,255,255,0.12)   /* placeholders */
+
+/* Bordures */
+--color-border:        rgba(255,255,255,0.06)    /* défaut */
+--color-border-mid:    rgba(255,255,255,0.10)    /* focus, accentué */
+--color-border-subtle: rgba(255,255,255,0.03)    /* séparateurs légers */
+
+/* Ombres */
+--shadow-sm: 0 1px 2px rgba(0,0,0,0.6)
+--shadow-md: 0 4px 16px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.5)
+```
+
 ### Règle fondamentale
-**Un seul accent : l'ambre.** Aucune autre couleur vive n'entre dans l'interface.
-Pas de purple. Pas de bleu vif. Pas de vert. L'ambre ou rien.
 
-### Palette ambre
-
-| Token | Valeur | Usage |
-|-------|--------|-------|
-| `--color-amber-300` | `#F5BB62` | Hover states légers, texte secondaire ambre |
-| `--color-amber-400` | `#EF9F27` | **Accent principal** — icônes actives, texte amber, dots |
-| `--color-amber-500` | `#C97D0E` | Borders ambre foncées |
-| `--color-amber-600` | `#854F0B` | Hexagones moyennement explorés |
-| `--color-amber-700` | `#633806` | Hexagones peu explorés |
-| `--color-amber-bg` | `rgba(239,159,39,0.11)` | Fond item actif sidebar |
-| `--color-amber-border` | `rgba(239,159,39,0.30)` | Bordure du logo mark, éléments ambre |
-
-### Surfaces (charbon chaud — jamais froid, jamais #000)
-
-| Token | Valeur | Usage |
-|-------|--------|-------|
-| `--color-bg-base` | `#0A0907` | Fond principal de l'app |
-| `--color-bg-surface` | `#0F0E0C` | Sidebar, panels, cartes |
-| `--color-bg-elevated` | `#161412` | Modales, popovers, tooltips |
-| `--color-bg-hover` | `rgba(255,255,255,0.04)` | Hover état non-actif |
-| `--color-bg-active` | `rgba(239,159,39,0.08)` | Fond état actif |
-
-### Texte (crème chaud — jamais blanc pur)
-
-| Token | Valeur | Usage |
-|-------|--------|-------|
-| `--color-text-primary` | `rgba(255,252,245,0.92)` | Titres, noms, contenu principal |
-| `--color-text-secondary` | `rgba(255,252,245,0.55)` | Corps de texte UI, labels |
-| `--color-text-muted` | `rgba(255,252,245,0.30)` | Métadonnées, timestamps, désactivé |
-| `--color-text-disabled` | `rgba(255,252,245,0.18)` | Éléments inactifs |
-| `--color-text-amber` | `#EF9F27` | Texte en couleur ambre |
-
-### Bordures
-
-| Token | Valeur | Usage |
-|-------|--------|-------|
-| `--color-border` | `rgba(255,255,255,0.07)` | Séparateurs principaux (sidebar, sections) |
-| `--color-border-subtle` | `rgba(255,255,255,0.04)` | Séparateurs très discrets |
-| `--color-border-amber` | `rgba(239,159,39,0.30)` | Élément ambre avec bordure |
+**Zéro couleur d'accent.** La hiérarchie est exprimée uniquement par l'opacité du blanc. Pas de saphir, pas d'ambre, pas d'indigo.
 
 ---
 
@@ -95,258 +42,138 @@ Pas de purple. Pas de bleu vif. Pas de vert. L'ambre ou rien.
 
 ### Familles
 
-| Variable | Famille | Fallbacks | Usage |
-|----------|---------|-----------|-------|
-| `--font-editorial` | `Cormorant Garamond` | `Georgia, serif` | Versets ancrés, titres de journaux, citations |
-| `--font-sans` | `DM Sans` | `system-ui, sans-serif` | Toute l'interface UI |
-| `--font-mono` | `JetBrains Mono` | `Fira Code, monospace` | Métadonnées techniques si nécessaire |
+| Rôle | Font | Variable CSS |
+|------|------|-------------|
+| UI (navigation, labels, corps) | System sans (-apple-system) | `var(--font-sans)` |
+| Éditorial (titres, versets, valeurs BentoVal) | Instrument Serif | `var(--font-editorial)` |
 
-### Échelle de taille
+### Échelle
 
-| Taille | Poids | Usage |
-|--------|-------|-------|
-| `28px` | `500` | Titre de journal (Cormorant) |
-| `18px` | `400 italic` | Bloc verset ancré (Cormorant) |
-| `15px` | `500` | Nom utilisateur, titre page |
-| `13px` | `400` | Corps paragraphes UI |
-| `12.5px` | `400` | Items de navigation étendus, notifications |
-| `11px` | `400` | Métadonnées, timestamps, email masqué |
-| `10px` | `500` | Labels de section (ALL CAPS, tracking .09em) |
+| Élément | Font | Taille | Style | Tracking |
+|---------|------|--------|-------|---------|
+| Hero H1 | Instrument Serif | 34px | normal | -0.02em |
+| H2 section | Instrument Serif | 20px | normal | -0.015em |
+| BentoVal | Instrument Serif | 26px | normal | -0.02em |
+| Verset ancré | Instrument Serif | 17px | italic | 0 |
+| Corps UI | System sans | 13px | normal | 0 |
+| Label section | System sans | 9px | CAPS | 0.14em |
+| Métadonnée | System sans | 10–11px | normal | 0 |
 
-### Règles typographiques
+### Règles
 
-- **Jamais Inter, Roboto, Arial ou les fonts système pour l'éditorial**
-- Labels de section : `text-transform: uppercase; letter-spacing: .09em; font-size: 10px`
-- Versets : `font-style: italic`, référence en `font-size: 13px` non italique
-- `line-height` éditorial : `1.75` — jamais en dessous de `1.5` pour les versets
-- `max-width` prose : `68ch`
+- `line-height` éditorial : 1.8 minimum
+- `line-height` corps : 1.65
+- `text-wrap: balance` sur tous les titres
+- `max-width` prose : 64ch
 
 ---
 
-## 3. Espacement
+## 3. Espacement & Radius
 
-Système en `rem` pour le rythme vertical, `px` pour les gaps internes.
-
-| Valeur | Tailwind | Usage |
-|--------|----------|-------|
-| 2px | `gap-0.5` | Gap micro icône/label |
-| 4px | `p-1` | Padding interne compact (badges) |
-| 6px | `gap-1.5` | Gap entre items nav |
-| 8px | `p-2, px-2` | Padding horizontal sidebar items |
-| 10px | `p-2.5` | Padding nav section |
-| 12px | `p-3, px-3` | Padding logo sidebar |
-| 16px | `p-4` | Sections internes |
-| 20px | `p-5` | Padding de page (header) |
-| 24px | `p-6` | Sections majeures |
-
----
-
-## 4. Rayons de bords
+### Radius tokens
 
 | Token | Valeur | Usage |
 |-------|--------|-------|
-| `--radius-xs` | `3px` | Badges, étiquettes |
-| `--radius-sm` | `4px` | Logo mark (carré B) |
-| `--radius-md` | `6px` | Nav items, buttons, selects |
-| `--radius-lg` | `10px` | Panels, cards, preview windows |
-| `--radius-xl` | `14px` | Modales, drawers |
-| `9999px` | — | Avatars (cercle), dots de notification |
+| `--radius-xs` | 3px | Badges, tags |
+| `--radius-sm` | 5px | Nav items |
+| `--radius-md` | 6px | BentoCard, MetricBlock |
+| `--radius-lg` | 8px | Panels, feed containers |
+| `--radius-xl` | 10px | Modales, drawers |
 
-**Attention :** Un nav item actif a `border-left: 2px solid amber` → **pas d'arrondi à gauche** (`rounded-l-none`).
+### Padding pages
+
+- Desktop : `px-[32px]`
+- Mobile : `px-5`
+
+### Bento
+
+- Gap interne : `var(--bento-gap)` = 6px
+- Radius : `var(--bento-radius)` = 6px
 
 ---
 
-## 5. Transitions & Animations
+## 4. Composants
 
-### Easings
+### NavItem (actif)
 
 ```css
-/* Éasing principal — fluide, jamais mécanique */
---ease-out-fast:  cubic-bezier(0.16, 1, 0.3, 1) 150ms;
---ease-out-base:  cubic-bezier(0.16, 1, 0.3, 1) 200ms;  /* ★ défaut */
---ease-out-slow:  cubic-bezier(0.16, 1, 0.3, 1) 300ms;  /* max absolu */
+background: var(--color-bg-active)  /* rgba .06 */
+color:      var(--color-text-primary)
+font-weight: 500
+border-radius: var(--radius-sm)     /* 5px, tous côtés */
+/* PAS de border-left colorée */
 ```
 
-**Jamais de bounce.** Jamais de `spring` visible (sauf `NotificationBadge` mount).
-
-### Valeurs Framer Motion par composant
-
-```typescript
-// Sidebar — width
-{ ease: [0.16, 1, 0.3, 1], duration: 0.2 }
-
-// Label nav — enter/exit
-{ ease: [0.16, 1, 0.3, 1], duration: 0.15 }
-initial: { opacity: 0, x: -6 }  →  animate: { opacity: 1, x: 0 }
-
-// Chevron de lock — rotate
-{ ease: [0.16, 1, 0.3, 1], duration: 0.2 }
-
-// NotificationBadge — mount
-{ type: 'spring', stiffness: 400, damping: 20 }
-
-// Pulse ring de notification
-{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }
-animate: { scale: [1, 1.8, 1], opacity: [0.4, 0, 0.4] }
-
-// BottomNav label — appear
-{ ease: [0.16, 1, 0.3, 1], duration: 0.15 }
-animate: { opacity: active ? 1 : 0, y: active ? 0 : 3 }
-```
-
----
-
-## 6. Composants — Règles de style
-
-### NavItem (Sidebar)
-
-```
-État default :
-  color: text-secondary
-  border-left: 2px solid transparent
-  hover → background: bg-hover, color: text-primary
-
-État actif :
-  background: amber-bg (rgba(239,159,39,0.11))
-  color: amber-400
-  border-left: 2px solid amber-400
-  border-radius: 0 6px 6px 0  (pas d'arrondi à gauche !)
-  padding-left: 10px (compense la border de 2px)
-```
-
-### NotificationBadge
-
-```
-Taille : 7px × 7px, border-radius: 9999px
-Couleur : amber-400
-Position : absolute, top-1.5 right-1.5 dans l'icône parente
-Ring pulsant : scale [1→1.8→1], opacity [0.4→0→0.4], 2.5s, Infinity
-```
-
-### Avatar Citoyen
-
-```
-Taille : 46px × 46px, border-radius: 9999px
-Border : 1.5px solid rgba(239,159,39,0.4)
-Background : rgba(239,159,39,0.11)
-Contenu : initiales (2 lettres), 14px, amber-400, font-weight 500
-
-Fallback couleur (si pas d'image) :
-  hue = hash(display_name) % 60  // spectre 0–60° (rouge → jaune chaud)
-  background: hsl(hue, 45%, 28%)
-```
-
-### Blocs métriques (Stats contemplatives)
-
-```
-Background : rgba(255,255,255,0.04)
-Border-radius : 6px
-Padding : 11px 13px
-
-Valeur principale :
-  font-size: 21px, font-weight: 500, line-height: 1
-  Couleur amber-400 si métrique "positive/active", text-primary sinon
-
-Label :
-  font-size: 10px, color: text-muted
-```
-
-### Notification item
-
-```
-Structure : dot + texte + temps
-Dot non lu : 8px, amber-400
-Dot lu : rgba(255,252,245,0.20)
-Séparateur : border-bottom 0.5px solid rgba(255,255,255,0.06)
-Nom acteur : text-primary, font-weight 500
-Texte : text-secondary, font-size 12.5px, line-height 1.5
-Temps : font-size 10px, text-muted, margin-top 2px
-```
-
-### Section header (page)
-
-```
-Breadcrumb : font-size 10px, ALL CAPS, tracking .09em, text-muted, margin-bottom 16px
-Titre : font-size 15px, font-weight 500, text-primary
-Container : padding 20px 22px 0, border-bottom 0.5px solid border
-```
-
-### Préférence row
-
-```
-Label : font-size 12.5px, text-secondary
-Valeur-bouton : font-size 11px, text-secondary
-  background: rgba(255,255,255,0.05)
-  border: 1px solid rgba(255,255,255,0.08)
-  border-radius: 6px, padding: 4px 10px
-```
-
----
-
-## 7. Icônes
-
-Bibliothèque : **Lucide React** — uniquement outline, jamais filled.
-
-| Icône Lucide | Route / Usage |
-|-------------|---------------|
-| `Map` | La Carte |
-| `BookOpen` | Le Journal |
-| `Sparkles` | Les Secrets |
-| `Scroll` | La Bibliothèque |
-| `Users` | Alliances |
-| `Bell` | Notifications |
-| `CircleUser` | Profil |
-| `ChevronRight` | Chevron lock sidebar |
-| `Feather` | Type: enluminure |
-| `UserPlus` | Type: demande d'alliance |
-
-Tailles sidebar : `18px` collapsed / `16px` expanded
-Taille BottomNav : `22px`
-StrokeWidth : `2` si actif, `1.5` sinon
-
----
-
-## 8. Responsive — breakpoints
-
-| Breakpoint | Navigation | Ajustements |
-|-----------|-----------|-------------|
-| `base` (< 768px) | BottomNav fixe en bas | `padding-bottom: 64px` sur `<main>` |
-| `md` (≥ 768px) | Sidebar | BottomNav `display: none` |
-
-Sidebar : `48px` collapsed (default) → `220px` expanded (hover ou locked)
-
-**Safe area iOS :**
-```css
-padding-bottom: env(safe-area-inset-bottom, 0px);  /* BottomNav */
-```
-
----
-
-## 9. Ombres
+### BentoCard
 
 ```css
---shadow-sm:    0 1px 2px rgba(0,0,0,0.4);
---shadow-md:    0 4px 12px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
---shadow-amber: 0 0 0 1px var(--color-amber-border), 0 0 16px rgba(239,159,39,0.08);
+background:    var(--color-bg-surface)
+border:        1px solid var(--color-border)
+border-radius: var(--bento-radius)
+padding:       12px 14px
+
+/* Variante accent (domaine actif) */
+background:    rgba(255,255,255,0.04)
+border-color:  var(--color-border-mid)
 ```
 
-Utiliser les ombres avec parcimonie. L'interface vit dans la profondeur des fonds sombres, pas dans les ombres projetées.
+### FeedEntry
+
+```css
+border-bottom: 1px solid var(--color-border)
+last-child: border-bottom: none    /* last:border-b-0 */
+hover: background: var(--color-bg-hover)
+padding: 13px 18px
+```
+
+### Boutons CTA primaires
+
+```css
+background:    rgba(255,255,255,0.10)
+border:        1px solid var(--color-border-mid)
+color:         var(--color-text-primary)
+```
+
+### Inputs (focus)
+
+```css
+focus-within:border-color: var(--color-border-mid)
+```
 
 ---
 
-## 10. Ce qu'on ne fait JAMAIS
+## 5. Animations
+
+```css
+--ease-fast: cubic-bezier(0.16,1,0.3,1)
+```
+
+- Durées : 150ms (micro), 200ms (défaut), 300ms (max)
+- Jamais > 300ms, jamais de bounce
+- `initial={false}` sur tous les `AnimatePresence`
+
+---
+
+## 6. Ce qu'on ne fait JAMAIS
 
 ```
-❌ Streak (nombre de jours consécutifs)
-❌ Score ou niveau de progression
-❌ Barre de progression vers un objectif
-❌ "Bien joué !" ou félicitations gamifiées
-❌ Comparaison entre Citoyens
-❌ Animation > 300ms ou avec bounce
+❌ Toute couleur d'accent (ni saphir, ni ambre, ni indigo, ni vert)
 ❌ Gradient (aucun, nulle part)
 ❌ Glow / neon / shadow colorée
-❌ Fond noir pur #000000
-❌ Purple, bleu vif, vert vif comme accent
-❌ Inter, Roboto, Arial pour l'éditorial
+❌ Glass effect avec teinte colorée (--glass-* supprimé)
+❌ Fond noir pur #000000 (utiliser #0a0a0a)
+❌ Border-left colorée sur nav items actifs
+❌ DM Mono comme font UI
+❌ Lora comme font éditoriale
+❌ Streak, score, barre de progression, gamification
+❌ Animation > 300ms ou avec bounce
 ❌ Notification qui s'impose au Citoyen
 ```
+
+---
+
+## 7. Références
+
+- Spec complète : `docs/superpowers/specs/2026-05-26-noir-editorial-redesign.md`
+- Tokens CSS : `src/styles/tokens.css`
+- Fonts : `src/app/layout.tsx` (Instrument_Serif via next/font/google)
