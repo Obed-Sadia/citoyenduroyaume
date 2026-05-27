@@ -2,7 +2,7 @@
 
 import { findBibleByAbbrev, type BibleVersion } from '@/lib/bible/bible-versions'
 
-const BASE = 'https://api.scripture.api.bible/v1'
+const BASE = 'https://rest.api.bible/v1'
 
 function apiHeaders(): HeadersInit {
   const key = process.env.BIBLE_API_KEY
