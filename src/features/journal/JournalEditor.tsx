@@ -1,7 +1,7 @@
 // src/features/journal/JournalEditor.tsx
 "use client"
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -14,6 +14,10 @@ import { classifyDomain } from '@/lib/ai/classify-domain'
 import { generateTitle } from '@/lib/ai/generate-title'
 import { DOMAIN_META, type DomainId } from '@/features/carte/domain-constants'
 import { useBibleStore } from '@/lib/stores/bible.store'
+
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+}
 
 interface JournalEditorProps {
   id: string
@@ -34,12 +38,6 @@ export function JournalEditor({ id }: JournalEditorProps) {
   const [showTribePicker, setShowTribePicker] = useState(false)
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const openBible = useBibleStore((s) => s.open)
-
-  function handleBibleInsert(text: string, reference: string) {
-    editor?.chain().focus()
-      .insertContent(`<blockquote><em>${text}</em> — <small>${reference}</small></blockquote>`)
-      .run()
-  }
 
   const [suggestion, setSuggestion]   = useState<DomainId | null>(null)
   const [classifying, setClassifying] = useState(false)
@@ -100,6 +98,12 @@ export function JournalEditor({ id }: JournalEditorProps) {
       }, 1000)
     },
   })
+
+  const handleBibleInsert = useCallback((text: string, reference: string) => {
+    editor?.chain().focus()
+      .insertContent(`<blockquote><em>${escapeHtml(text)}</em> — <small>${escapeHtml(reference)}</small></blockquote>`)
+      .run()
+  }, [editor])
 
   useEffect(() => {
     return () => {

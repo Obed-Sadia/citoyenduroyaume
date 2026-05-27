@@ -42,10 +42,11 @@ export function BibleDrawer() {
     return () => { if (searchTimer.current) clearTimeout(searchTimer.current) }
   }, [])
 
-  // Resolve bibleId when version changes
+  // Resolve bibleId when drawer opens or version changes
   useEffect(() => {
+    if (!isOpen) return
     resolveBibleId(bible_translation).then(setBibleId).catch(() => setError('Version introuvable.'))
-  }, [bible_translation])
+  }, [isOpen, bible_translation])
 
   // Load book list when bibleId is resolved
   useEffect(() => {
