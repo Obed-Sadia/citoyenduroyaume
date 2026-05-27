@@ -5,7 +5,9 @@ import { findBibleByAbbrev, type BibleVersion } from '@/lib/bible/bible-versions
 const BASE = 'https://api.scripture.api.bible/v1'
 
 function apiHeaders(): HeadersInit {
-  return { 'api-key': process.env.BIBLE_API_KEY ?? '' }
+  const key = process.env.BIBLE_API_KEY
+  if (!key) console.warn('[Bible] BIBLE_API_KEY manquante — ajouter la clé dans .env.local')
+  return { 'api-key': key ?? '' }
 }
 
 let biblesCache: BibleVersion[] | null = null
