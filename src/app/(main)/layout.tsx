@@ -3,6 +3,8 @@ import BottomNav from '@/features/nav/BottomNav'
 import { AuthProvider } from '@/features/auth/AuthProvider'
 import { SyncDot } from '@/features/nav/SyncDot'
 import { BackgroundCanvas } from '@/components/ui/BackgroundCanvas'
+import { BibleFAB } from '@/features/bible/BibleFAB'
+import { BibleDrawer } from '@/features/bible/BibleDrawer'
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -18,6 +20,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         </main>
         <BottomNav />
       </div>
+      <BibleFAB />
+      <BibleDrawer />
     </AuthProvider>
   )
 }
