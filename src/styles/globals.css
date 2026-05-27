@@ -3,6 +3,7 @@
 
 @source not "../../docs/**";
 @source not "../../memory/**";
+@source not "../../.claude/**";
 
 @theme {
   --font-family-sans:      -apple-system, 'Helvetica Neue', sans-serif;
