@@ -13,6 +13,7 @@ import { DomainBadge } from '@/features/journal/DomainBadge'
 import { classifyDomain } from '@/lib/ai/classify-domain'
 import { generateTitle } from '@/lib/ai/generate-title'
 import { DOMAIN_META, type DomainId } from '@/features/carte/domain-constants'
+import { useBibleStore } from '@/lib/stores/bible.store'
 
 interface JournalEditorProps {
   id: string
@@ -32,6 +33,13 @@ export function JournalEditor({ id }: JournalEditorProps) {
   const [myTribes, setMyTribes]             = useState<Array<{ id: string; name: string }>>([])
   const [showTribePicker, setShowTribePicker] = useState(false)
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const openBible = useBibleStore((s) => s.open)
+
+  function handleBibleInsert(text: string, reference: string) {
+    editor?.chain().focus()
+      .insertContent(`<blockquote><em>${text}</em> — <small>${reference}</small></blockquote>`)
+      .run()
+  }
 
   const [suggestion, setSuggestion]   = useState<DomainId | null>(null)
   const [classifying, setClassifying] = useState(false)
@@ -225,9 +233,25 @@ export function JournalEditor({ id }: JournalEditorProps) {
         className="flex shrink-0 items-center justify-between border-t px-6 py-3"
         style={{ borderColor: 'var(--color-border)' }}
       >
-        <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
-          {words} mot{words !== 1 ? 's' : ''}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
+            {words} mot{words !== 1 ? 's' : ''}
+          </span>
+          <button
+            type="button"
+            onClick={() => openBible('insert', handleBibleInsert)}
+            className="text-[9px] font-medium tracking-[.07em] uppercase px-2.5 py-1 rounded-[4px] border transition-opacity hover:opacity-70"
+            style={{
+              color: 'var(--color-text-muted)',
+              borderColor: 'var(--color-border)',
+              background: 'rgba(255,255,255,0.03)',
+              fontFamily: 'var(--font-sans)',
+            }}
+            aria-label="Ouvrir la Bible et insérer un verset"
+          >
+            📖 Bible
+          </button>
+        </div>
         <div className="flex items-center gap-4">
           <div className="relative">
             <button
