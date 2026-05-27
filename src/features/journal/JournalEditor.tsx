@@ -101,7 +101,7 @@ export function JournalEditor({ id }: JournalEditorProps) {
 
   const handleBibleInsert = useCallback((text: string, reference: string) => {
     editor?.chain().focus()
-      .insertContent(`<blockquote><em>${escapeHtml(text)}</em> — <small>${escapeHtml(reference)}</small></blockquote>`)
+      .insertContent(`<blockquote><em>${escapeHtml(text)}</em> — ${escapeHtml(reference)}</blockquote>`)
       .run()
   }, [editor])
 

@@ -42,6 +42,13 @@ export function BibleDrawer() {
     return () => { if (searchTimer.current) clearTimeout(searchTimer.current) }
   }, [])
 
+  useEffect(() => {
+    if (!isOpen) return
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') close() }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [isOpen, close])
+
   // Resolve bibleId when drawer opens or version changes
   useEffect(() => {
     if (!isOpen) return
@@ -58,7 +65,9 @@ export function BibleDrawer() {
   // Load chapters when book is selected
   useEffect(() => {
     if (!bibleId || !currentBook) return
-    getChapters(bibleId, currentBook).then(setChapters)
+    getChapters(bibleId, currentBook)
+      .then(setChapters)
+      .catch(() => { setChapters([]); setError('Impossible de charger les chapitres.') })
   }, [bibleId, currentBook])
 
   // Load verses when chapter is selected
@@ -116,7 +125,7 @@ export function BibleDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={close}
-            className="fixed inset-0 z-40 hidden md:block"
+            className="fixed inset-0 z-40"
             style={{ background: 'rgba(0,0,0,0.45)' }}
           />
 
