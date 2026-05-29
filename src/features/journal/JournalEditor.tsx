@@ -49,7 +49,7 @@ export function JournalEditor({ id }: JournalEditorProps) {
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
-      StarterKit,
+      StarterKit.configure({ italic: false }),
       Placeholder.configure({ placeholder: 'Commence à écrire…' }),
       CharacterCount,
     ],
@@ -101,7 +101,7 @@ export function JournalEditor({ id }: JournalEditorProps) {
 
   const handleBibleInsert = useCallback((text: string, reference: string) => {
     editor?.chain().focus()
-      .insertContent(`<blockquote><p><em>${escapeHtml(text)}</em></p><p>${escapeHtml(reference)}</p></blockquote>`)
+      .insertContent(`<blockquote><p>${escapeHtml(text)}</p><p>${escapeHtml(reference)}</p></blockquote>`)
       .run()
   }, [editor])
 

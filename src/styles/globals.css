@@ -41,7 +41,6 @@ html::after {
   outline: none;
   color: var(--color-text-primary);
   font-family: var(--font-editorial);
-  font-style: italic;
   font-size: 14px;
   line-height: 1.85;
   min-height: 200px;
@@ -72,6 +71,7 @@ html::after {
   color: var(--color-text-secondary);
 }
 .ProseMirror blockquote p { margin-bottom: 0.25em; }
+.ProseMirror blockquote p:first-child { font-style: italic; }
 .ProseMirror blockquote p:last-child {
   font-style: normal;
   font-family: var(--font-sans);

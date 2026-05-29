@@ -25,13 +25,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       const { data: profile } = await supabase
         .from('citizen_profiles')
-        .select('preferences')
+        .select('preferences, locale, bible_translation')
         .eq('id', userId)
         .single()
-      if (profile?.preferences) {
-        useProfilStore.getState().hydrateFromRemote(
-          profile.preferences as Record<string, unknown>
-        )
+      if (profile) {
+        useProfilStore.getState().hydrateFromRemote({
+          ...(profile.preferences as Record<string, unknown> ?? {}),
+          locale:            profile.locale,
+          bible_translation: profile.bible_translation,
+        })
       }
 
       await Promise.all([

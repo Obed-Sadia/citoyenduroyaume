@@ -301,12 +301,26 @@ export async function syncPreferences(patch: Record<string, unknown>): Promise<v
         .select('preferences')
         .eq('id', userId)
         .maybeSingle()
-      const merged = { ...(existing?.preferences as Record<string, unknown> ?? {}), ...patch }
+
+      // locale et bible_translation vivent dans leurs colonnes directes, pas dans le JSONB
+      const directCols: Record<string, unknown> = {}
+      if ('locale' in patch)            directCols.locale            = patch.locale
+      if ('bible_translation' in patch) directCols.bible_translation = patch.bible_translation
+
+      const prefspatch = { ...patch }
+      delete prefspatch.locale
+      delete prefspatch.bible_translation
+
+      const prevPrefs = (existing?.preferences as Record<string, unknown> ?? {})
+      const merged = { ...prevPrefs, ...prefspatch }
+      // nettoyer d'éventuelles valeurs orphelines dans le JSONB
+      delete (merged as Record<string, unknown>).locale
+      delete (merged as Record<string, unknown>).bible_translation
 
       let territoryChanged = false
       if (merged.share_territoire === true) {
         const newTerritoire = await computeExplorationSnapshot()
-        const prevTerritoire = (existing?.preferences as Record<string, unknown> | undefined)?.territoire as Record<string, unknown> | undefined
+        const prevTerritoire = prevPrefs.territoire as Record<string, unknown> | undefined
         territoryChanged = hasChanged(prevTerritoire, newTerritoire as Record<string, unknown>)
         merged.territoire = newTerritoire
       } else {
@@ -315,7 +329,7 @@ export async function syncPreferences(patch: Record<string, unknown>): Promise<v
 
       await supabase
         .from('citizen_profiles')
-        .update({ preferences: merged })
+        .update({ preferences: merged, ...directCols })
         .eq('id', userId)
 
       if (territoryChanged) {

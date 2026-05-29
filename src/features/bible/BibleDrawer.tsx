@@ -36,11 +36,15 @@ export function BibleDrawer() {
   const [isSearching, setIsSearching]   = useState(false)
   const [loadingVerses, setLoadingVerses] = useState(false)
   const [error, setError]               = useState<string | null>(null)
+  const [selectedVerses, setSelectedVerses] = useState<BibleVerse[]>([])
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     return () => { if (searchTimer.current) clearTimeout(searchTimer.current) }
   }, [])
+
+  // Réinitialise la sélection quand on change de chapitre ou qu'on ferme
+  useEffect(() => { setSelectedVerses([]) }, [currentChapterId, isOpen])
 
   useEffect(() => {
     if (!isOpen) return
@@ -101,10 +105,37 @@ export function BibleDrawer() {
     [bibleId]
   )
 
+  function buildRangeReference(vs: BibleVerse[]): string {
+    if (vs.length === 1) return vs[0].reference
+    const sorted = [...vs].sort((a, b) => a.verseNumber - b.verseNumber)
+    const base = sorted[0].reference.replace(/:.*$/, '')
+    const nums = sorted.map((v) => v.verseNumber)
+    const contiguous = nums.every((n, i) => i === 0 || n === nums[i - 1] + 1)
+    return contiguous
+      ? `${base}:${nums[0]}–${nums[nums.length - 1]}`
+      : `${base}:${nums.join(', ')}`
+  }
+
+  function toggleVerseSelection(verse: BibleVerse) {
+    setSelectedVerses((prev) =>
+      prev.some((v) => v.id === verse.id)
+        ? prev.filter((v) => v.id !== verse.id)
+        : [...prev, verse]
+    )
+  }
+
+  function handleInsertSelected() {
+    if (!insertCallback || selectedVerses.length === 0) return
+    const sorted = [...selectedVerses].sort((a, b) => a.verseNumber - b.verseNumber)
+    const text = sorted.map((v) => v.text).join(' ')
+    const reference = buildRangeReference(sorted)
+    insertCallback(text, reference)
+    close()
+  }
+
   function handleVerseAction(verse: BibleVerse) {
-    if (mode === 'insert' && insertCallback) {
-      insertCallback(verse.text, verse.reference)
-      close()
+    if (mode === 'insert') {
+      toggleVerseSelection(verse)
     } else {
       addVerse(verse.reference, verse.text, undefined, 'private')
     }
@@ -291,25 +322,53 @@ export function BibleDrawer() {
                   )}
 
                   {/* Verse list */}
-                  <div className="flex-1 overflow-y-auto px-3 py-2 space-y-1">
-                    {loadingVerses && (
-                      <p className="text-[11px] py-4 text-center animate-pulse" style={{ color: 'var(--color-text-muted)' }}>
-                        Chargement…
-                      </p>
+                  <div className="relative flex-1 overflow-hidden flex flex-col">
+                    <div className="flex-1 overflow-y-auto px-3 py-2 space-y-1">
+                      {loadingVerses && (
+                        <p className="text-[11px] py-4 text-center animate-pulse" style={{ color: 'var(--color-text-muted)' }}>
+                          Chargement…
+                        </p>
+                      )}
+                      {!loadingVerses && verseList.length === 0 && currentChapterId && (
+                        <p className="text-[11px] py-4 text-center" style={{ color: 'var(--color-text-muted)' }}>
+                          Aucun verset.
+                        </p>
+                      )}
+                      {!loadingVerses && !currentBook && (
+                        <p className="text-[11px] py-6 text-center" style={{ color: 'var(--color-text-muted)' }}>
+                          Choisis un livre.
+                        </p>
+                      )}
+                      {verseList.map((v) => (
+                        <VerseRow
+                          key={v.id}
+                          verse={v}
+                          actionLabel={actionLabel}
+                          onAction={handleVerseAction}
+                          isInsertMode={mode === 'insert'}
+                          selected={selectedVerses.some((s) => s.id === v.id)}
+                        />
+                      ))}
+                    </div>
+                    {mode === 'insert' && selectedVerses.length > 0 && (
+                      <div
+                        className="shrink-0 px-3 py-2 border-t"
+                        style={{ borderColor: 'var(--color-border)' }}
+                      >
+                        <button
+                          onClick={handleInsertSelected}
+                          className="w-full py-2 text-[11px] font-medium tracking-[.05em] uppercase rounded-[4px] border transition-opacity hover:opacity-80"
+                          style={{
+                            color: 'var(--color-text-primary)',
+                            borderColor: 'var(--color-border-mid)',
+                            background: 'rgba(255,255,255,0.06)',
+                            fontFamily: 'var(--font-sans)',
+                          }}
+                        >
+                          ↳ Insérer ({selectedVerses.length} verset{selectedVerses.length > 1 ? 's' : ''})
+                        </button>
+                      </div>
                     )}
-                    {!loadingVerses && verseList.length === 0 && currentChapterId && (
-                      <p className="text-[11px] py-4 text-center" style={{ color: 'var(--color-text-muted)' }}>
-                        Aucun verset.
-                      </p>
-                    )}
-                    {!loadingVerses && !currentBook && (
-                      <p className="text-[11px] py-6 text-center" style={{ color: 'var(--color-text-muted)' }}>
-                        Choisis un livre.
-                      </p>
-                    )}
-                    {verseList.map((v) => (
-                      <VerseRow key={v.id} verse={v} actionLabel={actionLabel} onAction={handleVerseAction} />
-                    ))}
                   </div>
                 </div>
               </div>
@@ -325,12 +384,21 @@ interface VerseRowProps {
   verse: BibleVerse
   actionLabel: string
   onAction: (verse: BibleVerse) => void
+  isInsertMode?: boolean
+  selected?: boolean
 }
 
-function VerseRow({ verse, actionLabel, onAction }: VerseRowProps) {
+function VerseRow({ verse, actionLabel, onAction, isInsertMode, selected }: VerseRowProps) {
   return (
     <div
-      className="group flex items-start gap-2.5 rounded-[4px] px-2 py-2 transition-colors hover:bg-[rgba(255,255,255,0.03)]"
+      onClick={isInsertMode ? () => onAction(verse) : undefined}
+      className={cn(
+        'group flex items-start gap-2.5 rounded-[4px] px-2 py-2 transition-colors',
+        isInsertMode ? 'cursor-pointer' : '',
+        selected
+          ? 'bg-[rgba(255,255,255,0.07)]'
+          : 'hover:bg-[rgba(255,255,255,0.03)]'
+      )}
     >
       {verse.verseNumber > 0 && (
         <span
@@ -354,18 +422,31 @@ function VerseRow({ verse, actionLabel, onAction }: VerseRowProps) {
         )}
         {verse.text}
       </p>
-      <button
-        onClick={() => onAction(verse)}
-        className="shrink-0 opacity-0 group-hover:opacity-100 text-[8px] font-medium tracking-[.06em] uppercase px-2 py-1 rounded-[3px] border transition-all"
-        style={{
-          color: 'var(--color-text-primary)',
-          borderColor: 'var(--color-border-mid)',
-          background: 'rgba(255,255,255,0.06)',
-          fontFamily: 'var(--font-sans)',
-        }}
-      >
-        {actionLabel}
-      </button>
+      {isInsertMode ? (
+        <span
+          className="shrink-0 w-4 text-center text-[10px] pt-[2px] transition-opacity"
+          style={{
+            color: 'var(--color-text-primary)',
+            opacity: selected ? 1 : 0,
+            fontFamily: 'var(--font-sans)',
+          }}
+        >
+          ✓
+        </span>
+      ) : (
+        <button
+          onClick={() => onAction(verse)}
+          className="shrink-0 opacity-0 group-hover:opacity-100 text-[8px] font-medium tracking-[.06em] uppercase px-2 py-1 rounded-[3px] border transition-all"
+          style={{
+            color: 'var(--color-text-primary)',
+            borderColor: 'var(--color-border-mid)',
+            background: 'rgba(255,255,255,0.06)',
+            fontFamily: 'var(--font-sans)',
+          }}
+        >
+          {actionLabel}
+        </button>
+      )}
     </div>
   )
 }
